@@ -1,2 +1,14 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+    import copy from "../data/copy.json"
+</script>
+
+<section class="section">
+	<div class="container">
+		<h1 class="is-size-1">{copy.meta.title}</h1>
+        {#each copy.content as block}
+            {#if block.type == "text"}
+                <p>{block.text}</p>
+            {/if}
+        {/each}
+	</div>
+</section>
