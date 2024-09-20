@@ -15,8 +15,6 @@
     let width
     let height = 120
 
-    //cases.forEach(d => d.attribution_date = new Date(d.attribution_date))
-
     $: dateExtent = extent(cases.map(d => new Date(d.attribution_date)))
 
     $: xScale = scaleUtc(dateExtent, [0, width - margins.right - margins.left])
