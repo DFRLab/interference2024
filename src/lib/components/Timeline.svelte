@@ -15,10 +15,13 @@
     let width
     let height = 120
 
-    cases.forEach(d => d.attribution_date = new Date(d.attribution_date))
+    //cases.forEach(d => d.attribution_date = new Date(d.attribution_date))
 
-    $: xScale = scaleUtc(extent(cases.map(d => d.attribution_date)), [0, width - margins.right - margins.left])
+    $: dateExtent = extent(cases.map(d => new Date(d.attribution_date)))
+
+    $: xScale = scaleUtc(dateExtent, [0, width - margins.right - margins.left])
     $: ticks = xScale.ticks(5)
+    
     
 </script>
 
@@ -51,7 +54,7 @@
             {/each}
             {#each cases as attrCase}
                 <circle
-                    cx={xScale(attrCase.attribution_date)}
+                    cx={xScale(new Date(attrCase.attribution_date))}
                     cy={0}
                     r={6}
                     fill={'#000000'}
