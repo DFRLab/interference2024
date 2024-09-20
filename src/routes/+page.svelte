@@ -5,6 +5,7 @@
     import { base } from '$app/paths';
     import CaseCard from "$lib/components/CaseCard.svelte";
     import CaseTable from "$lib/components/CaseTable.svelte";
+    import Timeline from "$lib/components/Timeline.svelte";
 
     let cases = []
 
@@ -13,11 +14,10 @@
         const response = await csv(`${base}/Demo_Attribution_Data.csv`);
         cases = response
     })
-    $: console.log(cases)
 </script>
 
 <section class="section">
-	<div class="container">
+	<div class="container has-text-centered">
 		<h1 class="is-size-1">{copy.meta.title}</h1>
         {#each copy.content as block}
             {#if block.type == "text"}
@@ -25,6 +25,12 @@
             {/if}
         {/each}
 	</div>
+</section>
+
+<section class="section">
+    <div>
+<Timeline {cases}></Timeline>
+</div>
 </section>
 
 <section>
