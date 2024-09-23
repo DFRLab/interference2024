@@ -31,7 +31,7 @@
 		<h1 class="is-size-1">{copy.meta.title}</h1>
 		{#each copy.content as block}
 			{#if block.type == 'text'}
-				<p>{block.text}</p>
+				<p class="intro">{block.text}</p>
 			{/if}
 		{/each}
 	</div>
@@ -73,6 +73,10 @@
 </section>
 
 <style>
+    .intro {
+        max-width: 800px;
+        margin: auto;
+    }
 	.select-container {
 		width: 360px;
 	}
