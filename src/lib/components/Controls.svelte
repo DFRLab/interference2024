@@ -1,14 +1,19 @@
 <script>
-    import Dropdown from '$lib/components/Dropdown.svelte'
-    import {
-        platformFilter,
-    } from '../../stores/filters';
+	import Dropdown from '$lib/components/Dropdown.svelte';
+	import {
+		platformFilter,
+		actorNationFilter,
+		sourceFilter,
+		sourceCategoryFilter,
+		methodFilter,
+        selectAllFilters
+	} from '../../stores/filters';
 
-    export let cases;
+	export let cases;
 
-    function handleButtonClick() {
-    selectAllFilters();
-    /*contextData.unselectAll();
+	function handleButtonClick() {
+		selectAllFilters();
+		/*contextData.unselectAll();
     $highlightPolarization = false;
     $highlightCib = false;
     if ($originalTimeDomain) {
@@ -16,26 +21,86 @@
       $timeScale = $timeScale;
       $originalTimeDomain = null;
     }*/
-  }
-  $: console.log($platformFilter)
+	}
 
-  function addCount(filter, property, cases) {
-    return filter.map((d) => ({
-      ...d,
-      count: cases.map((d) => d[property]).flat().filter((a) => a === d.id).length,
-      liveCount: cases.filter((d) => d.show).map((d) => d[property]).flat().filter((a) => a === d.id).length
-    }));
-  }
-
-  $: console.log(addCount($platformFilter, 'platform', cases))
-
+	function addCount(filter, property, cases) {
+		return filter.map((d) => ({
+			...d,
+			count: cases
+				.map((d) => d[property])
+				.flat()
+				.filter((a) => a === d.id).length,
+			liveCount: cases
+				.filter((d) => d.show)
+				.map((d) => d[property])
+				.flat()
+				.filter((a) => a === d.id).length
+		}));
+	}
 </script>
 
 {#if cases}
-<Dropdown items={addCount($platformFilter, 'platform', cases)}
-                label="Platform"
-                on:itemsAdded={(e) => platformFilter.select(e.detail)}
-                on:itemsRemoved={(e) => platformFilter.unselect(e.detail)}>
-</Dropdown>
-<!--Dropdown items={items} label='Platform'></Dropdown-->
+	<Dropdown
+		items={addCount($actorNationFilter, 'actor_nation', cases)}
+		label="Actor nation"
+		on:itemsAdded={(e) => actorNationFilter.select(e.detail)}
+		on:itemsRemoved={(e) => actorNationFilter.unselect(e.detail)}
+	></Dropdown>
+	<Dropdown
+		items={addCount($platformFilter, 'platform', cases)}
+		label="Platform"
+		on:itemsAdded={(e) => platformFilter.select(e.detail)}
+		on:itemsRemoved={(e) => platformFilter.unselect(e.detail)}
+	></Dropdown>
+	<Dropdown
+		items={addCount($sourceFilter, 'source', cases)}
+		label="Source"
+		on:itemsAdded={(e) => sourceFilter.select(e.detail)}
+		on:itemsRemoved={(e) => sourceFilter.unselect(e.detail)}
+	></Dropdown>
+	<Dropdown
+		items={addCount($sourceCategoryFilter, 'source_category', cases)}
+		label="Source Category"
+		on:itemsAdded={(e) => sourceCategoryFilter.select(e.detail)}
+		on:itemsRemoved={(e) => sourceCategoryFilter.unselect(e.detail)}
+	></Dropdown>
+	<Dropdown
+		items={addCount($methodFilter, 'methods', cases)}
+		label="Method"
+		on:itemsAdded={(e) => methodFilter.select(e.detail)}
+		on:itemsRemoved={(e) => methodFilter.unselect(e.detail)}
+	></Dropdown>
+	<button class="reset-filters" on:click={() => handleButtonClick()}> Reset </button>
 {/if}
+
+<style>
+	button {
+		pointer-events: all;
+	}
+
+	button.reset-filters {
+		align-self: flex-end;
+		min-width: 100px;
+		height: 1.7rem;
+		max-height: 1.7rem;
+		margin: 0.3rem 0.3rem 0 0.3rem;
+		padding: 0.1rem 0.3rem;
+		font-family: var(--font-02);
+		font-size: 0.8rem;
+		font-weight: normal;
+		line-height: 1.3rem;
+		color: var(--usa-blue);
+		background-color: var(--bg);
+		border: 2px solid var(--usa-blue);
+		border-radius: 3px;
+		outline: none;
+		overflow: hidden;
+		transition: all 200ms ease;
+	}
+
+	button.reset-filters:hover {
+		color: var(--bg);
+		background-color: var(--usa-blue);
+		cursor: pointer;
+	}
+</style>

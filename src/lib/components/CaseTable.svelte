@@ -15,6 +15,7 @@
     </thead>
     <tbody>
         {#each cases as attrCase}
+        {#if attrCase.show}
             <tr>
                 <td>{attrCase.short_description}</td>
                 <td>{attrCase.attribution_date}</td>
@@ -22,6 +23,7 @@
                 <td>{attrCase.source_category}</td>
                 <td>{attrCase.actor_nation}</td>
             </tr>
+            {/if}
         {/each}
     </tbody>
 </table>

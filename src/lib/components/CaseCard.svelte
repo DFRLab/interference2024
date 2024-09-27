@@ -20,7 +20,9 @@
 			<p>{cardData.short_description}</p>
             <p>
                 <span class="tag is-info">{cardData.source}</span>
-                <span class="tag is-danger">{cardData.actor_nation}</span>
+				{#each cardData.actor_nation as nation}
+                	<span class="tag is-danger">{nation}</span>
+				{/each}
                 <span class="tag is-link">{cardData.source_category}</span>
             </p>
 		</div>

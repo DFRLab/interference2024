@@ -50,7 +50,7 @@ function createTextSearchFilter() {
   };
 }
 
-export const disinformantNationFilter = createInclusiveFilter();
+export const actorNationFilter = createInclusiveFilter();
 
 export const platformFilter = createInclusiveFilter();
 
@@ -69,7 +69,7 @@ export const polarizationFilter = createRangeFilter();
 export const polarizationDef = [-2, 2];
 
 export const unselectAllFilters = (disinformantNation = true) => {
-  if (disinformantNation) disinformantNationFilter.unselectAll();
+  if (disinformantNation) actorNationFilter.unselectAll();
   platformFilter.unselectAll();
   methodFilter.unselectAll();
   sourceFilter.unselectAll();
@@ -80,7 +80,7 @@ export const unselectAllFilters = (disinformantNation = true) => {
 };
 
 export const selectAllFilters = (disinformantNation = true) => {
-  if (disinformantNation) disinformantNationFilter.selectAll();
+  if (disinformantNation) actorNationFilter.selectAll();
   platformFilter.selectAll();
   methodFilter.selectAll();
   sourceFilter.selectAll();

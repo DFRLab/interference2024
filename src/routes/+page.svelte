@@ -6,12 +6,15 @@
 	import CaseCard from '$lib/components/CaseCard.svelte';
 	import CaseTable from '$lib/components/CaseTable.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
-	//import Select from 'svelte-select';
     import Controls from '$lib/components/Controls.svelte';
     import { splitString, haveOverlap } from '$lib/utils/misc'
 
     import {
         platformFilter,
+        actorNationFilter,
+        sourceFilter,
+        sourceCategoryFilter,
+        methodFilter
     } from '../stores/filters';
 
 	let cases = [];
@@ -22,18 +25,31 @@
 		cases = response;
         cases.forEach(d => {
             d.platform = splitString(d.platform)
+            d.actor_nation = splitString(d.actor_nation)
+            d.methods = splitString(d.methods)
+
             d.show = false
         })
-
         platformFilter.init(cases, 'platform');
+        actorNationFilter.init(cases, 'actor_nation');
+        sourceFilter.init(cases, 'source')
+        sourceCategoryFilter.init(cases, 'source_category')
+        methodFilter.init(cases, 'methods')
+        
+        console.log(cases.map(d => d.methods))
 	});
 
     $: if (cases) {
         cases = cases.map(d => ({
             ...d,
-            show: haveOverlap($platformFilter, d.platform)
+            show: haveOverlap($actorNationFilter, d.actor_nation) 
+                && haveOverlap($platformFilter, d.platform)
+                && haveOverlap($sourceFilter, d.source)
+                && haveOverlap($sourceCategoryFilter, d.source_category)
+                && haveOverlap($methodFilter, d.methods)
         }))
     }
+
 </script>
 
 <section class="section">
