@@ -48,7 +48,7 @@
         methodFilter.init(cases, 'methods')
         $attributionScoreFilter = attributionScoreDef;
         
-        //console.log(cases.map(d => d.attribution_date))
+        console.log(cases.map(d => d.campaign))
 	});
 
     $: if (cases) {
@@ -104,8 +104,8 @@
     <div class="container">
 <div class="field has-addons">
     <div class="buttons has-addons">
-        <button class={displayDataAs == "Table" ? "button is-success is-selected" : "button"} on:click={() => {displayDataAs = "Table"}}>Table</button>
-        <button class={displayDataAs == "Cards" ? "button is-success is-selected" : "button"} on:click={() => {displayDataAs = "Cards"}}>Cards</button>
+        <button class={displayDataAs == "Table" ? "button is-dark is-selected is-small" : "button is-small"} on:click={() => {displayDataAs = "Table"}}>Table</button>
+        <button class={displayDataAs == "Cards" ? "button is-dark is-selected is-small" : "button is-small"} on:click={() => {displayDataAs = "Cards"}}>Cards</button>
       </div>
   </div>
 </div>
