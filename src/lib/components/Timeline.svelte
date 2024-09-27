@@ -38,6 +38,7 @@
 					<text x={xScale(tick)} y={32} text-anchor={'middle'}>{utcFormat('%b %d')(tick)}</text>
 				{/each}
 				{#each cases as attrCase}
+				{#if attrCase.show}
 					<a href={'#case-' + attrCase.attribution_id}>
 						<circle
 							cx={xScale(new Date(attrCase.attribution_date))}
@@ -48,6 +49,7 @@
 							stroke-width={2}
 						></circle>
 					</a>
+				{/if}
 				{/each}
 			</g>
 		{/if}

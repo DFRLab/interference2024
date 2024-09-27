@@ -8,6 +8,11 @@
 	import Timeline from '$lib/components/Timeline.svelte';
 	//import Select from 'svelte-select';
     import Controls from '$lib/components/Controls.svelte';
+    import { splitString, haveOverlap } from '$lib/utils/misc'
+
+    import {
+        platformFilter,
+    } from '../stores/filters';
 
 	let cases = [];
 
@@ -15,16 +20,20 @@
 		//const response = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`);
 		const response = await csv(`${base}/Demo_Attribution_Data.csv`);
 		cases = response;
+        cases.forEach(d => {
+            d.platform = splitString(d.platform)
+            d.show = false
+        })
+
+        platformFilter.init(cases, 'platform');
 	});
 
-	$: actorNations =
-		cases.length > 0 ? [...new Set(cases.map((d) => d.actor_nation.split(', ')).flat())] : [];
-	$: actorNationsUnique = [...new Set(actorNations)];
-	let selectedActorNations = null;
-
-	$: filteredCases = selectedActorNations
-		? cases.filter((d) => d.actor_nation.includes(selectedActorNations[0].value))
-		: cases;
+    $: if (cases) {
+        cases = cases.map(d => ({
+            ...d,
+            show: haveOverlap($platformFilter, d.platform)
+        }))
+    }
 </script>
 
 <section class="section">
@@ -39,30 +48,24 @@
 </section>
 
 <section class="section">
-    <Controls></Controls>
-	<!--div class="select-container">
-		<Select
-			items={actorNationsUnique}
-			multiple={true}
-			bind:value={selectedActorNations}
-			placeholder={'Select 1 or more actor countries'}
-		></Select>
-	</div-->
+    <Controls {cases}></Controls>
 </section>
 
 <section class="section">
 	<div>
-		<Timeline cases={filteredCases}></Timeline>
+		<Timeline {cases}></Timeline>
 	</div>
 </section>
 
 <section class="section">
 	<div class="container">
 		<div class="grid is-col-min-12">
-			{#each filteredCases as attrCase}
+			{#each cases as attrCase}
+            {#if attrCase.show}
 				<div class="cell">
 					<CaseCard cardData={attrCase}></CaseCard>
 				</div>
+                {/if}
 			{/each}
 		</div>
 	</div>
@@ -70,7 +73,7 @@
 
 <section class="section">
 	<div class="container">
-		<CaseTable cases={filteredCases}></CaseTable>
+		<CaseTable {cases}></CaseTable>
 	</div>
 </section>
 

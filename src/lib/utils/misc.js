@@ -19,3 +19,16 @@ export const sortConsistently = (itemA, itemB, property, key) => {
   }
   return r;
 };
+
+// split string into array
+export const splitString = (s) => {
+  if (s === '' || s === ',') return ['unspecified'];
+  return(s
+          .split(';')
+          .map((d) => d.trim())
+          .filter((d) => d !== ''));
+};
+
+// check if there's overlap between array and filter
+export const haveOverlap = (filter, arr) =>
+  filter.filter((d) => d.selected).map((d) => d.id).some((item) => arr.includes(item));

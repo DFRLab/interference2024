@@ -1,100 +1,41 @@
 <script>
     import Dropdown from '$lib/components/Dropdown.svelte'
+    import {
+        platformFilter,
+    } from '../../stores/filters';
 
-    let items = [
-    {
-        "id": "Facebook",
-        "name": "Facebook",
-        "selected": true,
-        "count": 34,
-        "liveCount": 34
-    },
-    {
-        "id": "Instagram",
-        "name": "Instagram",
-        "selected": true,
-        "count": 21,
-        "liveCount": 21
-    },
-    {
-        "id": "Twitter",
-        "name": "Twitter",
-        "selected": true,
-        "count": 34,
-        "liveCount": 34
-    },
-    {
-        "id": "YouTube",
-        "name": "YouTube",
-        "selected": true,
-        "count": 16,
-        "liveCount": 16
-    },
-    {
-        "id": "unspecified",
-        "name": "unspecified",
-        "selected": true,
-        "count": 33,
-        "liveCount": 33
-    },
-    {
-        "id": "Reddit",
-        "name": "Reddit",
-        "selected": true,
-        "count": 13,
-        "liveCount": 13
-    },
-    {
-        "id": "WhatsApp",
-        "name": "WhatsApp",
-        "selected": true,
-        "count": 2,
-        "liveCount": 2
-    },
-    {
-        "id": "SMS",
-        "name": "SMS",
-        "selected": true,
-        "count": 2,
-        "liveCount": 2
-    },
-    {
-        "id": "Telegram",
-        "name": "Telegram",
-        "selected": true,
-        "count": 1,
-        "liveCount": 1
-    },
-    {
-        "id": "Quora",
-        "name": "Quora",
-        "selected": true,
-        "count": 1,
-        "liveCount": 1
-    },
-    {
-        "id": "Forum Board",
-        "name": "Forum Board",
-        "selected": true,
-        "count": 1,
-        "liveCount": 1
-    },
-    {
-        "id": "Parler",
-        "name": "Parler",
-        "selected": true,
-        "count": 1,
-        "liveCount": 1
-    },
-    {
-        "id": "Gab",
-        "name": "Gab",
-        "selected": true,
-        "count": 1,
-        "liveCount": 1
-    }
-]
+    export let cases;
+
+    function handleButtonClick() {
+    selectAllFilters();
+    /*contextData.unselectAll();
+    $highlightPolarization = false;
+    $highlightCib = false;
+    if ($originalTimeDomain) {
+      $timeScale.domain($originalTimeDomain);
+      $timeScale = $timeScale;
+      $originalTimeDomain = null;
+    }*/
+  }
+  $: console.log($platformFilter)
+
+  function addCount(filter, property, cases) {
+    return filter.map((d) => ({
+      ...d,
+      count: cases.map((d) => d[property]).flat().filter((a) => a === d.id).length,
+      liveCount: cases.filter((d) => d.show).map((d) => d[property]).flat().filter((a) => a === d.id).length
+    }));
+  }
+
+  $: console.log(addCount($platformFilter, 'platform', cases))
 
 </script>
 
-<Dropdown items={items} label='Platform'></Dropdown>
+{#if cases}
+<Dropdown items={addCount($platformFilter, 'platform', cases)}
+                label="Platform"
+                on:itemsAdded={(e) => platformFilter.select(e.detail)}
+                on:itemsRemoved={(e) => platformFilter.unselect(e.detail)}>
+</Dropdown>
+<!--Dropdown items={items} label='Platform'></Dropdown-->
+{/if}
