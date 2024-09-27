@@ -7,7 +7,7 @@
 	import CaseTable from '$lib/components/CaseTable.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
     import Controls from '$lib/components/Controls.svelte';
-    import { splitString, haveOverlap, withinRange } from '$lib/utils/misc'
+    import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc'
     import { setScales } from '$lib/utils/scales';
 
     import {
@@ -17,7 +17,8 @@
         sourceCategoryFilter,
         methodFilter,
         attributionScoreFilter,
-        attributionScoreDef
+        attributionScoreDef,
+        textSearchFilter
     } from '../stores/filters';
 
 	let cases = [];
@@ -32,6 +33,7 @@
             d.methods = splitString(d.methods)
             d.attribution_total_score = +d.attribution_total_score
             d.attribution_date = new Date(d.attribution_date)
+            d.search = [d.short_description, d.platform, d.methods, d.source, d.source_nation, d.source_category].flat().join('__').toLowerCase()
 
             d.show = false
         })
@@ -54,6 +56,7 @@
                 && haveOverlap($sourceCategoryFilter, d.source_category)
                 && haveOverlap($methodFilter, d.methods)
                 && withinRange($attributionScoreFilter, d.attribution_total_score)
+                && includesTextSearch($textSearchFilter, d.search)
         }))
     } 
 
@@ -116,7 +119,4 @@
         max-width: 800px;
         margin: auto;
     }
-	.select-container {
-		width: 360px;
-	}
 </style>

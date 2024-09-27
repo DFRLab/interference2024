@@ -13,7 +13,7 @@
   export let showHandleLabels = true;
   export let startColor = 'white';
   export let middleColor = null;
-  export let stopColor = 'red';
+  export let stopColor = 'rgb(255, 0, 0)';
   export let barOpacity = 1;
   export let showBorder = true;
 
@@ -56,6 +56,7 @@
   $: pos.right = scale(value[1]) || 0;
 
   $: background = `linear-gradient(90deg, ${startColor}, ${middleColor ? middleColor + ', ' : ''}${stopColor})`;
+  //$: background = `linear-gradient(90deg, #ffffff, #000000)`;
 </script>
 
 <div class="slider"

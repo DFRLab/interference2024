@@ -1,19 +1,19 @@
 <script>
 	import Dropdown from '$lib/components/Dropdown.svelte';
-    import Slider from '$lib/components/Slider.svelte';
-    import { attributionScoreScale } from '../../stores/scales';
+	import Slider from '$lib/components/Slider.svelte';
+	import SearchText from '$lib/components/SearchText.svelte';
+	import { attributionScoreScale } from '../../stores/scales';
 	import {
 		platformFilter,
 		actorNationFilter,
 		sourceFilter,
 		sourceCategoryFilter,
 		methodFilter,
-        selectAllFilters,
-        attributionScoreFilter,
-        attributionScoreDef
+		selectAllFilters,
+		attributionScoreFilter,
+		attributionScoreDef,
+		textSearchFilter
 	} from '../../stores/filters';
-
-	$: console.log($attributionScoreFilter)
 
 	export let cases;
 
@@ -46,45 +46,57 @@
 </script>
 
 {#if cases}
-<Slider value={$attributionScoreFilter}
-              label="Attribution Score"
-              min={attributionScoreDef[0]} 
-              max={attributionScoreDef[1]}
-              showHandleLabels={false}
-              startColor={$attributionScoreScale(attributionScoreDef[0])}
-              stopColor={$attributionScoreScale(attributionScoreDef[1])}
-              on:changed={(e) => $attributionScoreFilter = e.detail} />
-	<Dropdown
-		items={addCount($actorNationFilter, 'actor_nation', cases)}
-		label="Actor nation"
-		on:itemsAdded={(e) => actorNationFilter.select(e.detail)}
-		on:itemsRemoved={(e) => actorNationFilter.unselect(e.detail)}
-	></Dropdown>
-	<Dropdown
-		items={addCount($platformFilter, 'platform', cases)}
-		label="Platform"
-		on:itemsAdded={(e) => platformFilter.select(e.detail)}
-		on:itemsRemoved={(e) => platformFilter.unselect(e.detail)}
-	></Dropdown>
-	<Dropdown
-		items={addCount($sourceFilter, 'source', cases)}
-		label="Source"
-		on:itemsAdded={(e) => sourceFilter.select(e.detail)}
-		on:itemsRemoved={(e) => sourceFilter.unselect(e.detail)}
-	></Dropdown>
-	<Dropdown
-		items={addCount($sourceCategoryFilter, 'source_category', cases)}
-		label="Source Category"
-		on:itemsAdded={(e) => sourceCategoryFilter.select(e.detail)}
-		on:itemsRemoved={(e) => sourceCategoryFilter.unselect(e.detail)}
-	></Dropdown>
-	<Dropdown
-		items={addCount($methodFilter, 'methods', cases)}
-		label="Method"
-		on:itemsAdded={(e) => methodFilter.select(e.detail)}
-		on:itemsRemoved={(e) => methodFilter.unselect(e.detail)}
-	></Dropdown>
-	<button class="reset-filters" on:click={() => handleButtonClick()}> Reset </button>
+	<div class="controls-wrapper">
+		<div class="grid is-col-min-8">
+			<SearchText
+				searchString={$textSearchFilter}
+				label="Search"
+				on:change={(e) => ($textSearchFilter = e.detail)}
+				on:reset={() => textSearchFilter.reset()}
+			/>
+			<Slider
+				value={$attributionScoreFilter}
+				label="Attribution Score"
+				min={attributionScoreDef[0]}
+				max={attributionScoreDef[1]}
+				showHandleLabels={false}
+				startColor={'#ffffff'}
+				stopColor={'#000000'}
+				on:changed={(e) => ($attributionScoreFilter = e.detail)}
+			/>
+			<Dropdown
+				items={addCount($actorNationFilter, 'actor_nation', cases)}
+				label="Actor nation"
+				on:itemsAdded={(e) => actorNationFilter.select(e.detail)}
+				on:itemsRemoved={(e) => actorNationFilter.unselect(e.detail)}
+			></Dropdown>
+			<Dropdown
+				items={addCount($platformFilter, 'platform', cases)}
+				label="Platform"
+				on:itemsAdded={(e) => platformFilter.select(e.detail)}
+				on:itemsRemoved={(e) => platformFilter.unselect(e.detail)}
+			></Dropdown>
+			<Dropdown
+				items={addCount($sourceFilter, 'source', cases)}
+				label="Source"
+				on:itemsAdded={(e) => sourceFilter.select(e.detail)}
+				on:itemsRemoved={(e) => sourceFilter.unselect(e.detail)}
+			></Dropdown>
+			<Dropdown
+				items={addCount($sourceCategoryFilter, 'source_category', cases)}
+				label="Source Category"
+				on:itemsAdded={(e) => sourceCategoryFilter.select(e.detail)}
+				on:itemsRemoved={(e) => sourceCategoryFilter.unselect(e.detail)}
+			></Dropdown>
+			<Dropdown
+				items={addCount($methodFilter, 'methods', cases)}
+				label="Method"
+				on:itemsAdded={(e) => methodFilter.select(e.detail)}
+				on:itemsRemoved={(e) => methodFilter.unselect(e.detail)}
+			></Dropdown>
+			<button class="reset-filters" on:click={() => handleButtonClick()}> Reset </button>
+		</div>
+	</div>
 {/if}
 
 <style>
