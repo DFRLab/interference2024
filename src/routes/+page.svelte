@@ -29,8 +29,8 @@
 	let cases = [];
 
 	onMount(async function () {
-		//const response = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`);
-		const response = await csv(`${base}/Demo_Attribution_Data.csv`);
+		const response = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`);
+		//const response = await csv(`${base}/Demo_Attribution_Data.csv`);
 		cases = response;
         cases.forEach(d => {
             d.platform = splitString(d.platform)
