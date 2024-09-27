@@ -1,3 +1,5 @@
+import { min, max } from 'd3-array';
+
 // consistent sort function
 export const sortConsistently = (itemA, itemB, property, key) => {
   let valueA = itemA[property];
@@ -32,3 +34,15 @@ export const splitString = (s) => {
 // check if there's overlap between array and filter
 export const haveOverlap = (filter, arr) =>
   filter.filter((d) => d.selected).map((d) => d.id).some((item) => arr.includes(item));
+
+// extract attribution date range from data
+export const getTimeRange = (data) => {
+  console.log(data)
+  const maxAttributionDate = max(data, (d) => d.attribution_date);
+  return([min(data, (d) => d.attribution_date), new Date(
+    maxAttributionDate.getFullYear(), maxAttributionDate.getMonth() + 5
+  )]);
+};
+
+// check if a number is within a 2D range (given as array with length 2)
+export const withinRange = (arr, num, bypass = false) => bypass ? true : (num >= arr[0] && num <= arr[1]);

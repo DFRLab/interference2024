@@ -7,14 +7,17 @@
 	import CaseTable from '$lib/components/CaseTable.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
     import Controls from '$lib/components/Controls.svelte';
-    import { splitString, haveOverlap } from '$lib/utils/misc'
+    import { splitString, haveOverlap, withinRange } from '$lib/utils/misc'
+    import { setScales } from '$lib/utils/scales';
 
     import {
         platformFilter,
         actorNationFilter,
         sourceFilter,
         sourceCategoryFilter,
-        methodFilter
+        methodFilter,
+        attributionScoreFilter,
+        attributionScoreDef
     } from '../stores/filters';
 
 	let cases = [];
@@ -27,6 +30,8 @@
             d.platform = splitString(d.platform)
             d.actor_nation = splitString(d.actor_nation)
             d.methods = splitString(d.methods)
+            d.attribution_total_score = +d.attribution_total_score
+            d.attribution_date = new Date(d.attribution_date)
 
             d.show = false
         })
@@ -35,8 +40,9 @@
         sourceFilter.init(cases, 'source')
         sourceCategoryFilter.init(cases, 'source_category')
         methodFilter.init(cases, 'methods')
+        $attributionScoreFilter = attributionScoreDef;
         
-        console.log(cases.map(d => d.methods))
+        //console.log(cases.map(d => d.attribution_date))
 	});
 
     $: if (cases) {
@@ -47,8 +53,20 @@
                 && haveOverlap($sourceFilter, d.source)
                 && haveOverlap($sourceCategoryFilter, d.source_category)
                 && haveOverlap($methodFilter, d.methods)
+                && withinRange($attributionScoreFilter, d.attribution_total_score)
         }))
+    } 
+
+    let width = 1200
+    let margin = {
+        top: 30,
+        right: 30,
+        bottom: 30,
+        left: 30
     }
+
+    // set the scales
+    $: setScales(cases, width, margin);
 
 </script>
 

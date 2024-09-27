@@ -1,13 +1,19 @@
 <script>
 	import Dropdown from '$lib/components/Dropdown.svelte';
+    import Slider from '$lib/components/Slider.svelte';
+    import { attributionScoreScale } from '../../stores/scales';
 	import {
 		platformFilter,
 		actorNationFilter,
 		sourceFilter,
 		sourceCategoryFilter,
 		methodFilter,
-        selectAllFilters
+        selectAllFilters,
+        attributionScoreFilter,
+        attributionScoreDef
 	} from '../../stores/filters';
+
+	$: console.log($attributionScoreFilter)
 
 	export let cases;
 
@@ -40,6 +46,14 @@
 </script>
 
 {#if cases}
+<Slider value={$attributionScoreFilter}
+              label="Attribution Score"
+              min={attributionScoreDef[0]} 
+              max={attributionScoreDef[1]}
+              showHandleLabels={false}
+              startColor={$attributionScoreScale(attributionScoreDef[0])}
+              stopColor={$attributionScoreScale(attributionScoreDef[1])}
+              on:changed={(e) => $attributionScoreFilter = e.detail} />
 	<Dropdown
 		items={addCount($actorNationFilter, 'actor_nation', cases)}
 		label="Actor nation"
