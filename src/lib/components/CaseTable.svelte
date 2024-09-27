@@ -1,4 +1,5 @@
 <script>
+    import { utcFormat } from 'd3-time-format';
     export let cases
 </script>
 
@@ -18,7 +19,7 @@
         {#if attrCase.show}
             <tr>
                 <td>{attrCase.short_description}</td>
-                <td>{attrCase.attribution_date}</td>
+                <td>{utcFormat('%B %d, %Y')(attrCase.attribution_date)}</td>
                 <td>{attrCase.source}</td>
                 <td>{attrCase.source_category}</td>
                 <td>{attrCase.actor_nation}</td>
