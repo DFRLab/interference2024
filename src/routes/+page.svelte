@@ -84,7 +84,7 @@
 	</div>
 </section>
 
-<section class="section">
+<section class="section sticky">
     <Controls {cases}></Controls>
 </section>
 
@@ -118,5 +118,11 @@
     .intro {
         max-width: 800px;
         margin: auto;
+    }
+    .sticky {
+        position: sticky;
+		top: 0px;
+        z-index: 1000;
+        background-color: #ffffffdd
     }
 </style>
