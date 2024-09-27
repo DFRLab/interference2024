@@ -6,6 +6,7 @@
 	import CaseCard from '$lib/components/CaseCard.svelte';
 	import CaseTable from '$lib/components/CaseTable.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
+    import TimelineMobile from '$lib/components/TimelineMobile.svelte';
     import Controls from '$lib/components/Controls.svelte';
     import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc'
     import { setScales } from '$lib/utils/scales';
@@ -22,7 +23,7 @@
     } from '../stores/filters';
 
     $: innerWidth = 0
-    $: isMobile = innerWidth < 720
+    $: isMobile = innerWidth < 768
     $: displayDataAs = isMobile ? "Cards" : "Table"
 
 	let cases = [];
@@ -48,7 +49,7 @@
         methodFilter.init(cases, 'methods')
         $attributionScoreFilter = attributionScoreDef;
         
-        console.log(cases.map(d => d.campaign))
+        //console.log(cases.map(d => d.campaign))
 	});
 
     $: if (cases) {
@@ -96,7 +97,11 @@
 
 <section class="section">
 	<div>
-		<Timeline {cases}></Timeline>
+        {#if isMobile}
+		    <TimelineMobile {cases}></TimelineMobile>
+            {:else}
+            <Timeline {cases}></Timeline>
+        {/if}
 	</div>
 </section>
 
