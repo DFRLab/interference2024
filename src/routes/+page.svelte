@@ -21,6 +21,10 @@
         textSearchFilter
     } from '../stores/filters';
 
+    $: innerWidth = 0
+    $: isMobile = innerWidth < 720
+    $: displayDataAs = isMobile ? "Cards" : "Table"
+
 	let cases = [];
 
 	onMount(async function () {
@@ -73,6 +77,8 @@
 
 </script>
 
+<svelte:window bind:innerWidth />
+
 <section class="section">
 	<div class="container has-text-centered">
 		<h1 class="is-size-1">{copy.meta.title}</h1>
@@ -95,6 +101,18 @@
 </section>
 
 <section class="section">
+    <div class="container">
+<div class="field has-addons">
+    <div class="buttons has-addons">
+        <button class={displayDataAs == "Table" ? "button is-success is-selected" : "button"} on:click={() => {displayDataAs = "Table"}}>Table</button>
+        <button class={displayDataAs == "Cards" ? "button is-success is-selected" : "button"} on:click={() => {displayDataAs = "Cards"}}>Cards</button>
+      </div>
+  </div>
+</div>
+</section>
+
+{#if displayDataAs == "Cards"}
+<section class="section">
 	<div class="container">
 		<div class="grid is-col-min-12">
 			{#each cases as attrCase}
@@ -107,12 +125,15 @@
 		</div>
 	</div>
 </section>
+{/if}
 
+{#if displayDataAs == "Table"}
 <section class="section">
 	<div class="container">
 		<CaseTable {cases}></CaseTable>
 	</div>
-</section>
+</section> 
+{/if}
 
 <style>
     .intro {
