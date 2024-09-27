@@ -26,6 +26,8 @@
     $: isMobile = innerWidth < 768
     $: displayDataAs = isMobile ? "Cards" : "Table"
 
+    $: console.log($actorNationFilter)
+
 	let cases = [];
 
 	onMount(async function () {

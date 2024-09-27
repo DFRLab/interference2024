@@ -12,8 +12,6 @@
   export let hideOneHitWonders = false;
   export let superior = false;
 
-  //$: console.log(items)
-
   const dispatch = createEventDispatcher();
 
   let elem;
