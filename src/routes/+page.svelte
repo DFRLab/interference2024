@@ -6,7 +6,8 @@
 	import CaseCard from '$lib/components/CaseCard.svelte';
 	import CaseTable from '$lib/components/CaseTable.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
-	import Select from 'svelte-select';
+	//import Select from 'svelte-select';
+    import Controls from '$lib/components/Controls.svelte';
 
 	let cases = [];
 
@@ -38,14 +39,15 @@
 </section>
 
 <section class="section">
-	<div class="select-container">
+    <Controls></Controls>
+	<!--div class="select-container">
 		<Select
 			items={actorNationsUnique}
 			multiple={true}
 			bind:value={selectedActorNations}
 			placeholder={'Select 1 or more actor countries'}
 		></Select>
-	</div>
+	</div-->
 </section>
 
 <section class="section">
