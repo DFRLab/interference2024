@@ -13,12 +13,12 @@
 	</div-->
 	<div class="card-image">
 		<figure class="image">
-			<img src={cardData.image_url} alt={cardData.image_credit} />
+			<img src={`/images/${cardData.attribution_id}.jpg`} alt={cardData.image_credit} />
 		</figure>
 	</div>
 	<div class="card-content">
 		<div class="content">
-			<p>{utcFormat('%B %d, %Y')(cardData.attribution_date)}</p>
+			<p>{utcFormat('%B %d, %Y')(cardData.attribution_date)}, {cardData.attribution_id}</p>
 			<p><a href={cardData.attribution_url} target='_blank'>{cardData.source}</a></p>
 			<p>{cardData.short_description}</p>
 			<p>
