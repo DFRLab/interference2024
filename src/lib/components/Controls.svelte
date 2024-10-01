@@ -16,6 +16,8 @@
 	} from '../../stores/filters';
 
 	export let cases;
+	export let isMobile;
+	$: console.log(isMobile)
 
 	function handleButtonClick() {
 		selectAllFilters();
@@ -46,7 +48,7 @@
 </script>
 
 {#if cases}
-	<div class="controls-wrapper">
+	<div class={"controls-wrapper"}>
 		<div class="grid is-col-min-8">
 			<SearchText
 				searchString={$textSearchFilter}

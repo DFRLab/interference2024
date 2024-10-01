@@ -8,6 +8,7 @@
 	import Timeline from '$lib/components/Timeline.svelte';
     import TimelineMobile from '$lib/components/TimelineMobile.svelte';
     import Controls from '$lib/components/Controls.svelte';
+    import AnimatedFilterIcon from '$lib/components/AnimatedFilterIcon.svelte';
     import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc'
     import { setScales } from '$lib/utils/scales';
 
@@ -23,7 +24,7 @@
     } from '../stores/filters';
 
     $: innerWidth = 0
-    $: isMobile = innerWidth < 768
+    $: isMobile = innerWidth < 520
     $: displayDataAs = isMobile ? "Cards" : "Table"
 
 	let cases = [];
@@ -76,9 +77,21 @@
     // set the scales
     $: setScales(cases, width, margin);
 
+    let sidebarOpen = true;
+	
+	let toggleSidebar = function(){
+		sidebarOpen = !sidebarOpen
+	}
+
 </script>
 
 <svelte:window bind:innerWidth />
+
+{#if isMobile}
+<div class="filter-button">
+	<button on:click={() => toggleSidebar()}><AnimatedFilterIcon {sidebarOpen}></AnimatedFilterIcon></button>
+</div>
+{/if}
 
 <section class="section">
 	<div class="container has-text-centered">
@@ -91,8 +104,12 @@
 	</div>
 </section>
 
-<section class="section sticky">
-    <Controls {cases}></Controls>
+<section class={isMobile && sidebarOpen 
+    ? "section sidebar open controls"
+    : isMobile && !sidebarOpen
+        ? "section sidebar closed controls"
+        : "section sticky controls"}>
+    <Controls {cases} {isMobile}></Controls>
 </section>
 
 <section class="section">
@@ -145,10 +162,32 @@
         max-width: 800px;
         margin: auto;
     }
+    .controls {
+        background-color: #ffffffdd;
+        width: 100%;
+        z-index: 500;
+    }
     .sticky {
         position: sticky;
 		top: 0px;
-        z-index: 1000;
-        background-color: #ffffffdd
+    }
+    .sidebar {
+        position: absolute;
+        top: 0px;
+        transition: left 0.5s;
+        height: 100vh;
+    }
+	.closed {
+		left: -100%; 
+	}
+	.open {
+		left: 0;
+	}
+    .filter-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 1rem;
+        z-index: 750;
     }
 </style>
