@@ -77,7 +77,7 @@
     // set the scales
     $: setScales(cases, width, margin);
 
-    let sidebarOpen = true;
+    let sidebarOpen = false;
 	
 	let toggleSidebar = function(){
 		sidebarOpen = !sidebarOpen
@@ -172,7 +172,7 @@
 		top: 0px;
     }
     .sidebar {
-        position: absolute;
+        position: fixed;
         top: 0px;
         transition: left 0.5s;
         height: 100vh;
@@ -184,7 +184,7 @@
 		left: 0;
 	}
     .filter-button {
-        position: absolute;
+        position: fixed;
         top: 0;
         right: 0;
         padding: 1rem;
