@@ -19,6 +19,7 @@
 	<div class="card-content">
 		<div class="content">
 			<p>{utcFormat('%B %d, %Y')(cardData.attribution_date)}</p>
+			<p><a href={cardData.attribution_url} target='_blank'>{cardData.source}</a></p>
 			<p>{cardData.short_description}</p>
 			<p>
 				<button class="button is-info is-small" on:click={sourceFilter.selectOne(cardData.source)}

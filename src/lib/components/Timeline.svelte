@@ -4,6 +4,7 @@
 	import { utcFormat } from 'd3-time-format';
 	import { fade } from 'svelte/transition';
 	import Bubble from '$lib/components/Bubble.svelte';
+	import Square from '$lib/components/Square.svelte';
 	import Tooltip from '$lib/components/Tooltip.svelte';
 
 	export let cases;
@@ -131,15 +132,19 @@
 							stroke-width={2}
 							opacity={0.5}
 						></line>
-						<rect
-							x={xScale(event.date) - 6}
-							y={yScale('Key event') - 6}
+						<Square
+							x={xScale(event.date)}
+							y={yScale('Key event')}
 							width={12}
-							height={12}
 							fill={colorScale('Key event')}
 							stroke={'#ffffff'}
 							stroke-width={2}
-						></rect>
+							ttContent={`<p class="countryname">${event.title}</p>`}
+								bind:tooltipContent
+								bind:tooltipX
+								bind:tooltipY
+								bind:showTooltip
+						></Square>
 					{/each}
 				{/if}
 			</g>
