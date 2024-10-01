@@ -3,6 +3,8 @@
 	import { extent } from 'd3-array';
 	import { utcFormat } from 'd3-time-format';
 	import { fade } from 'svelte/transition';
+	import Bubble from '$lib/components/Bubble.svelte';
+	import Tooltip from '$lib/components/Tooltip.svelte';
 
 	export let cases;
 
@@ -44,6 +46,21 @@
 
 	let yScale = scalePoint(actorNations, [height - margins.bottom - margins.top, 0]).padding(1);
 	let colorScale = scaleOrdinal(actorNations, colors);
+
+	let showTooltip = false;
+	let tooltipContent;
+	let tooltipX;
+	let tooltipY;
+
+	function handleMouseOver(event) {
+		showTooltip = true;
+		tooltipX = event.clientX;
+		tooltipY = event.clientY;
+		tooltipContent = ttContent;
+	}
+	function handleMouseOut() {
+		showTooltip = false;
+	}
 </script>
 
 <div class="timeline-container" bind:clientWidth={width}>
@@ -87,14 +104,19 @@
 				{#each cases as attrCase}
 					{#if attrCase.show}
 						<a href={'#case-' + attrCase.attribution_id} transition:fade>
-							<circle
+							<Bubble
 								cx={xScale(new Date(attrCase.attribution_date))}
 								cy={yScale(attrCase.actor_nation[0])}
 								r={6}
-								style:fill={colorScale(attrCase.actor_nation[0])}
+								fill={colorScale(attrCase.actor_nation[0])}
 								stroke={'#ffffff'}
 								stroke-width={2}
-							></circle>
+								ttContent={`<p class="countryname">${attrCase.short_description}</p>`}
+								bind:tooltipContent
+								bind:tooltipX
+								bind:tooltipY
+								bind:showTooltip
+							></Bubble>
 						</a>
 					{/if}
 				{/each}
@@ -123,6 +145,9 @@
 			</g>
 		{/if}
 	</svg>
+	{#if showTooltip}
+		<Tooltip {tooltipX} {tooltipY} {tooltipContent} />
+	{/if}
 </div>
 
 <style>
