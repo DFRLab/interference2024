@@ -36,17 +36,15 @@
 
 	$: stackedMetrics = stack()
 		.keys(union(metrics.map((d) => d.country)))
-		//.keys(["China", "Iran", "Russia"])
 		.value(([, D], key) => D.get(key).posts)
 		(index(metrics, d => d.date, d => d.country));
-	$: console.log(stackedMetrics)
 
 	let stackMax = 0;
 	$: if (stackedMetrics.length > 0) {
 		stackMax = max(stackedMetrics[stackedMetrics.length - 1].map((d) => d[1]));
 	}
 
-	$: yScaleStack = scaleLinear([0, stackMax], [800 - margins.bottom - margins.top, 0]);
+	$: yScaleStack = scaleLinear([0, stackMax], [height - margins.bottom - margins.top, 0]);
 	let areaGenerator
 	$: if(xScale && yScaleStack) {
 		areaGenerator = area()
@@ -160,7 +158,7 @@
 			</g>
 		{/if}
 	</svg>
-	<svg {width} height={800}>
+	<svg {width} height={height}>
 		{#if xScale}
 			<g transform={`translate(${margins.left},${margins.top})`}>
 				{#if stackedMetrics.length > 0 && areaGenerator}
