@@ -18,7 +18,7 @@
     <tbody>
         {#each cases as attrCase}
         {#if attrCase.show}
-            <tr>
+            <tr id={'case-' + attrCase.Attribution_ID}>
                 <td>{attrCase.Short_Title}</td>
                 <td>{attrCase.Short_Description}</td>
                 <td>{utcFormat('%B %d, %Y')(new Date(attrCase.Attribution_Date))}</td>

@@ -5,7 +5,7 @@
 	export let cardData;
 </script>
 
-<div class="card" transition:fade id={'case-' + cardData.attribution_id}>
+<div class="card" transition:fade id={'case-' + cardData.Attribution_ID}>
 	<div class="card-header">
 		<div class="card-header-title">
 			<h2 class="is-size-3">{cardData.Short_Title}</h2>
