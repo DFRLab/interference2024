@@ -29,6 +29,8 @@
 
 	let cases = [];
 
+    let events = [];
+
 	onMount(async function () {
 		const response = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`);
 		//const response = await csv(`${base}/Demo_Attribution_Data.csv`);
@@ -52,6 +54,12 @@
         sourceCategoryFilter.init(cases, 'Source_Category')
         methodFilter.init(cases, 'methods')
         $attributionScoreFilter = attributionScoreDef;
+
+        const eventsResponse = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Key_Events_List.csv`)
+        events = eventsResponse
+        events.forEach(d => {
+            d.date = new Date(d.Date)
+        })
         
 	});
 
@@ -67,7 +75,6 @@
                 && includesTextSearch($textSearchFilter, d.search)
         }))
     }
-    $: console.log(cases)
 
     let width = 1200
     let margin = {
@@ -120,7 +127,7 @@
         {#if isMobile}
 		    <TimelineMobile {cases}></TimelineMobile>
             {:else}
-            <Timeline {cases}></Timeline>
+            <Timeline {cases} {events}></Timeline>
         {/if}
 	</div>
 </section>

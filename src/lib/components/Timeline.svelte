@@ -8,6 +8,7 @@
 	import Tooltip from '$lib/components/Tooltip.svelte';
 
 	export let cases;
+	export let events;
 
 	const margins = {
 		top: 24,
@@ -122,7 +123,7 @@
 					{/if}
 				{/each}
 				{#if xScale}
-					{#each keyEvents as event}
+					{#each events as event}
 						<line
 							x1={xScale(event.date)}
 							x2={xScale(event.date)}
@@ -139,7 +140,8 @@
 							fill={colorScale('Key event')}
 							stroke={'#ffffff'}
 							stroke-width={2}
-							ttContent={`<p class="countryname">${event.title}</p>`}
+							ttContent={`<p style='font-weight; bold;'>${event.Title}</p>
+										<p>${event.Description}</p>`}
 								bind:tooltipContent
 								bind:tooltipX
 								bind:tooltipY
@@ -166,5 +168,8 @@
 	.time-axis-tick-label {
 		font-size: 0.8rem;
 		fill: #888888;
+	}
+	.event-title {
+		font-weight: bold;
 	}
 </style>
