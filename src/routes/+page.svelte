@@ -33,38 +33,41 @@
 		const response = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`);
 		//const response = await csv(`${base}/Demo_Attribution_Data.csv`);
 		cases = response;
+        cases = cases.filter(d => d.Attribution_ID != '')
         cases.forEach(d => {
-            d.platform = splitString(d.platform)
-            d.actor_nation = splitString(d.actor_nation)
-            d.methods = splitString(d.methods)
+            d.platform = splitString(d.Platforms)
+            d.actor_nation = splitString(d.Actor_Nation)
+            d.source = splitString(d.Source)
+            d.methods = splitString(d.Methods)
             d.attribution_total_score = +d.attribution_total_score
-            d.attribution_date = new Date(d.attribution_date)
-            d.search = [d.short_description, d.platform, d.methods, d.source, d.source_nation, d.source_category].flat().join('__').toLowerCase()
+            d.attribution_date = new Date(d.Attribution_Date)
+            d.search = [d.Short_Description, d.Short_Title, d.platform, d.methods, d.Source, d.Source_Nation, d.Source_cCtegory].flat().join('__').toLowerCase()
 
             d.show = false
         })
+
         platformFilter.init(cases, 'platform');
         actorNationFilter.init(cases, 'actor_nation');
         sourceFilter.init(cases, 'source')
-        sourceCategoryFilter.init(cases, 'source_category')
+        sourceCategoryFilter.init(cases, 'Source_Category')
         methodFilter.init(cases, 'methods')
         $attributionScoreFilter = attributionScoreDef;
         
-        //console.log(cases.map(d => d.campaign))
 	});
 
     $: if (cases) {
         cases = cases.map(d => ({
             ...d,
-            show: haveOverlap($actorNationFilter, d.actor_nation) 
+            show: haveOverlap($actorNationFilter, d.Actor_Nation) 
                 && haveOverlap($platformFilter, d.platform)
                 && haveOverlap($sourceFilter, d.source)
-                && haveOverlap($sourceCategoryFilter, d.source_category)
+                && haveOverlap($sourceCategoryFilter, d.Source_Category)
                 && haveOverlap($methodFilter, d.methods)
                 && withinRange($attributionScoreFilter, d.attribution_total_score)
                 && includesTextSearch($textSearchFilter, d.search)
         }))
-    } 
+    }
+    $: console.log(cases)
 
     let width = 1200
     let margin = {

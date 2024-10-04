@@ -7,6 +7,7 @@
 <table class="table is-striped is-fullwidth">
     <thead>
         <tr>
+            <td>Title</td>
             <td>Description</td>
             <td>Attribution date</td>
             <td>Source</td>
@@ -18,11 +19,14 @@
         {#each cases as attrCase}
         {#if attrCase.show}
             <tr>
-                <td>{attrCase.short_description}</td>
-                <td>{utcFormat('%B %d, %Y')(attrCase.attribution_date)}</td>
+                <td>{attrCase.Short_Title}</td>
+                <td>{attrCase.Short_Description}</td>
+                <td>{utcFormat('%B %d, %Y')(new Date(attrCase.Attribution_Date))}</td>
                 <td>{attrCase.source}</td>
-                <td>{attrCase.source_category}</td>
-                <td>{attrCase.actor_nation}</td>
+                <td>{attrCase.Source_Category}</td>
+                <td>{#each attrCase.actor_nation as nation, i}
+                    {attrCase.actor_nation.length != (i + 1) ? nation + ', ' : nation}
+                    {/each}</td>
             </tr>
             {/if}
         {/each}

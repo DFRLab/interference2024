@@ -16,8 +16,6 @@
 	} from '../../stores/filters';
 
 	export let cases;
-	export let isMobile;
-	$: console.log(isMobile)
 
 	function handleButtonClick() {
 		selectAllFilters();

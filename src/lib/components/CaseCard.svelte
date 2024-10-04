@@ -6,21 +6,21 @@
 </script>
 
 <div class="card" transition:fade id={'case-' + cardData.attribution_id}>
-	<!--div class="card-header">
+	<div class="card-header">
 		<div class="card-header-title">
-			<h2 class="is-size-3">Don't cases have titles?</h2>
+			<h2 class="is-size-3">{cardData.Short_Title}</h2>
 		</div>
-	</div-->
+	</div>
 	<div class="card-image">
 		<figure class="image">
-			<img src={`/images/${cardData.attribution_id}.jpg`} alt={cardData.image_credit} />
+			<img src={`/images/${cardData.Attribution_ID}.png`} />
 		</figure>
 	</div>
 	<div class="card-content">
 		<div class="content">
-			<p>{utcFormat('%B %d, %Y')(cardData.attribution_date)}, {cardData.attribution_id}</p>
-			<p><a href={cardData.attribution_url} target='_blank'>{cardData.source}</a></p>
-			<p>{cardData.short_description}</p>
+			<p>{utcFormat('%B %d, %Y')(new Date(cardData.Attribution_Date))}</p>
+			<p><a href={cardData.Attribution_URL} target='_blank'>{cardData.source}</a></p>
+			<p>{cardData.Short_Description}</p>
 			<p>
 				<button class="button is-info is-small" on:click={sourceFilter.selectOne(cardData.source)}
 					>{cardData.source}</button
