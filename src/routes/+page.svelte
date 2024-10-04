@@ -28,8 +28,8 @@
     $: displayDataAs = isMobile ? "Cards" : "Table"
 
 	let cases = [];
-
     let events = [];
+    let metrics = [];
 
 	onMount(async function () {
 		const response = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`);
@@ -60,7 +60,21 @@
         events.forEach(d => {
             d.date = new Date(d.Date)
         })
-        
+
+        const metricsResponse = await csv('https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_country_metrics.csv')
+        //metrics = metricsResponse
+        //console.log(metrics)
+        metrics = metricsResponse.map(d => {
+            let obj = {}
+            obj.date = new Date(d.Date),
+            obj.posts = +d.Posts
+            obj.country = d.Country
+            return obj
+            }
+        )
+        metrics.sort((a, b) =>{
+            return a.date - b.date
+        })     
 	});
 
     $: if (cases) {
@@ -127,7 +141,7 @@
         {#if isMobile}
 		    <TimelineMobile {cases}></TimelineMobile>
             {:else}
-            <Timeline {cases} {events}></Timeline>
+            <Timeline {cases} {events} {metrics}></Timeline>
         {/if}
 	</div>
 </section>

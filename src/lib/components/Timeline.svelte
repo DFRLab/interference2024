@@ -1,7 +1,9 @@
 <script>
-	import { scaleUtc, scalePoint, scaleOrdinal } from 'd3-scale';
+	import { scaleUtc, scalePoint, scaleOrdinal, scaleLinear, scaleTime } from 'd3-scale';
 	import { extent } from 'd3-array';
 	import { utcFormat } from 'd3-time-format';
+	import { area, stack, curveNatural } from 'd3-shape';
+	import { max, union, index } from 'd3-array';
 	import { fade } from 'svelte/transition';
 	import Bubble from '$lib/components/Bubble.svelte';
 	import Square from '$lib/components/Square.svelte';
@@ -9,6 +11,7 @@
 
 	export let cases;
 	export let events;
+	export let metrics;
 
 	const margins = {
 		top: 24,
@@ -17,30 +20,12 @@
 		left: 120
 	};
 
-	const keyEvents = [
-		{
-			date: new Date('2024-03-21'),
-			title: 'Key event number 1',
-			description: 'A very interesting event that happened somewhere.'
-		},
-		{
-			date: new Date('2024-04-25'),
-			title: 'Key event number 2',
-			description: 'A somewhat less interesting event, still interesting, though.'
-		},
-		{
-			date: new Date('2024-08-01'),
-			title: 'Key event number 3',
-			description: 'Yet another key event.'
-		}
-	];
-
 	let width;
 	let height = 280;
 
 	$: dateExtent = extent(cases.map((d) => new Date(d.attribution_date)));
 
-	$: xScale = scaleUtc(dateExtent, [0, width - margins.right - margins.left]);
+	$: xScale = scaleTime(dateExtent, [0, width - margins.right - margins.left]);
 	$: ticks = xScale.ticks(5);
 
 	const actorNations = ['Key event', 'China', 'Iran', 'North Korea', 'Russia'];
@@ -49,6 +34,29 @@
 	let yScale = scalePoint(actorNations, [height - margins.bottom - margins.top, 0]).padding(1);
 	let colorScale = scaleOrdinal(actorNations, colors);
 
+	$: stackedMetrics = stack()
+		.keys(union(metrics.map((d) => d.country)))
+		//.keys(["China", "Iran", "Russia"])
+		.value(([, D], key) => D.get(key).posts)
+		(index(metrics, d => d.date, d => d.country));
+	$: console.log(stackedMetrics)
+
+	let stackMax = 0;
+	$: if (stackedMetrics.length > 0) {
+		stackMax = max(stackedMetrics[stackedMetrics.length - 1].map((d) => d[1]));
+	}
+
+	$: yScaleStack = scaleLinear([0, stackMax], [800 - margins.bottom - margins.top, 0]);
+	let areaGenerator
+	$: if(xScale && yScaleStack) {
+		areaGenerator = area()
+		.x((d) => xScale(d.data[0]))
+		.y0((d) => yScaleStack(d[0]))
+		.y1((d) => yScaleStack(d[1]))
+		.curve(curveNatural)
+	}
+
+	// Tooltip
 	let showTooltip = false;
 	let tooltipContent;
 	let tooltipX;
@@ -142,11 +150,23 @@
 							stroke-width={2}
 							ttContent={`<p style='font-weight; bold;'>${event.Title}</p>
 										<p>${event.Description}</p>`}
-								bind:tooltipContent
-								bind:tooltipX
-								bind:tooltipY
-								bind:showTooltip
+							bind:tooltipContent
+							bind:tooltipX
+							bind:tooltipY
+							bind:showTooltip
 						></Square>
+					{/each}
+				{/if}
+			</g>
+		{/if}
+	</svg>
+	<svg {width} height={800}>
+		{#if xScale}
+			<g transform={`translate(${margins.left},${margins.top})`}>
+				{#if stackedMetrics.length > 0 && areaGenerator}
+					{#each stackedMetrics as serie}
+						<path d={areaGenerator(serie)} stroke={'white'} stroke-width={1} fill={colorScale(serie.key)}>
+						</path>
 					{/each}
 				{/if}
 			</g>
