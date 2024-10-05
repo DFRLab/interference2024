@@ -8,8 +8,7 @@
 	import Bubble from '$lib/components/Bubble.svelte';
 	import Square from '$lib/components/Square.svelte';
 	import Tooltip from '$lib/components/Tooltip.svelte';
-	import { actorNationFilter } from '../../stores/filters';
-
+	import { actorNationFilter, timeRangeFilter } from '../../stores/filters';
 
 	export let cases;
 	export let events;
@@ -27,7 +26,7 @@
 
 	$: dateExtent = extent(cases.map((d) => new Date(d.attribution_date)));
 
-	$: xScale = scaleTime(dateExtent, [0, width - margins.right - margins.left]);
+	$: xScale = scaleTime($timeRangeFilter, [0, width - margins.right - margins.left]);
 	$: ticks = xScale.ticks(5);
 
 	const actorNations = ['Key event', 'China', 'Iran', 'North Korea', 'Russia'];

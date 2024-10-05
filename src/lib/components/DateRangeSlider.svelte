@@ -3,6 +3,7 @@
   import { createEventDispatcher } from 'svelte';
   import { scaleLinear, scaleTime } from 'd3-scale';
   import { slidable } from '../../actions/slidable';
+  import { timeRangeFilter, fullTimeRange } from '../../stores/filters';
 
   export let lockInMode = false;
   export let label = '';
@@ -17,10 +18,7 @@
   export let barOpacity = 1;
   export let showBorder = true;
 
-  let minDate = new Date('2024-02-01')
-  let maxDate = new Date('2024-09-01')
-
-  $: convertScale = scaleTime().domain([minDate, maxDate]).range(value)
+  $: convertScale = scaleTime().domain($fullTimeRange).range(value)
 
   const dispatch = createEventDispatcher();
   const handleWidth = 17;
@@ -50,7 +48,7 @@
                          Math.round(scale.invert(pos.right), 0)]);
     } else {
       dispatch('changed', [scale.invert(pos.left), scale.invert(pos.right)]);
-      console.log([convertScale.invert(scale.invert(pos.left)), convertScale.invert(scale.invert(pos.right))])
+      $timeRangeFilter = [convertScale.invert(scale.invert(pos.left)), convertScale.invert(scale.invert(pos.right))]
     }
   }
 

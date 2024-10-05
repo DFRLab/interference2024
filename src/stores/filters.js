@@ -12,6 +12,17 @@ function createRangeFilter() {
   };
 }
 
+function createTimeRangeFilter() {
+  const { subscribe, set, update } = writable([new Date('2024-01-01'), new Date()]);
+
+  return {
+    subscribe,
+    set,
+    setMin: (value) => update((f) => f[0] = value),
+    setMax: (value) => update((f) => f[1] = value)
+  };
+}
+
 function createInclusiveFilter() {
   const { subscribe, set, update } = writable([]);
 
@@ -64,6 +75,9 @@ export const tagFilter = createInclusiveFilter();
 
 export const attributionScoreFilter = createRangeFilter();
 export const attributionScoreDef = [0, 18];
+
+export const timeRangeFilter = createTimeRangeFilter();
+export const fullTimeRange = writable([])
 
 export const polarizationFilter = createRangeFilter();
 export const polarizationDef = [-2, 2];

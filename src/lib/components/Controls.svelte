@@ -13,7 +13,7 @@
 		selectAllFilters,
 		attributionScoreFilter,
 		attributionScoreDef,
-		textSearchFilter
+		textSearchFilter,
 	} from '../../stores/filters';
 
 	export let cases;

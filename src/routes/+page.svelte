@@ -11,6 +11,7 @@
     import AnimatedFilterIcon from '$lib/components/AnimatedFilterIcon.svelte';
     import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc'
     import { setScales } from '$lib/utils/scales';
+    import { extent } from 'd3-array';
 
     import {
         platformFilter,
@@ -20,7 +21,9 @@
         methodFilter,
         attributionScoreFilter,
         attributionScoreDef,
-        textSearchFilter
+        textSearchFilter,
+        timeRangeFilter,
+        fullTimeRange
     } from '../stores/filters';
 
     $: innerWidth = 0
@@ -54,6 +57,8 @@
         sourceCategoryFilter.init(cases, 'Source_Category')
         methodFilter.init(cases, 'methods')
         $attributionScoreFilter = attributionScoreDef;
+        $timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)))
+        $fullTimeRange = extent(cases.map((d) => new Date(d.attribution_date)))
 
         const eventsResponse = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Key_Events_List.csv`)
         events = eventsResponse
@@ -75,7 +80,8 @@
             return a.date - b.date
         })     
 	});
-
+    
+    $: console.log($timeRangeFilter)
     $: if (cases) {
         cases = cases.map(d => ({
             ...d,
@@ -132,7 +138,7 @@
     : isMobile && !sidebarOpen
         ? "section sidebar closed controls"
         : "section sticky controls"}>
-    <Controls {cases} {isMobile}></Controls>
+    <Controls {cases} ></Controls>
 </section>
 
 <section class="section">
