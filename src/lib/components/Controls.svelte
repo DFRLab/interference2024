@@ -3,6 +3,7 @@
 	import Slider from '$lib/components/Slider.svelte';
 	import DateRangeSlider from '$lib/components/DateRangeSlider.svelte';
 	import SearchText from '$lib/components/SearchText.svelte';
+	import Share from '$lib/components/Share.svelte';
 	//import { attributionScoreScale } from '../../stores/scales';
 	import {
 		platformFilter,
@@ -73,7 +74,7 @@
 			/>
 			<Dropdown
 				items={addCount($actorNationFilter, 'actor_nation', cases)}
-				label="Actor nation"
+				label="Actor Nation"
 				on:itemsAdded={(e) => actorNationFilter.select(e.detail)}
 				on:itemsRemoved={(e) => actorNationFilter.unselect(e.detail)}
 			></Dropdown>
@@ -111,6 +112,7 @@
 				stopColor={'#000000'}
 			/>
 			<button class="reset-filters" on:click={() => handleButtonClick()}> Reset </button>
+			<Share />
 		</div>
 	</div>
 {/if}

@@ -42,7 +42,6 @@ function createInclusiveFilter() {
   return {
     subscribe,
     set: (value) => set(value),
-    //init: (values, id) => set(uniq(values.map((d) => d[id]).flat()).map((id) => ({id, name: id, selected: true}))),
     init: (values, id) => set([...new Set(values.map((d) => d[id]).flat())].map((id) => ({id, name: id, selected: true}))),
     select,
     selectOne: (id) => {

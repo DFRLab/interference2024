@@ -2,7 +2,7 @@
 	import copy from '../data/copy.json';
 	import { onMount } from 'svelte';
 	import { csv } from 'd3-fetch';
-    import { max } from 'd3-array';
+    import { max, extent } from 'd3-array';
 	import { base } from '$app/paths';
 	import CaseCard from '$lib/components/CaseCard.svelte';
 	import CaseTable from '$lib/components/CaseTable.svelte';
@@ -12,7 +12,8 @@
     import AnimatedFilterIcon from '$lib/components/AnimatedFilterIcon.svelte';
     import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc'
     //import { setScales } from '$lib/utils/scales';
-    import { extent } from 'd3-array';
+    import { page } from '$app/stores';
+    import { parseUrl } from '$lib/utils/share';
 
     import {
         platformFilter,
@@ -82,7 +83,21 @@
         )
         metrics.sort((a, b) =>{
             return a.date - b.date
-        })     
+        })
+        
+        //console.log($page.url.searchParams.get('filters'))
+        if ($page.url.searchParams.has('filters')) {
+            const urlFilters = parseUrl($page.url.searchParams.get('filters'));
+            console.log(urlFilters)
+
+            actorNationFilter.applyBoolArray(urlFilters.actorNations);
+            platformFilter.applyBoolArray(urlFilters.platforms);
+            methodFilter.applyBoolArray(urlFilters.methods);
+            sourceFilter.applyBoolArray(urlFilters.sources);
+            sourceCategoryFilter.applyBoolArray(urlFilters.sourceCategories);
+            $attributionScoreFilter = urlFilters.attributionScores;
+            $textSearchFilter = urlFilters.textSearch;
+        } 
 	});
     
     $: if (cases) {
