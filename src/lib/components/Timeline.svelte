@@ -1,6 +1,5 @@
 <script>
 	import { scaleUtc, scalePoint, scaleOrdinal, scaleLinear, scaleTime } from 'd3-scale';
-	import { extent } from 'd3-array';
 	import { utcFormat } from 'd3-time-format';
 	import { area, stack, curveNatural } from 'd3-shape';
 	import { max, union, index } from 'd3-array';
@@ -24,9 +23,10 @@
 	let width;
 	let height = 200;
 
-
-
 	$: xScale = scaleTime($timeRangeFilter, [0, width - margins.right - margins.left]);
+	$: opacityScale = scaleLinear()
+		.domain([0, max(cases.map(d => d.attribution_total_score))])
+		.range([0.2, 1])
 	$: ticks = xScale.ticks(5);
 
 	const actorNations = ['Key event', 'China', 'Iran', 'North Korea', 'Russia'];
@@ -76,8 +76,8 @@
 						y1={yScale(nation)}
 						y2={yScale(nation)}
 						style:stroke={colorScale(nation)}
-						stroke-width={2}
-						opacity={0.3}
+						stroke-width={32}
+						opacity={0.1}
 					></line>
 					<text
 						class="country-label"
@@ -114,6 +114,7 @@
 								stroke={'#ffffff'}
 								stroke-width={2}
 								ttContent={`<p class="countryname">${attrCase.Short_Title}</p>`}
+								opacity={opacityScale(attrCase.attribution_total_score)}
 								bind:tooltipContent
 								bind:tooltipX
 								bind:tooltipY

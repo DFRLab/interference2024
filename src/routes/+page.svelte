@@ -2,6 +2,7 @@
 	import copy from '../data/copy.json';
 	import { onMount } from 'svelte';
 	import { csv } from 'd3-fetch';
+    import { max } from 'd3-array';
 	import { base } from '$app/paths';
 	import CaseCard from '$lib/components/CaseCard.svelte';
 	import CaseTable from '$lib/components/CaseTable.svelte';
@@ -10,7 +11,7 @@
     import Controls from '$lib/components/Controls.svelte';
     import AnimatedFilterIcon from '$lib/components/AnimatedFilterIcon.svelte';
     import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc'
-    import { setScales } from '$lib/utils/scales';
+    //import { setScales } from '$lib/utils/scales';
     import { extent } from 'd3-array';
 
     import {
@@ -33,6 +34,7 @@
 	let cases = [];
     let events = [];
     let metrics = [];
+    let maxAttribution = 0;
 
 	onMount(async function () {
 		const response = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`);
@@ -50,6 +52,8 @@
 
             d.show = false
         })
+
+        maxAttribution = max(cases.map(d => d.attribution_total_score))
 
         platformFilter.init(cases, 'platform');
         actorNationFilter.init(cases, 'actor_nation');
@@ -104,7 +108,7 @@
     }
 
     // set the scales
-    $: setScales(cases, width, margin);
+    //$: setScales(cases, width, margin);
 
     let sidebarOpen = false;
 	
