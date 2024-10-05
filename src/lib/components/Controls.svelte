@@ -1,8 +1,9 @@
 <script>
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import Slider from '$lib/components/Slider.svelte';
+	import DateRangeSlider from '$lib/components/DateRangeSlider.svelte';
 	import SearchText from '$lib/components/SearchText.svelte';
-	import { attributionScoreScale } from '../../stores/scales';
+	//import { attributionScoreScale } from '../../stores/scales';
 	import {
 		platformFilter,
 		actorNationFilter,
@@ -94,6 +95,15 @@
 				on:itemsAdded={(e) => methodFilter.select(e.detail)}
 				on:itemsRemoved={(e) => methodFilter.unselect(e.detail)}
 			></Dropdown>
+			<DateRangeSlider
+				value={[0, 20]}
+				label="Date range"
+				min={0}
+				max={20}
+				showHandleLabels={true}
+				startColor={'#ffffff'}
+				stopColor={'#000000'}
+			/>
 			<button class="reset-filters" on:click={() => handleButtonClick()}> Reset </button>
 		</div>
 	</div>
