@@ -14,12 +14,16 @@
 		attributionScoreFilter,
 		attributionScoreDef,
 		textSearchFilter,
+		timeRangeFilter,
+		fullTimeRange
 	} from '../../stores/filters';
 
 	export let cases;
 
 	function handleButtonClick() {
 		selectAllFilters();
+		timeRangeFilter.set($fullTimeRange);
+		timeDummyRange = [0, 10]
 		/*contextData.unselectAll();
     $highlightPolarization = false;
     $highlightCib = false;
@@ -44,6 +48,8 @@
 				.filter((a) => a === d.id).length
 		}));
 	}
+
+	let timeDummyRange = [0, 10]
 </script>
 
 {#if cases}
@@ -96,11 +102,11 @@
 				on:itemsRemoved={(e) => methodFilter.unselect(e.detail)}
 			></Dropdown>
 			<DateRangeSlider
-				value={[0, 20]}
-				label="Date range"
+				value={timeDummyRange}
+				label="Date Range"
 				min={0}
-				max={20}
-				showHandleLabels={true}
+				max={10}
+				showHandleLabels={false}
 				startColor={'#ffffff'}
 				stopColor={'#000000'}
 			/>

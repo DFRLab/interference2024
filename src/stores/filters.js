@@ -1,4 +1,6 @@
 import { writable } from 'svelte/store';
+import { tweened } from 'svelte/motion';
+import { cubicOut } from 'svelte/easing';
 //import { uniq } from 'lodash';
 
 function createRangeFilter() {
@@ -13,7 +15,10 @@ function createRangeFilter() {
 }
 
 function createTimeRangeFilter() {
-  const { subscribe, set, update } = writable([new Date('2024-01-01'), new Date()]);
+  const { subscribe, set, update } = tweened([new Date('2024-01-01'), new Date()], {
+		duration: 750,
+		easing: cubicOut
+	});
 
   return {
     subscribe,

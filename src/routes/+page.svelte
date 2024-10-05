@@ -81,7 +81,6 @@
         })     
 	});
     
-    $: console.log($timeRangeFilter)
     $: if (cases) {
         cases = cases.map(d => ({
             ...d,
@@ -91,6 +90,7 @@
                 && haveOverlap($sourceCategoryFilter, d.Source_Category)
                 && haveOverlap($methodFilter, d.methods)
                 && withinRange($attributionScoreFilter, d.attribution_total_score)
+                && withinRange($timeRangeFilter, d.attribution_date)
                 && includesTextSearch($textSearchFilter, d.search)
         }))
     }

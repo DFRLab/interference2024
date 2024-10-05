@@ -15,16 +15,16 @@
 	export let metrics;
 
 	const margins = {
-		top: 24,
+		top: 0,
 		right: 24,
-		bottom: 38,
+		bottom: 28,
 		left: 120
 	};
 
 	let width;
-	let height = 280;
+	let height = 200;
 
-	$: dateExtent = extent(cases.map((d) => new Date(d.attribution_date)));
+
 
 	$: xScale = scaleTime($timeRangeFilter, [0, width - margins.right - margins.left]);
 	$: ticks = xScale.ticks(5);
@@ -32,7 +32,7 @@
 	const actorNations = ['Key event', 'China', 'Iran', 'North Korea', 'Russia'];
 	const colors = ['#555555', '#0f4c8a', '#8a0f8a', '#8a4d0f', '#0f8a0f'];
 
-	let yScale = scalePoint(actorNations, [height - margins.bottom - margins.top, 0]).padding(1);
+	let yScale = scalePoint(actorNations, [height - margins.bottom - margins.top, 0]).padding(0.5);
 	let colorScale = scaleOrdinal(actorNations, colors);
 
 	$: displayCountryMetrics = $actorNationFilter.filter(d => d.selected).map(d => d.name)
