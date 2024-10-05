@@ -1,6 +1,7 @@
 <script>
     import { utcFormat } from 'd3-time-format';
     export let cases
+    console.log(cases.map(d => d.Attribution_ID))
 </script>
 
 <div class="table-container">

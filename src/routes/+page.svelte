@@ -2,143 +2,171 @@
 	import copy from '../data/copy.json';
 	import { onMount } from 'svelte';
 	import { csv } from 'd3-fetch';
-    import { max, extent } from 'd3-array';
+	import { max, extent } from 'd3-array';
 	import { base } from '$app/paths';
 	import CaseCard from '$lib/components/CaseCard.svelte';
 	import CaseTable from '$lib/components/CaseTable.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
-    import TimelineMobile from '$lib/components/TimelineMobile.svelte';
-    import Controls from '$lib/components/Controls.svelte';
-    import AnimatedFilterIcon from '$lib/components/AnimatedFilterIcon.svelte';
-    import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc'
-    //import { setScales } from '$lib/utils/scales';
-    import { page } from '$app/stores';
-    import { parseUrl } from '$lib/utils/share';
+	import TimelineMobile from '$lib/components/TimelineMobile.svelte';
+	import Controls from '$lib/components/Controls.svelte';
+	import AnimatedFilterIcon from '$lib/components/AnimatedFilterIcon.svelte';
+	import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc';
+	//import { setScales } from '$lib/utils/scales';
+	import { page } from '$app/stores';
+	import { parseUrl } from '$lib/utils/share';
 
-    import {
-        platformFilter,
-        actorNationFilter,
-        sourceFilter,
-        sourceCategoryFilter,
-        methodFilter,
-        attributionScoreFilter,
-        attributionScoreDef,
-        textSearchFilter,
-        timeRangeFilter,
-        fullTimeRange
-    } from '../stores/filters';
+	import {
+		platformFilter,
+		actorNationFilter,
+		sourceFilter,
+		sourceCategoryFilter,
+		methodFilter,
+		attributionScoreFilter,
+		attributionScoreDef,
+		textSearchFilter,
+		timeRangeFilter,
+		fullTimeRange
+	} from '../stores/filters';
 
-    $: innerWidth = 0
-    $: isMobile = innerWidth < 520
-    $: displayDataAs = isMobile ? "Cards" : "Table"
+	$: innerWidth = 0;
+	$: isMobile = innerWidth < 520;
+	$: displayDataAs = isMobile ? 'Cards' : 'Table';
 
 	let cases = [];
-    let events = [];
-    let metrics = [];
-    let maxAttribution = 0;
+	let events = [];
+	let metrics = [];
+	let maxAttribution = 0;
 
 	onMount(async function () {
-		const response = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`);
+		const response = await csv(
+			`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`
+		);
 		//const response = await csv(`${base}/Demo_Attribution_Data.csv`);
 		cases = response;
-        cases = cases.filter(d => d.Attribution_ID != '')
-        cases.forEach(d => {
-            d.platform = splitString(d.Platforms)
-            d.actor_nation = splitString(d.Actor_Nation)
-            d.source = splitString(d.Source)
-            d.methods = splitString(d.Methods)
-            d.attribution_total_score = +d.attribution_total_score
-            d.attribution_date = new Date(d.Attribution_Date)
-            d.search = [d.Short_Description, d.Short_Title, d.platform, d.methods, d.Source, d.Source_Nation, d.Source_cCtegory].flat().join('__').toLowerCase()
+		cases = cases.filter((d) => d.Attribution_ID != '');
+		cases.forEach((d) => {
+			d.platform = splitString(d.Platforms);
+			d.actor_nation = splitString(d.Actor_Nation);
+			d.source = splitString(d.Source);
+			d.methods = splitString(d.Methods);
+			d.attribution_total_score = +d.attribution_total_score;
+			d.attribution_date = new Date(d.Attribution_Date);
+			d.search = [
+				d.Short_Description,
+				d.Short_Title,
+				d.platform,
+				d.methods,
+				d.Source,
+				d.Source_Nation,
+				d.Source_Category
+			].flat()
+				.join('__')
+				.toLowerCase();
 
-            d.show = false
-        })
+			d.show = false;
+		});
 
-        maxAttribution = max(cases.map(d => d.attribution_total_score))
+		maxAttribution = max(cases.map((d) => d.attribution_total_score));
 
-        platformFilter.init(cases, 'platform');
-        actorNationFilter.init(cases, 'actor_nation');
-        sourceFilter.init(cases, 'source')
-        sourceCategoryFilter.init(cases, 'Source_Category')
-        methodFilter.init(cases, 'methods')
-        $attributionScoreFilter = attributionScoreDef;
-        $timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)))
-        $fullTimeRange = extent(cases.map((d) => new Date(d.attribution_date)))
+		platformFilter.init(cases, 'platform');
+		actorNationFilter.init(cases, 'actor_nation');
+		sourceFilter.init(cases, 'source');
+		sourceCategoryFilter.init(cases, 'Source_Category');
+		methodFilter.init(cases, 'methods');
+		$attributionScoreFilter = attributionScoreDef;
+		$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
+		$fullTimeRange = extent(cases.map((d) => new Date(d.attribution_date)));
 
-        const eventsResponse = await csv(`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Key_Events_List.csv`)
-        events = eventsResponse
-        events.forEach(d => {
-            d.date = new Date(d.Date)
-        })
+		const eventsResponse = await csv(
+			`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Key_Events_List.csv`
+		);
+		events = eventsResponse;
+		events.forEach((d) => {
+			d.date = new Date(d.Date);
+		});
 
-        const metricsResponse = await csv('https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_country_metrics.csv')
+		const metricsResponse = await csv(
+			'https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_country_metrics.csv'
+		);
 
-        metrics = metricsResponse.map(d => {
-            let obj = {}
-            obj.date = new Date(d.Date),
-            obj.posts = +d.Posts
-            obj.country = d.Country
-            return obj
-            }
-        )
-        metrics.sort((a, b) =>{
-            return a.date - b.date
-        })
-        
-        //console.log($page.url.searchParams.get('filters'))
-        if ($page.url.searchParams.has('filters')) {
-            const urlFilters = parseUrl($page.url.searchParams.get('filters'));
-            console.log(urlFilters)
+		metrics = metricsResponse.map((d) => {
+			let obj = {};
+			(obj.date = new Date(d.Date)), (obj.posts = +d.Posts);
+			obj.country = d.Country;
+			return obj;
+		});
+		metrics.sort((a, b) => {
+			return a.date - b.date;
+		});
 
-            actorNationFilter.applyBoolArray(urlFilters.actorNations);
-            platformFilter.applyBoolArray(urlFilters.platforms);
-            methodFilter.applyBoolArray(urlFilters.methods);
-            sourceFilter.applyBoolArray(urlFilters.sources);
-            sourceCategoryFilter.applyBoolArray(urlFilters.sourceCategories);
-            $attributionScoreFilter = urlFilters.attributionScores;
-            $textSearchFilter = urlFilters.textSearch;
-        } 
+		if ($page.url.searchParams.has('filters')) {
+			const urlFilters = parseUrl($page.url.searchParams.get('filters'));
+
+			actorNationFilter.applyBoolArray(urlFilters.actorNations);
+			platformFilter.applyBoolArray(urlFilters.platforms);
+			methodFilter.applyBoolArray(urlFilters.methods);
+			sourceFilter.applyBoolArray(urlFilters.sources);
+			sourceCategoryFilter.applyBoolArray(urlFilters.sourceCategories);
+			$attributionScoreFilter = urlFilters.attributionScores;
+			$textSearchFilter = urlFilters.textSearch;
+		}
 	});
-    
-    $: if (cases) {
-        cases = cases.map(d => ({
-            ...d,
-            show: haveOverlap($actorNationFilter, d.Actor_Nation) 
-                && haveOverlap($platformFilter, d.platform)
-                && haveOverlap($sourceFilter, d.source)
-                && haveOverlap($sourceCategoryFilter, d.Source_Category)
-                && haveOverlap($methodFilter, d.methods)
-                && withinRange($attributionScoreFilter, d.attribution_total_score)
-                && withinRange($timeRangeFilter, d.attribution_date)
-                && includesTextSearch($textSearchFilter, d.search)
-        }))
-    }
 
-    let width = 1200
-    let margin = {
-        top: 30,
-        right: 30,
-        bottom: 30,
-        left: 30
-    }
-
-    // set the scales
-    //$: setScales(cases, width, margin);
-
-    let sidebarOpen = false;
-	
-	let toggleSidebar = function(){
-		sidebarOpen = !sidebarOpen
+    let sortedCases = []
+	$: if (cases) {
+		cases = cases.map((d) => ({
+			...d,
+			show:
+				haveOverlap($actorNationFilter, d.Actor_Nation) &&
+				haveOverlap($platformFilter, d.platform) &&
+				haveOverlap($sourceFilter, d.source) &&
+				haveOverlap($sourceCategoryFilter, d.Source_Category) &&
+				haveOverlap($methodFilter, d.methods) &&
+				withinRange($attributionScoreFilter, d.attribution_total_score) &&
+				withinRange($timeRangeFilter, d.attribution_date) &&
+				includesTextSearch($textSearchFilter, d.search)
+		}));
+        sortedCases = cases.sort((a, b) => a[selectedSorting.id] - b[selectedSorting.id])
+        sortedCases = sortedCases
 	}
 
+	let width = 1200;
+	let margin = {
+		top: 30,
+		right: 30,
+		bottom: 30,
+		left: 30
+	};
+
+	// set the scales
+	//$: setScales(cases, width, margin);
+
+	let sidebarOpen = false;
+
+	let toggleSidebar = function () {
+		sidebarOpen = !sidebarOpen;
+	};
+
+    const sortOptions = [
+            {id: 'attribution_date', label: 'Attribution Date'},
+            {id: 'attribution_total_score', label: 'Attribution Score'},
+            {id: 'actor_nation', label: 'Actor Nation'},
+            {id: 'platform', label: 'Platform'},
+            {id: 'source', label: 'Source'},
+            {id: 'Source_Category', label: 'Source Category'},
+        ]
+
+    let selectedSorting = {id: 'attribution_date', label: 'Attribution Date'}
 </script>
 
 <svelte:window bind:innerWidth />
 
 {#if isMobile}
-<div class="filter-button">
-	<button on:click={() => toggleSidebar()}><AnimatedFilterIcon {sidebarOpen}></AnimatedFilterIcon></button>
-</div>
+	<div class="filter-button">
+		<button on:click={() => toggleSidebar()}
+			><AnimatedFilterIcon {sidebarOpen}></AnimatedFilterIcon></button
+		>
+	</div>
 {/if}
 
 <section class="section">
@@ -152,90 +180,115 @@
 	</div>
 </section>
 
-<section class={isMobile && sidebarOpen 
-    ? "section sidebar open controls"
-    : isMobile && !sidebarOpen
-        ? "section sidebar closed controls"
-        : "section sticky controls"}>
-    <Controls {cases} ></Controls>
+<section
+	class={isMobile && sidebarOpen
+		? 'section sidebar open controls'
+		: isMobile && !sidebarOpen
+			? 'section sidebar closed controls'
+			: 'section sticky controls'}
+>
+	<Controls {cases}></Controls>
 </section>
 
 <section class="section">
 	<div>
-        {#if isMobile}
-		    <TimelineMobile {cases}></TimelineMobile>
-            {:else}
-            <Timeline {cases} {events} {metrics}></Timeline>
-        {/if}
+		{#if isMobile}
+			<TimelineMobile {cases}></TimelineMobile>
+		{:else}
+			<Timeline {cases} {events} {metrics}></Timeline>
+		{/if}
 	</div>
 </section>
 
 <section class="section">
-    <div class="container">
-<div class="field has-addons">
-    <div class="buttons has-addons">
-        <button class={displayDataAs == "Table" ? "button is-dark is-selected is-small" : "button is-small"} on:click={() => {displayDataAs = "Table"}}>Table</button>
-        <button class={displayDataAs == "Cards" ? "button is-dark is-selected is-small" : "button is-small"} on:click={() => {displayDataAs = "Cards"}}>Cards</button>
-      </div>
-  </div>
-</div>
-</section>
-
-{#if displayDataAs == "Cards"}
-<section class="section">
-	<div class="container">
-		<div class="grid is-col-min-12">
-			{#each cases as attrCase}
-            {#if attrCase.show}
-				<div class="cell">
-					<CaseCard cardData={attrCase}></CaseCard>
-				</div>
-                {/if}
-			{/each}
+	<div class="container grid is-col-min-12">
+		<div class="field has-addons">
+			<div class="buttons has-addons">
+				<button
+					class={displayDataAs == 'Table'
+						? 'button is-dark is-selected is-small'
+						: 'button is-small'}
+					on:click={() => {
+						displayDataAs = 'Table';
+					}}>Table</button
+				>
+				<button
+					class={displayDataAs == 'Cards'
+						? 'button is-dark is-selected is-small'
+						: 'button is-small'}
+					on:click={() => {
+						displayDataAs = 'Cards';
+					}}>Cards</button
+				>
+			</div>
 		</div>
+        <div class="select is-small">
+            <select bind:value={selectedSorting}>
+                {#each sortOptions as sortOpt}
+                <option value={sortOpt}>
+                    {sortOpt.label}
+                </option>
+            {/each}
+            </select>
+          </div>
 	</div>
 </section>
+
+{#if displayDataAs == 'Cards'}
+	<section class="section">
+		<div class="container">
+			<div class="grid is-col-min-12">
+				{#each cases as attrCase}
+					{#if attrCase.show}
+						<div class="cell">
+							<CaseCard cardData={attrCase}></CaseCard>
+						</div>
+					{/if}
+				{/each}
+			</div>
+		</div>
+	</section>
 {/if}
 
-{#if displayDataAs == "Table"}
-<section class="section">
-	<div class="container">
-		<CaseTable {cases}></CaseTable>
-	</div>
-</section> 
+{#if displayDataAs == 'Table' && sortedCases.length > 0}
+	<section class="section">
+		<div class="container">
+			<CaseTable cases={sortedCases}></CaseTable>
+		</div>
+	</section>
 {/if}
 
 <style>
-    .intro {
-        max-width: 800px;
-        margin: auto;
-    }
-    .controls {
-        background-color: #ffffffdd;
-        width: 100%;
-        z-index: 500;
-    }
-    .sticky {
-        position: sticky;
+	.intro {
+		max-width: 800px;
+		margin: auto;
+	}
+	.controls {
+		background-color: #ffffffdd;
+		width: 100%;
+		z-index: 500;
+	}
+	.sticky {
+		position: sticky;
 		top: 0px;
-    }
-    .sidebar {
-        position: fixed;
-        top: 0px;
-        transition: left 0.5s;
-        height: 100vh;
-    }
+	}
+	.sidebar {
+		position: fixed;
+		top: 0px;
+		transition: left 0.5s;
+		height: 100vh;
+	}
 	.closed {
-		left: -100%; 
+		left: -100%;
 	}
 	.open {
 		left: 0;
 	}
-    .filter-button {
-        position: fixed;
-        top: 0;
-        right: 0;
-        padding: 1rem;
-        z-index: 750;
-    }
+	.filter-button {
+		position: fixed;
+		top: 0;
+		right: 0;
+		padding: 1rem;
+		z-index: 750;
+	}
 </style>
