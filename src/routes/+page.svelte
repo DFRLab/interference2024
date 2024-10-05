@@ -62,8 +62,7 @@
         })
 
         const metricsResponse = await csv('https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_country_metrics.csv')
-        //metrics = metricsResponse
-        //console.log(metrics)
+
         metrics = metricsResponse.map(d => {
             let obj = {}
             obj.date = new Date(d.Date),

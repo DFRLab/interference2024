@@ -59,16 +59,6 @@
 	let tooltipContent;
 	let tooltipX;
 	let tooltipY;
-
-	function handleMouseOver(event) {
-		showTooltip = true;
-		tooltipX = event.clientX;
-		tooltipY = event.clientY;
-		tooltipContent = ttContent;
-	}
-	function handleMouseOut() {
-		showTooltip = false;
-	}
 </script>
 
 <div class="timeline-container" bind:clientWidth={width}>
@@ -171,7 +161,7 @@
 		{/if}
 	</svg>
 	{#if showTooltip}
-		<Tooltip {tooltipX} {tooltipY} {tooltipContent} />
+		<Tooltip {tooltipX} {tooltipY} {tooltipContent} {width}/>
 	{/if}
 </div>
 
