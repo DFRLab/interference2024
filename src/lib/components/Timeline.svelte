@@ -8,6 +8,8 @@
 	import Bubble from '$lib/components/Bubble.svelte';
 	import Square from '$lib/components/Square.svelte';
 	import Tooltip from '$lib/components/Tooltip.svelte';
+	import { actorNationFilter } from '../../stores/filters';
+
 
 	export let cases;
 	export let events;
@@ -34,10 +36,13 @@
 	let yScale = scalePoint(actorNations, [height - margins.bottom - margins.top, 0]).padding(1);
 	let colorScale = scaleOrdinal(actorNations, colors);
 
+	$: displayCountryMetrics = $actorNationFilter.filter(d => d.selected).map(d => d.name)
+	$: filteredMetrics = metrics.filter(d => displayCountryMetrics.includes(d.country))
+
 	$: stackedMetrics = stack()
-		.keys(union(metrics.map((d) => d.country)))
+		.keys(union(filteredMetrics.map((d) => d.country)))
 		.value(([, D], key) => D.get(key).posts)
-		(index(metrics, d => d.date, d => d.country));
+			(index(filteredMetrics, d => d.date, d => d.country));
 
 	let stackMax = 0;
 	$: if (stackedMetrics.length > 0) {
