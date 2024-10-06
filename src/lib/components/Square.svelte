@@ -37,5 +37,8 @@
 <style>
   rect {
     stroke: white;
+    transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(45deg);
   }
 </style>

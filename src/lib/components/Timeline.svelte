@@ -125,7 +125,7 @@
 				{/each}
 				{#if xScale}
 					{#each events as event}
-						<line
+						<!--line
 							x1={xScale(event.date)}
 							x2={xScale(event.date)}
 							y1={yScale('Key event')}
@@ -133,7 +133,7 @@
 							stroke={colorScale('Key event')}
 							stroke-width={2}
 							opacity={0.5}
-						></line>
+						></line-->
 						<Square
 							x={xScale(event.date)}
 							y={yScale('Key event')}
