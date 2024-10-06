@@ -104,7 +104,6 @@
 					>
 				{/each}
 				{#each cases as attrCase}
-					{console.log(attrCase.Attribution_ID)}
 					{#if attrCase.show}
 						<a href={'#case-' + attrCase.Attribution_ID} transition:fade>
 							<Bubble
