@@ -112,7 +112,31 @@
 		}
 	});
 
-    let sortedCases = []
+    const sortFunction = (option) => function(a, b){
+        if(option.type == 'string' || option.type == 'date' || option.type == 'number'){
+            if(a[option.id] < b[option.id]){
+                return -1
+            }
+            if(b[option.id] < a[option.id]){
+                return 1
+            }
+            else {
+                return 0
+            }
+        }
+        if(option.type == 'array'){
+            if(a[option.id][0] < b[option.id][0]){
+                return -1
+            }
+            if(b[option.id][0] < a[option.id][0]){
+                return 1
+            }
+            else {
+                return 0
+            }
+        }
+    }
+
 	$: if (cases) {
 		cases = cases.map((d) => ({
 			...d,
@@ -126,9 +150,9 @@
 				withinRange($timeRangeFilter, d.attribution_date) &&
 				includesTextSearch($textSearchFilter, d.search)
 		}));
-        sortedCases = cases.sort((a, b) => a[selectedSorting.id] - b[selectedSorting.id])
-        sortedCases = sortedCases
 	}
+    $: sortedCases = [...cases].sort(sortFunction(selectedSorting))
+    $: console.log(sortedCases.map(d => d[selectedSorting.id]))
 
 	let width = 1200;
 	let margin = {
@@ -148,15 +172,15 @@
 	};
 
     const sortOptions = [
-            {id: 'attribution_date', label: 'Attribution Date'},
-            {id: 'attribution_total_score', label: 'Attribution Score'},
-            {id: 'actor_nation', label: 'Actor Nation'},
-            {id: 'platform', label: 'Platform'},
-            {id: 'source', label: 'Source'},
-            {id: 'Source_Category', label: 'Source Category'},
+            {id: 'attribution_date', label: 'Attribution Date', type: 'date'},
+            {id: 'attribution_total_score', label: 'Attribution Score', type: 'number'},
+            {id: 'actor_nation', label: 'Actor Nation', type: 'array'},
+            {id: 'platform', label: 'Platform', type: 'array'},
+            {id: 'source', label: 'Source', type: 'array'},
+            {id: 'Source_Category', label: 'Source Category', type: 'string'},
         ]
 
-    let selectedSorting = {id: 'attribution_date', label: 'Attribution Date'}
+    let selectedSorting = {id: 'attribution_date', label: 'Attribution Date', type: 'date'}
 </script>
 
 <svelte:window bind:innerWidth />
