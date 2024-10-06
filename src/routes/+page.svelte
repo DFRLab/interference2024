@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 	import { csv } from 'd3-fetch';
 	import { max, extent } from 'd3-array';
-	import { base } from '$app/paths';
 	import CaseCard from '$lib/components/CaseCard.svelte';
 	import CaseTable from '$lib/components/CaseTable.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
@@ -59,7 +58,8 @@
 				d.Source,
 				d.Source_Nation,
 				d.Source_Category
-			].flat()
+			]
+				.flat()
 				.join('__')
 				.toLowerCase();
 
@@ -112,30 +112,29 @@
 		}
 	});
 
-    const sortFunction = (option) => function(a, b){
-        if(option.type == 'string' || option.type == 'date' || option.type == 'number'){
-            if(a[option.id] < b[option.id]){
-                return -1
-            }
-            if(b[option.id] < a[option.id]){
-                return 1
-            }
-            else {
-                return 0
-            }
-        }
-        if(option.type == 'array'){
-            if(a[option.id][0] < b[option.id][0]){
-                return -1
-            }
-            if(b[option.id][0] < a[option.id][0]){
-                return 1
-            }
-            else {
-                return 0
-            }
-        }
-    }
+	const sortFunction = (option) =>
+		function (a, b) {
+			if (option.type == 'string' || option.type == 'date' || option.type == 'number') {
+				if (a[option.id] < b[option.id]) {
+					return -1;
+				}
+				if (b[option.id] < a[option.id]) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+			if (option.type == 'array') {
+				if (a[option.id][0] < b[option.id][0]) {
+					return -1;
+				}
+				if (b[option.id][0] < a[option.id][0]) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		};
 
 	$: if (cases) {
 		cases = cases.map((d) => ({
@@ -151,8 +150,7 @@
 				includesTextSearch($textSearchFilter, d.search)
 		}));
 	}
-    $: sortedCases = [...cases].sort(sortFunction(selectedSorting))
-    $: console.log(sortedCases.map(d => d[selectedSorting.id]))
+	$: sortedCases = [...cases].sort(sortFunction(selectedSorting));
 
 	let width = 1200;
 	let margin = {
@@ -171,16 +169,16 @@
 		sidebarOpen = !sidebarOpen;
 	};
 
-    const sortOptions = [
-            {id: 'attribution_date', label: 'Attribution Date', type: 'date'},
-            {id: 'attribution_total_score', label: 'Attribution Score', type: 'number'},
-            {id: 'actor_nation', label: 'Actor Nation', type: 'array'},
-            {id: 'platform', label: 'Platform', type: 'array'},
-            {id: 'source', label: 'Source', type: 'array'},
-            {id: 'Source_Category', label: 'Source Category', type: 'string'},
-        ]
+	const sortOptions = [
+		{ id: 'attribution_date', label: 'Attribution Date', type: 'date' },
+		{ id: 'attribution_total_score', label: 'Attribution Score', type: 'number' },
+		{ id: 'actor_nation', label: 'Actor Nation', type: 'array' },
+		{ id: 'platform', label: 'Platform', type: 'array' },
+		{ id: 'source', label: 'Source', type: 'array' },
+		{ id: 'Source_Category', label: 'Source Category', type: 'string' }
+	];
 
-    let selectedSorting = {id: 'attribution_date', label: 'Attribution Date', type: 'date'}
+	let selectedSorting = { id: 'attribution_date', label: 'Attribution Date', type: 'date' };
 </script>
 
 <svelte:window bind:innerWidth />
@@ -225,8 +223,8 @@
 </section>
 
 <section class="section">
-	<div class="container grid is-col-min-12">
-		<div class="field has-addons">
+	<div class="container cases-controls">
+		<div class="field has-addons cases-control">
 			<div class="buttons has-addons">
 				<button
 					class={displayDataAs == 'Table'
@@ -246,15 +244,18 @@
 				>
 			</div>
 		</div>
-        <div class="select is-small">
-            <select bind:value={selectedSorting}>
-                {#each sortOptions as sortOpt}
-                <option value={sortOpt}>
-                    {sortOpt.label}
-                </option>
-            {/each}
-            </select>
-          </div>
+		<div class="cases-control">
+            <label for="sort-select">Sort cases by </label>
+			<div class="select is-small">
+				<select bind:value={selectedSorting} id="sort-select">
+					{#each sortOptions as sortOpt}
+						<option value={sortOpt}>
+							{sortOpt.label}
+						</option>
+					{/each}
+				</select>
+			</div>
+		</div>
 	</div>
 </section>
 
@@ -262,7 +263,7 @@
 	<section class="section">
 		<div class="container">
 			<div class="grid is-col-min-12">
-				{#each cases as attrCase}
+				{#each sortedCases as attrCase}
 					{#if attrCase.show}
 						<div class="cell">
 							<CaseCard cardData={attrCase}></CaseCard>
@@ -314,5 +315,12 @@
 		right: 0;
 		padding: 1rem;
 		z-index: 750;
+	}
+	.cases-controls {
+		text-align: center;
+	}
+	.cases-control {
+		display: inline-block;
+        margin-left: 3rem;
 	}
 </style>

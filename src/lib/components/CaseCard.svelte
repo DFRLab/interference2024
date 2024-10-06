@@ -8,7 +8,7 @@
 <div class="card" transition:fade id={'case-' + cardData.Attribution_ID}>
 	<div class="card-header">
 		<div class="card-header-title">
-			<h2 class="is-size-3">{cardData.Short_Title}</h2>
+			<h2 class="is-size-5">{cardData.Short_Title}</h2>
 		</div>
 	</div>
 	<div class="card-image">

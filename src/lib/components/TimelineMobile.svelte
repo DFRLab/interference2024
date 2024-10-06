@@ -1,6 +1,6 @@
 <script>
-	import { scaleUtc, scalePoint, scaleOrdinal } from 'd3-scale';
-	import { extent } from 'd3-array';
+	import { scaleUtc, scalePoint, scaleOrdinal, scaleLinear } from 'd3-scale';
+	import { max, extent } from 'd3-array';
 	import { utcFormat } from 'd3-time-format';
 	import { fade } from 'svelte/transition'
 
@@ -14,17 +14,20 @@
 	};
 
 	let width;
-	let height = 400;
+	let height = 500;
 
 	$: dateExtent = extent(cases.map((d) => new Date(d.attribution_date)));
 
 	$: yScale = scaleUtc(dateExtent, [0, height - margins.top - margins.bottom]);
+	$: opacityScale = scaleLinear()
+		.domain([0, max(cases.map(d => d.attribution_total_score))])
+		.range([0.2, 1])
 	$: ticks = yScale.ticks(5);
 
 	const actorNations = ['China', 'Iran', 'North Korea', 'Russia'];
 	const colors = ['#0f4c8a', '#8a0f8a', '#8a4d0f', '#0f8a0f'];
 
-	$: xScale = scalePoint(actorNations, [0, width - margins.left - margins.right]).padding(1);
+	$: xScale = scalePoint(actorNations, [0, width - margins.left - margins.right]).padding(0.5);
 	let colorScale = scaleOrdinal(actorNations, colors);
 </script>
 
@@ -39,7 +42,7 @@
                         y1={0}
 						y2={height - margins.bottom - margins.top}
 						style:stroke={colorScale(nation)}
-						stroke-width={2}
+						stroke-width={xScale.step()*0.9}
 						opacity={0.3}
 					></line>
 					<text
@@ -68,14 +71,15 @@
 				{/each}
 				{#each cases as attrCase}
 					{#if attrCase.show}
-						<a href={'#case-' + attrCase.attribution_id} transition:fade>
+						<a href={'#case-' + attrCase.Attribution_ID} transition:fade>
 							<circle
 								cy={yScale(new Date(attrCase.attribution_date))}
 								cx={xScale(attrCase.actor_nation[0])}
 								r={6}
 								style:fill={colorScale(attrCase.actor_nation[0])}
 								stroke={'#ffffff'}
-								stroke-width={2}
+								stroke-width={1}
+								opacity={opacityScale(attrCase.attribution_total_score)}
 							></circle>
 						</a>
 					{/if}

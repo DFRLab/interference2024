@@ -7,3 +7,7 @@
     --usa-red: #b22234;
     --usa-lightred: #c5888f;
 }
+
+body {
+    overflow-x: hidden;
+}
