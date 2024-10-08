@@ -18,12 +18,12 @@
     <tbody>
         {#each cases as attrCase}
         {#if attrCase.show}
-            <tr id={'case-' + attrCase.Attribution_ID}>
-                <td>{attrCase.Short_Title}</td>
-                <td>{attrCase.Short_Description}</td>
-                <td>{utcFormat('%B %d, %Y')(new Date(attrCase.Attribution_Date))}</td>
+            <tr id={'case-' + attrCase.attribution_id}>
+                <td>{attrCase.short_title}</td>
+                <td>{attrCase.short_description}</td>
+                <td>{utcFormat('%B %d, %Y')(new Date(attrCase.attribution_date))}</td>
                 <td>{attrCase.source}</td>
-                <td>{attrCase.Source_Category}</td>
+                <td>{attrCase.source_category}</td>
                 <td>{#each attrCase.actor_nation as nation, i}
                     {attrCase.actor_nation.length != (i + 1) ? nation + ', ' : nation}
                     {/each}</td>

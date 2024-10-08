@@ -105,7 +105,7 @@
 				{/each}
 				{#each cases as attrCase}
 					{#if attrCase.show}
-						<a href={'#case-' + attrCase.Attribution_ID} transition:fade>
+						<a href={'#case-' + attrCase.attribution_id} transition:fade>
 							<Bubble
 								cx={xScale(new Date(attrCase.attribution_date))}
 								cy={yScale(attrCase.actor_nation[0])}
@@ -113,8 +113,8 @@
 								fill={colorScale(attrCase.actor_nation[0])}
 								stroke={'#ffffff'}
 								stroke-width={2}
-								ttContent={`<p class="countryname">${attrCase.Short_Title}</p>`}
-								opacity={opacityScale(attrCase.attribution_total_score)}
+								ttContent={`<p class="countryname">${attrCase.short_title}</p>`}
+								opacity={opacityScale(attrCase.attribution_score)}
 								bind:tooltipContent
 								bind:tooltipX
 								bind:tooltipY

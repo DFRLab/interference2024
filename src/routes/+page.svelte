@@ -34,30 +34,30 @@
 	let cases = [];
 	let events = [];
 	let metrics = [];
-	let maxAttribution = 0;
+    let maxAttribution = 0;
 
 	onMount(async function () {
 		const response = await csv(
-			`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`
+			//`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`
+            `https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_2024_attribution_data.csv`
 		);
-		//const response = await csv(`${base}/Demo_Attribution_Data.csv`);
 		cases = response;
-		cases = cases.filter((d) => d.Attribution_ID != '');
+		cases = cases.filter((d) => d.attribution_id != '');
 		cases.forEach((d) => {
-			d.platform = splitString(d.Platforms);
-			d.actor_nation = splitString(d.Actor_Nation);
-			d.source = splitString(d.Source);
-			d.methods = splitString(d.Methods);
-			d.attribution_total_score = +d.attribution_total_score;
-			d.attribution_date = new Date(d.Attribution_Date);
+			d.platform = splitString(d.platforms);
+			d.actor_nation = splitString(d.actor_nation);
+			d.source = splitString(d.source);
+			d.methods = splitString(d.methods);
+			d.attribution_total_score = +d.attribution_score;
+			d.attribution_date = new Date(d.attribution_date);
 			d.search = [
-				d.Short_Description,
-				d.Short_Title,
+				d.short_description,
+				d.short_title,
 				d.platform,
 				d.methods,
-				d.Source,
-				d.Source_Nation,
-				d.Source_Category
+				d.source,
+				d.source_nation,
+				d.source_category
 			]
 				.flat()
 				.join('__')
@@ -66,12 +66,12 @@
 			d.show = false;
 		});
 
-		maxAttribution = max(cases.map((d) => d.attribution_total_score));
+		maxAttribution = max(cases.map((d) => d.attribution_score));
 
 		platformFilter.init(cases, 'platform');
 		actorNationFilter.init(cases, 'actor_nation');
 		sourceFilter.init(cases, 'source');
-		sourceCategoryFilter.init(cases, 'Source_Category');
+		sourceCategoryFilter.init(cases, 'source_category');
 		methodFilter.init(cases, 'methods');
 		$attributionScoreFilter = attributionScoreDef;
 		$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
@@ -140,10 +140,10 @@
 		cases = cases.map((d) => ({
 			...d,
 			show:
-				haveOverlap($actorNationFilter, d.Actor_Nation) &&
+				haveOverlap($actorNationFilter, d.actor_nation) &&
 				haveOverlap($platformFilter, d.platform) &&
 				haveOverlap($sourceFilter, d.source) &&
-				haveOverlap($sourceCategoryFilter, d.Source_Category) &&
+				haveOverlap($sourceCategoryFilter, d.source_category) &&
 				haveOverlap($methodFilter, d.methods) &&
 				withinRange($attributionScoreFilter, d.attribution_total_score) &&
 				withinRange($timeRangeFilter, d.attribution_date) &&
@@ -171,11 +171,11 @@
 
 	const sortOptions = [
 		{ id: 'attribution_date', label: 'Attribution Date', type: 'date' },
-		{ id: 'attribution_total_score', label: 'Attribution Score', type: 'number' },
+		{ id: 'attribution_score', label: 'Attribution Score', type: 'number' },
 		{ id: 'actor_nation', label: 'Actor Nation', type: 'array' },
 		{ id: 'platform', label: 'Platform', type: 'array' },
 		{ id: 'source', label: 'Source', type: 'array' },
-		{ id: 'Source_Category', label: 'Source Category', type: 'string' }
+		{ id: 'source_category', label: 'Source Category', type: 'string' }
 	];
 
 	let selectedSorting = { id: 'attribution_date', label: 'Attribution Date', type: 'date' };
