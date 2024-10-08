@@ -30,7 +30,7 @@
 	$: ticks = xScale.ticks(5);
 
 	const actorNations = ['Key event', 'China', 'Iran', 'North Korea', 'Russia'];
-	const colors = ['#555555', '#0f4c8a', '#8a0f8a', '#8a4d0f', '#0f8a0f'];
+	const colors = ['#555555', '#bf0a0a', '#0f8a0f', '#8a4d0f', '#0f4c8a'];
 
 	let yScale = scalePoint(actorNations, [height - margins.bottom - margins.top, 0]).padding(0.5);
 	let colorScale = scaleOrdinal(actorNations, colors);
