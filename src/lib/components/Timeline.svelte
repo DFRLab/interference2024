@@ -137,10 +137,10 @@
 						<Square
 							x={xScale(event.date)}
 							y={yScale('Key event')}
-							width={12}
-							fill={colorScale('Key event')}
-							stroke={'#ffffff'}
-							stroke-width={2}
+							width={10}
+							fill={'#ffffff'}
+							stroke={colorScale('Key event')}
+							strokeWidth={1}
 							ttContent={`<p style='font-weight; bold;'>${event.Title}</p>
 										<p>${event.Description}</p>`}
 							bind:tooltipContent

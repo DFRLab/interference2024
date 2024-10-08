@@ -3,6 +3,8 @@
   export let y;
   export let width;
   export let fill;
+  export let stroke;
+  export let strokeWidth;
   export let opacity;
   export let ttContent;
   export let tooltipContent;
@@ -28,6 +30,8 @@
   height={width}
   {fill}
   {opacity}
+  style:stroke={stroke}
+  stroke-width={strokeWidth + 'px'}
   on:mouseover={handleMouseOver}
   on:focus={handleMouseOver}
   on:mouseout={handleMouseOut}
