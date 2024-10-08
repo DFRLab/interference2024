@@ -194,12 +194,19 @@
 <section class="section">
 	<div class="container has-text-centered">
 		<h1 class="is-size-1">{copy.meta.title}</h1>
-		{#each copy.content as block}
+		{#each copy.intro as block}
 			{#if block.type == 'text'}
 				<p class="intro">{block.text}</p>
 			{/if}
+        {/each}
+    </div>
+    <div class="container">
+        {#each copy.intro as block}
+            {#if block.type == 'concealed-text'}
+				<p>{block.title}</p>
+			{/if}
 		{/each}
-	</div>
+    </div>
 </section>
 
 <section
@@ -282,6 +289,19 @@
 		</div>
 	</section>
 {/if}
+
+<section class="section">
+	<div class="container">
+		{#each copy.moreInfo as block}
+			{#if block.type == 'text'}
+				<p>{block.text}</p>
+			{/if}
+            {#if block.type == 'concealed-text'}
+				<p>{block.title}</p>
+			{/if}
+		{/each}
+	</div>
+</section>
 
 <style>
 	.intro {
