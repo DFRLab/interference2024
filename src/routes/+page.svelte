@@ -74,7 +74,8 @@
 		sourceCategoryFilter.init(cases, 'source_category');
 		methodFilter.init(cases, 'methods');
 		$attributionScoreFilter = attributionScoreDef;
-		$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
+		//$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
+        $timeRangeFilter = [new Date('2024-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
 		$fullTimeRange = extent(cases.map((d) => new Date(d.attribution_date)));
 
 		const eventsResponse = await csv(
