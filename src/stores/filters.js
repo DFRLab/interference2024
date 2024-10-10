@@ -71,6 +71,8 @@ export const platformFilter = createInclusiveFilter();
 
 export const methodFilter = createInclusiveFilter();
 
+export const campaignFilter = createInclusiveFilter();
+
 export const sourceFilter = createInclusiveFilter();
 
 export const sourceCategoryFilter = createInclusiveFilter();
@@ -90,6 +92,7 @@ export const unselectAllFilters = (disinformantNation = true) => {
   if (disinformantNation) actorNationFilter.unselectAll();
   platformFilter.unselectAll();
   methodFilter.unselectAll();
+  campaignFilter.unselectAll();
   sourceFilter.unselectAll();
   sourceCategoryFilter.unselectAll();
   tagFilter.unselectAll();
@@ -101,6 +104,7 @@ export const selectAllFilters = (disinformantNation = true) => {
   if (disinformantNation) actorNationFilter.selectAll();
   platformFilter.selectAll();
   methodFilter.selectAll();
+  campaignFilter.selectAll();
   sourceFilter.selectAll();
   sourceCategoryFilter.selectAll();
   tagFilter.selectAll();

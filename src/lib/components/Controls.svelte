@@ -11,6 +11,7 @@
 		sourceFilter,
 		sourceCategoryFilter,
 		methodFilter,
+		campaignFilter,
 		selectAllFilters,
 		attributionScoreFilter,
 		attributionScoreDef,
@@ -101,6 +102,12 @@
 				label="Method"
 				on:itemsAdded={(e) => methodFilter.select(e.detail)}
 				on:itemsRemoved={(e) => methodFilter.unselect(e.detail)}
+			></Dropdown>
+			<Dropdown
+				items={addCount($campaignFilter, 'campaign', cases)}
+				label="Campaign"
+				on:itemsAdded={(e) => campaignFilter.select(e.detail)}
+				on:itemsRemoved={(e) => campaignFilter.unselect(e.detail)}
 			></Dropdown>
 			<DateRangeSlider
 				value={timeDummyRange}

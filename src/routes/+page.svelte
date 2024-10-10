@@ -20,6 +20,7 @@
 		sourceFilter,
 		sourceCategoryFilter,
 		methodFilter,
+        campaignFilter,
 		attributionScoreFilter,
 		attributionScoreDef,
 		textSearchFilter,
@@ -49,6 +50,7 @@
 			d.actor_nation = splitString(d.actor_nation);
 			d.source = splitString(d.source);
 			d.methods = splitString(d.methods);
+            d.campaign = splitString(d.campaign)
 			d.attribution_total_score = +d.attribution_score;
 			d.attribution_date = new Date(d.attribution_date);
 			d.search = [
@@ -67,7 +69,7 @@
 			d.show = false;
 		});
 
-        //console.log(cases.map(d => d.offline_mobilization))
+        console.log(cases.map(d => d.campaign))
 
 		maxAttribution = max(cases.map((d) => d.attribution_score));
 
@@ -76,6 +78,7 @@
 		sourceFilter.init(cases, 'source');
 		sourceCategoryFilter.init(cases, 'source_category');
 		methodFilter.init(cases, 'methods');
+        campaignFilter.init(cases, 'campaign')
 		$attributionScoreFilter = attributionScoreDef;
 		$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
         //$timeRangeFilter = [new Date('2024-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
@@ -106,7 +109,6 @@
 
 		if ($page.url.searchParams.has('filters')) {
 			const urlFilters = parseUrl($page.url.searchParams.get('filters'));
-
 			actorNationFilter.applyBoolArray(urlFilters.actorNations);
 			platformFilter.applyBoolArray(urlFilters.platforms);
 			methodFilter.applyBoolArray(urlFilters.methods);
@@ -150,6 +152,7 @@
 				haveOverlap($sourceFilter, d.source) &&
 				haveOverlap($sourceCategoryFilter, d.source_category) &&
 				haveOverlap($methodFilter, d.methods) &&
+                haveOverlap($campaignFilter, d.campaign) &&
 				withinRange($attributionScoreFilter, d.attribution_total_score) &&
 				withinRange($timeRangeFilter, d.attribution_date) &&
 				includesTextSearch($textSearchFilter, d.search)
