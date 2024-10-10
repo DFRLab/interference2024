@@ -27,6 +27,8 @@
 		fullTimeRange
 	} from '../stores/filters';
 
+    //$: console.log($timeRangeFilter)
+
 	$: innerWidth = 0;
 	$: isMobile = innerWidth < 520;
 	$: displayDataAs = isMobile ? 'Cards' : 'Table';
@@ -38,7 +40,6 @@
 
 	onMount(async function () {
 		const response = await csv(
-			//`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Demo_Attribution_Data.csv`
             `https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_2024_attribution_data.csv`
 		);
 		cases = response;

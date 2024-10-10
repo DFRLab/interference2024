@@ -42,6 +42,11 @@
 	let colorScale = scaleOrdinal(actorNations, colors);
 	const keyEventColor = "#555555"
 
+	let radiusScale = scaleOrdinal(
+		['Category One', 'Category Two', 'Category Three', 'Category Four', 'Category Five', 'Category Six'],
+		[6, 8, 10, 11, 12, 13]
+	)
+
 	$: displayCountryMetrics = $actorNationFilter.filter(d => d.selected).map(d => d.name)
 	$: filteredMetrics = metrics.filter(d => displayCountryMetrics.includes(d.country))
 
@@ -64,6 +69,7 @@
 		.y1((d) => yScaleStack(d[1]))
 		.curve(curveNatural)
 	}
+	$: yScaleStackTicks = yScaleStack.ticks(2).filter(d => d != 0)
 
 	// Tooltip
 	let showTooltip = false;
@@ -100,8 +106,8 @@
 							<Bubble
 								cx={xScale(new Date(attrCase.attribution_date))}
 								cy={actorNations.includes(attrCase.actor_nation[0]) ? yScale(attrCase.actor_nation[0]) : yScale('Other')}
-								r={6}
-								fill={colorScale(attrCase.actor_nation[0])}
+								r={radiusScale(attrCase.breakout_scale)}
+								fill={actorNations.includes(attrCase.actor_nation[0]) ? colorScale(attrCase.actor_nation[0]) : colorScale('Other')}
 								stroke={'#ffffff'}
 								stroke-width={2}
 								ttContent={`<p class="countryname">${attrCase.short_title}</p>`}
@@ -121,6 +127,22 @@
 	<svg {width} height={height}>
 		{#if xScale}
 			<g transform={`translate(${margins.left},${margins.top})`}>
+				{#each yScaleStackTicks as tick}
+					<line
+						x1={-10}
+						x2={-16}
+						y1={yScaleStack(tick)}
+						y2={yScaleStack(tick)}
+						stroke={'#777777'}
+						stroke-width={1}
+					></line>
+					<text
+						x={-18}
+						y={yScaleStack(tick) + 4}
+						text-anchor={'end'}
+						fill={'#777777'}
+					>{tick}</text>
+				{/each}
 				{#if stackedMetrics.length > 0 && areaGenerator}
 					{#each stackedMetrics as serie}
 						<path d={areaGenerator(serie)} stroke={'white'} stroke-width={1} fill={colorScale(serie.key)}>
