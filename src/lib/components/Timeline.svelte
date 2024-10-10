@@ -8,6 +8,7 @@
 	import Square from '$lib/components/Square.svelte';
 	import Tooltip from '$lib/components/Tooltip.svelte';
 	import { actorNationFilter, timeRangeFilter } from '../../stores/filters';
+	import Legend from './Legend.svelte';
 
 	export let cases;
 	export let events;
@@ -84,6 +85,7 @@
 </script>
 
 <div class="timeline-container" bind:clientWidth={width}>
+	<Legend {width} {margins} {radiusScale} {opacityScale}></Legend>
 	<svg {width} {height}>
 		{#if xScale}
 			<g transform={`translate(${margins.left},${margins.top})`}>
