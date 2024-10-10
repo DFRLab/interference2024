@@ -45,8 +45,10 @@
 		);
 		cases = response;
 		cases = cases.filter((d) => d.attribution_id != '');
+        console.log(cases)
 		cases.forEach((d) => {
 			d.platform = splitString(d.platforms);
+            d.medium = splitString(d.medium)
 			d.actor_nation = splitString(d.actor_nation);
 			d.source = splitString(d.source);
 			d.methods = splitString(d.methods);
@@ -69,11 +71,9 @@
 			d.show = false;
 		});
 
-        console.log(cases.map(d => d.campaign))
-
 		maxAttribution = max(cases.map((d) => d.attribution_score));
 
-		platformFilter.init(cases, 'platform');
+		platformFilter.init(cases, 'medium');
 		actorNationFilter.init(cases, 'actor_nation');
 		sourceFilter.init(cases, 'source');
 		sourceCategoryFilter.init(cases, 'source_category');
@@ -191,6 +191,16 @@
 
 <svelte:window bind:innerWidth />
 
+<svelte:head>
+    <title>{copy.meta.title}</title>
+    <meta property="og:site_name" content={copy.meta.og_site_name} />
+    <meta property="og:description" content={copy.meta.og_description} />
+    <meta property="og:url" content={copy.meta.og_url} />
+    <meta property="og:image" content={copy.meta.og_image} />
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+</svelte:head>
+
 {#if isMobile}
 	<div class="filter-button">
 		<button on:click={() => toggleSidebar()}
@@ -277,6 +287,7 @@
 {#if displayDataAs == 'Cards'}
 	<section class="section">
 		<div class="container">
+            <a href="https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_2024_attribution_data.csv">Download the data</a>
 			<div class="grid is-col-min-12">
 				{#each sortedCases as attrCase}
 					{#if attrCase.show}
@@ -293,6 +304,7 @@
 {#if displayDataAs == 'Table' && sortedCases.length > 0}
 	<section class="section">
 		<div class="container">
+            <a href="https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_2024_attribution_data.csv">Download the data</a>
 			<CaseTable cases={sortedCases}></CaseTable>
 		</div>
 	</section>

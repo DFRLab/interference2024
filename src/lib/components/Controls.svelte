@@ -80,7 +80,7 @@
 				on:itemsRemoved={(e) => actorNationFilter.unselect(e.detail)}
 			></Dropdown>
 			<Dropdown
-				items={addCount($platformFilter, 'platform', cases)}
+				items={addCount($platformFilter, 'medium', cases)}
 				label="Platform"
 				on:itemsAdded={(e) => platformFilter.select(e.detail)}
 				on:itemsRemoved={(e) => platformFilter.unselect(e.detail)}
