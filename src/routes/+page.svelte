@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { csv } from 'd3-fetch';
 	import { max, extent } from 'd3-array';
+    import Header from '$lib/components/Header.svelte';
 	import CaseCard from '$lib/components/CaseCard.svelte';
 	import CaseTable from '$lib/components/CaseTable.svelte';
 	import Timeline from '$lib/components/Timeline.svelte';
@@ -210,8 +211,13 @@
 {/if}
 
 <section class="section">
+    <Header />
+</section>
+
+<section class="section">
 	<div class="container has-text-centered">
-		<h1 class="is-size-1">{copy.meta.title}</h1>
+		<!--h1 class="title is-size-1">{copy.meta.title}</h1>
+        <h2 class="subtitle is-size-4 has-text-weight-bold">{copy.meta.subtitle}</h2-->
 		{#each copy.intro as block}
 			{#if block.type == 'text'}
 				<p class="intro">{block.text}</p>
@@ -288,7 +294,7 @@
 	<section class="section">
 		<div class="container">
             <a href="https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_2024_attribution_data.csv">Download the data</a>
-			<div class="grid is-col-min-12">
+			<div class="grid is-col-min-16">
 				{#each sortedCases as attrCase}
 					{#if attrCase.show}
 						<div class="cell">
@@ -324,12 +330,23 @@
 </section>
 
 <style>
+    section {
+        font-family: var(--font-02);
+    }
+    .title {
+        font-family: var(--font-01);
+        color: var(--usa-blue)
+    }
+    .subtitle {
+        font-family: var(--font-02);
+        color: var(--usa-blue)
+    }
 	.intro {
 		max-width: 800px;
 		margin: auto;
 	}
 	.controls {
-		background-color: #ffffffdd;
+		background-color: var(--transparentbg);
 		width: 100%;
 		z-index: 500;
 	}
