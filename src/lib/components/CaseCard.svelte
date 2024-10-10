@@ -13,7 +13,7 @@
 	</div>
 	<div class="card-image">
 		<figure class="image">
-			<img src={`/images/${cardData.attribution_id}.png`} />
+			<img src={`/images/${cardData.attribution_id}.jpg`} />
 		</figure>
 	</div>
 	<div class="card-content">
