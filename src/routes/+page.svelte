@@ -77,9 +77,10 @@
 		sourceCategoryFilter.init(cases, 'source_category');
 		methodFilter.init(cases, 'methods');
 		$attributionScoreFilter = attributionScoreDef;
-		//$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
-        $timeRangeFilter = [new Date('2024-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
+		$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
+        //$timeRangeFilter = [new Date('2024-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
 		$fullTimeRange = extent(cases.map((d) => new Date(d.attribution_date)));
+        //$fullTimeRange = [new Date('2022-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
 
 		const eventsResponse = await csv(
 			`https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/Key_Events_List.csv`

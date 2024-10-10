@@ -4,10 +4,10 @@
     export let radiusScale
     export let opacityScale
 
-    let minOpacity = opacityScale.domain()[0]
-    let maxOpacity = opacityScale.domain()[1]
-    let opacityRange = maxOpacity - minOpacity
-    let opacities = [
+    $: minOpacity = opacityScale.domain()[0]
+    $: maxOpacity = opacityScale.domain()[1]
+    $: opacityRange = maxOpacity - minOpacity
+    $: opacities = [
         minOpacity,
         minOpacity + opacityRange/5,
         minOpacity + opacityRange*2/5,
