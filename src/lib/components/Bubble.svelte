@@ -4,6 +4,8 @@
   export let r;
   export let fill;
   export let opacity;
+  export let stroke;
+  export let strokeWidth;
   export let ttContent;
   export let tooltipContent;
   export let tooltipX;
@@ -27,14 +29,11 @@
   {r}
   {fill}
   {opacity}
+  {stroke}
+  stroke-width={strokeWidth}
+  stroke-opacity={1}
   on:mouseover={handleMouseOver}
   on:focus={handleMouseOver}
   on:mouseout={handleMouseOut}
   on:blur={handleMouseOut}
 />
-
-<style>
-  circle {
-    stroke: white;
-  }
-</style>

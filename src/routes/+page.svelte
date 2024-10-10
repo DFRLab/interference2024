@@ -67,6 +67,8 @@
 			d.show = false;
 		});
 
+        //console.log(cases.map(d => d.offline_mobilization))
+
 		maxAttribution = max(cases.map((d) => d.attribution_score));
 
 		platformFilter.init(cases, 'platform');

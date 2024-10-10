@@ -47,6 +47,11 @@
 		[6, 8, 10, 11, 12, 13]
 	)
 
+	//TODO: sort bubbles
+	$: if(cases && radiusScale){
+		cases = cases.sort((a,b) => radiusScale(a.breakout_scale) < radiusScale(b.breakout_scale))
+	}
+
 	$: displayCountryMetrics = $actorNationFilter.filter(d => d.selected).map(d => d.name)
 	$: filteredMetrics = metrics.filter(d => displayCountryMetrics.includes(d.country))
 
@@ -103,13 +108,24 @@
 				{#each cases as attrCase}
 					{#if attrCase.show}
 						<a href={'#case-' + attrCase.attribution_id} transition:fade>
+							{#if attrCase.offline_mobilization == 'Offline Mobilization'}
+								<circle
+									cx={xScale(new Date(attrCase.attribution_date))}
+									cy={actorNations.includes(attrCase.actor_nation[0]) ? yScale(attrCase.actor_nation[0]) : yScale('Other')}
+									r={radiusScale(attrCase.breakout_scale) + 2}
+									fill={'none'}
+									stroke={'#555555'}
+									stroke-width={1.5}
+									opacity={1}
+								></circle>
+							{/if}
 							<Bubble
 								cx={xScale(new Date(attrCase.attribution_date))}
 								cy={actorNations.includes(attrCase.actor_nation[0]) ? yScale(attrCase.actor_nation[0]) : yScale('Other')}
 								r={radiusScale(attrCase.breakout_scale)}
 								fill={actorNations.includes(attrCase.actor_nation[0]) ? colorScale(attrCase.actor_nation[0]) : colorScale('Other')}
 								stroke={'#ffffff'}
-								stroke-width={2}
+								strokeWidth={1.5}
 								ttContent={`<p class="countryname">${attrCase.short_title}</p>`}
 								opacity={opacityScale(attrCase.attribution_score)}
 								bind:tooltipContent
