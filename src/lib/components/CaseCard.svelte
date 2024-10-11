@@ -77,7 +77,7 @@
 	<div class="card-content">
 		<div class="content">
 			{#if expanded}
-				<p>{utcFormat('%B %d, %Y')(new Date(cardData.attribution_date))}</p>
+				<p>{utcFormat('%B %-d, %Y')(new Date(cardData.attribution_date))}</p>
 				<p><a href={cardData.attribution_url_x} target="_blank">{cardData.source}</a></p>
 			{/if}
 			<p>{cardData.short_description}</p>
@@ -162,5 +162,8 @@
 
 	.score-bar-wrapper p {
 		font-size: 0.7rem;
+	}
+	button {
+		margin: 0.2rem;
 	}
 </style>

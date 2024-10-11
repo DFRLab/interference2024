@@ -9,9 +9,10 @@
 	import Timeline from '$lib/components/Timeline.svelte';
 	import TimelineMobile from '$lib/components/TimelineMobile.svelte';
 	import Controls from '$lib/components/Controls.svelte';
-    import CardModal from '$lib/components/CardModal.svelte';
+	import CardModal from '$lib/components/CardModal.svelte';
 	import AnimatedFilterIcon from '$lib/components/AnimatedFilterIcon.svelte';
-    import Collapsible from '$lib/components/Collapsible.svelte';
+	import Collapsible from '$lib/components/Collapsible.svelte';
+	import CasesControls from '$lib/components/CasesControls.svelte';
 	import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc';
 	//import { setScales } from '$lib/utils/scales';
 	import { page } from '$app/stores';
@@ -29,7 +30,7 @@
 		textSearchFilter,
 		timeRangeFilter,
 		fullTimeRange,
-        defaultTimeRange
+		defaultTimeRange
 	} from '../stores/filters';
 
 	//$: console.log($timeRangeFilter)
@@ -85,7 +86,10 @@
 		campaignFilter.init(cases, 'campaign');
 		$attributionScoreFilter = attributionScoreDef;
 		//$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
-        $defaultTimeRange = [new Date('2024-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
+		$defaultTimeRange = [
+			new Date('2024-01-01'),
+			max(cases.map((d) => new Date(d.attribution_date)))
+		];
 		$timeRangeFilter = $defaultTimeRange;
 		$fullTimeRange = extent(cases.map((d) => new Date(d.attribution_date)));
 		//$fullTimeRange = [new Date('2022-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
@@ -119,7 +123,7 @@
 			methodFilter.applyBoolArray(urlFilters.methods);
 			sourceFilter.applyBoolArray(urlFilters.sources);
 			sourceCategoryFilter.applyBoolArray(urlFilters.sourceCategories);
-            campaignFilter.applyBoolArray(urlFilters.campaigns);
+			campaignFilter.applyBoolArray(urlFilters.campaigns);
 			$attributionScoreFilter = urlFilters.attributionScores;
 			$textSearchFilter = urlFilters.textSearch;
 		}
@@ -235,23 +239,22 @@
 	<div class="container">
 		{#each copy.intro as block}
 			{#if block.type == 'concealed-text'}
-                <Collapsible title={block.title} text={block.text} id={block.id}/>
+				<Collapsible title={block.title} text={block.text} id={block.id} />
 			{/if}
 		{/each}
 	</div>
 </section>
 
 {#if !modalOpen}
-<section
-	class={isMobile && sidebarOpen
-		? 'section sidebar open controls'
-		: isMobile && !sidebarOpen
-			? 'section sidebar closed controls'
-			: 'section sticky controls'}
->
-    
-	<Controls {cases}></Controls>
-</section>
+	<section
+		class={isMobile && sidebarOpen
+			? 'section sidebar open controls'
+			: isMobile && !sidebarOpen
+				? 'section sidebar closed controls'
+				: 'section sticky controls'}
+	>
+		<Controls {cases}></Controls>
+	</section>
 {/if}
 
 <section class="section">
@@ -264,55 +267,16 @@
 	</div>
 </section>
 
-<section class="section">
-	<div class="container cases-controls">
-		<div class="field has-addons cases-control">
-			<div class="buttons has-addons">
-				<button
-					class={displayDataAs == 'Table'
-						? 'button is-dark is-selected is-small'
-						: 'button is-small'}
-					on:click={() => {
-						displayDataAs = 'Table';
-					}}>Table</button
-				>
-				<button
-					class={displayDataAs == 'Cards'
-						? 'button is-dark is-selected is-small'
-						: 'button is-small'}
-					on:click={() => {
-						displayDataAs = 'Cards';
-					}}>Cards</button
-				>
-			</div>
-		</div>
-		<div class="cases-control">
-			<label for="sort-select">Sort cases by </label>
-			<div class="select is-small">
-				<select bind:value={selectedSorting} id="sort-select">
-					{#each sortOptions as sortOpt}
-						<option value={sortOpt}>
-							{sortOpt.label}
-						</option>
-					{/each}
-				</select>
-			</div>
-		</div>
-	</div>
-</section>
-
 {#if displayDataAs == 'Cards'}
 	<section class="section">
 		<div class="container">
-			<a
-				href="https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_2024_attribution_data.csv"
-				>Download the data</a
-			>
+			<CasesControls bind:displayDataAs bind:selectedSorting></CasesControls>
 			<div class="grid is-col-min-16">
 				{#each sortedCases as attrCase}
 					{#if attrCase.show}
 						<div class="cell">
-							<CaseCard cardData={attrCase} expanded={false} bind:modalOpen bind:activeCaseData></CaseCard>
+							<CaseCard cardData={attrCase} expanded={false} bind:modalOpen bind:activeCaseData
+							></CaseCard>
 						</div>
 					{/if}
 				{/each}
@@ -324,10 +288,7 @@
 {#if displayDataAs == 'Table' && sortedCases.length > 0}
 	<section class="section">
 		<div class="container">
-			<a
-				href="https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat_2024_attribution_data.csv"
-				>Download the data</a
-			>
+			<CasesControls bind:displayDataAs bind:selectedSorting></CasesControls>
 			<CaseTable cases={sortedCases}></CaseTable>
 		</div>
 	</section>
@@ -340,7 +301,7 @@
 				<p>{block.text}</p>
 			{/if}
 			{#if block.type == 'concealed-text'}
-                <Collapsible title={block.title} text={block.text} id={block.id}/>
+				<Collapsible title={block.title} text={block.text} id={block.id} />
 			{/if}
 		{/each}
 	</div>
@@ -384,11 +345,11 @@
 		padding: 1rem;
 		z-index: 750;
 	}
-	.cases-controls {
-		text-align: center;
-	}
 	.cases-control {
 		display: inline-block;
-		margin-left: 3rem;
+		margin-right: 3rem;
+	}
+	.sort-label {
+		font-size: 0.9rem;
 	}
 </style>
