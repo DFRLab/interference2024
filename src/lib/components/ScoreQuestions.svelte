@@ -2,29 +2,24 @@
     import { questions } from '$lib/inputs/scores';
   
     export let cardData;
+    console.log(cardData)
 
   </script>
 
   <div class="score-questions">
     {#each questions as quest}
     <h4>{quest.label}: {cardData[quest.category]}/{quest.questions.length}</h4>
-    {/each}
-  </div>
-  
-  <!--div class="score-questions">
-    {#each scores as s}
-      <h4>{s.scoreName}: {timePoint[s.score]}/{maxScores[s.score]}</h4>
-      <ul>
-        {#each questions.filter((d) => d.score === s.score) as q (q.id)}
+    <ul>
+        {#each quest.questions as q}
           <li>
-            <input type="checkbox" checked={ans(timePoint[q.column])} />
+            <input type="checkbox" checked={cardData[q.column] == '1'} />
             <span class="checkmark"></span>
-            <p>{q.text}</p>
+            <p>{q.label}</p>
           </li>
         {/each}
       </ul>
     {/each}
-  </div-->
+  </div>
   
   <style>
     ul {
