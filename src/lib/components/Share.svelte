@@ -7,6 +7,7 @@
 		sourceFilter,
 		sourceCategoryFilter,
 		methodFilter,
+		campaignFilter,
 		timeRangeFilter
 	} from '../../stores/filters';
 	import { searchParamsFromFilters } from '../utils/share';
@@ -35,7 +36,7 @@
         $sourceFilter,
         $sourceCategoryFilter,
         $methodFilter
-    )*/
+    )
 	$: params = searchParamsFromFilters(
 		$textSearchFilter,
 		$attributionScoreFilter,
@@ -44,7 +45,7 @@
 		$sourceFilter,
 		$sourceCategoryFilter,
 		$methodFilter
-	);
+	);*/
 
 	function handleClick() {
 		let params = searchParamsFromFilters(
@@ -54,10 +55,11 @@
 			$platformFilter,
 			$sourceFilter,
 			$sourceCategoryFilter,
-			$methodFilter
+			$methodFilter,
+			$campaignFilter
 		);
 		$page.url.searchParams.set('filters', params);
-		goto(`?${$page.url.searchParams.toString()}`);
+		//goto(`?${$page.url.searchParams.toString()}`);
         copyToClipBoard()
 
 	};

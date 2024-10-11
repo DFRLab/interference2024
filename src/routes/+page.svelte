@@ -117,6 +117,7 @@
 			methodFilter.applyBoolArray(urlFilters.methods);
 			sourceFilter.applyBoolArray(urlFilters.sources);
 			sourceCategoryFilter.applyBoolArray(urlFilters.sourceCategories);
+            campaignFilter.applyBoolArray(urlFilters.campaigns);
 			$attributionScoreFilter = urlFilters.attributionScores;
 			$textSearchFilter = urlFilters.textSearch;
 		}
