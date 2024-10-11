@@ -11,6 +11,7 @@
 	import Controls from '$lib/components/Controls.svelte';
     import CardModal from '$lib/components/CardModal.svelte';
 	import AnimatedFilterIcon from '$lib/components/AnimatedFilterIcon.svelte';
+    import Collapsible from '$lib/components/Collapsible.svelte';
 	import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc';
 	//import { setScales } from '$lib/utils/scales';
 	import { page } from '$app/stores';
@@ -231,7 +232,7 @@
 	<div class="container">
 		{#each copy.intro as block}
 			{#if block.type == 'concealed-text'}
-				<p>{block.title}</p>
+                <Collapsible title={block.title} text={block.text} id={block.id}/>
 			{/if}
 		{/each}
 	</div>
@@ -336,7 +337,7 @@
 				<p>{block.text}</p>
 			{/if}
 			{#if block.type == 'concealed-text'}
-				<p>{block.title}</p>
+                <Collapsible title={block.title} text={block.text} id={block.id}/>
 			{/if}
 		{/each}
 	</div>
