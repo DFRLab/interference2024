@@ -21,7 +21,7 @@
     hoveredCaseData = caseData;
   }
   function handleMouseOut() {
-    showTooltip = false;
+    //showTooltip = false;
   }
 </script>
 
