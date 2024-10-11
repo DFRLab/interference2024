@@ -4,6 +4,7 @@
 	import DateRangeSlider from '$lib/components/DateRangeSlider.svelte';
 	import SearchText from '$lib/components/SearchText.svelte';
 	import Share from '$lib/components/Share.svelte';
+	import { utcFormat } from 'd3-time-format';
 	//import { attributionScoreScale } from '../../stores/scales';
 	import {
 		platformFilter,
@@ -21,7 +22,7 @@
 		defaultTimeRange
 	} from '../../stores/filters';
 
-	//$: console.log($timeRangeFilter)
+	const timeFormat = utcFormat('%m/%d/%y')
 
 	export let cases;
 
@@ -71,7 +72,7 @@
 			/>
 			<Slider
 				value={$attributionScoreFilter}
-				label="Attribution Score"
+				label={`Attribution Score: ${$attributionScoreFilter[0]} - ${$attributionScoreFilter[1]}`}
 				min={attributionScoreDef[0]}
 				max={attributionScoreDef[1]}
 				showHandleLabels={false}
@@ -117,7 +118,7 @@
 			></Dropdown>
 			<DateRangeSlider
 				value={timeDummyRange}
-				label="Date Range"
+				label={`Date Range: ${timeFormat($timeRangeFilter[0])} - ${timeFormat($timeRangeFilter[1])}`}
 				min={0}
 				max={10}
 				showHandleLabels={false}
