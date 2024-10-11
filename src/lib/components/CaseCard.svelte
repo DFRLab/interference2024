@@ -3,6 +3,7 @@
 	import { utcFormat } from 'd3-time-format';
 	import { platformFilter, actorNationFilter, sourceFilter } from '../../stores/filters';
 	import ScoreBar from '$lib/components/ScoreBar.svelte';
+	import ScoreQuestions from '$lib/components/ScoreQuestions.svelte';
 
 	export let cardData;
 	export let expanded;
@@ -42,6 +43,7 @@
 			<!--span class="score-info-icon disable-select" on:click|self={() => scoreQuestionsExpanded = !scoreQuestionsExpanded}>
 		  {scoreQuestionsExpanded ? 'X' : '?'}
 		</span-->
+		<ScoreQuestions {cardData}></ScoreQuestions>
 		</div>
 	{/if}
 	<div class="card-image">
