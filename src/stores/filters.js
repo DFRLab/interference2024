@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store';
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
-//import { uniq } from 'lodash';
 
 function createRangeFilter() {
   const { subscribe, set, update } = writable([0, 0]);
@@ -84,6 +83,7 @@ export const attributionScoreDef = [0, 18];
 
 export const timeRangeFilter = createTimeRangeFilter();
 export const fullTimeRange = writable([])
+export const defaultTimeRange = writable([])
 
 export const polarizationFilter = createRangeFilter();
 export const polarizationDef = [-2, 2];

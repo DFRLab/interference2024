@@ -28,7 +28,8 @@
 		attributionScoreDef,
 		textSearchFilter,
 		timeRangeFilter,
-		fullTimeRange
+		fullTimeRange,
+        defaultTimeRange
 	} from '../stores/filters';
 
 	//$: console.log($timeRangeFilter)
@@ -83,8 +84,9 @@
 		methodFilter.init(cases, 'methods');
 		campaignFilter.init(cases, 'campaign');
 		$attributionScoreFilter = attributionScoreDef;
-		$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
-		//$timeRangeFilter = [new Date('2024-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
+		//$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
+        $defaultTimeRange = [new Date('2024-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
+		$timeRangeFilter = $defaultTimeRange;
 		$fullTimeRange = extent(cases.map((d) => new Date(d.attribution_date)));
 		//$fullTimeRange = [new Date('2022-01-01'), max(cases.map((d) => new Date(d.attribution_date)))];
 

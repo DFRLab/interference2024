@@ -28,25 +28,6 @@
 		setTimeout(() => (text = previousText), 3000);
 	}
 
-	/*$: url = urlFromFilters(
-        $textSearchFilter,
-        $attributionScoreFilter,
-        $actorNationFilter,
-        $platformFilter,
-        $sourceFilter,
-        $sourceCategoryFilter,
-        $methodFilter
-    )
-	$: params = searchParamsFromFilters(
-		$textSearchFilter,
-		$attributionScoreFilter,
-		$actorNationFilter,
-		$platformFilter,
-		$sourceFilter,
-		$sourceCategoryFilter,
-		$methodFilter
-	);*/
-
 	function handleClick() {
 		let params = searchParamsFromFilters(
 			$textSearchFilter,

@@ -3,14 +3,14 @@
   import { createEventDispatcher } from 'svelte';
   import { scaleLinear, scaleTime } from 'd3-scale';
   import { slidable } from '../../actions/slidable';
-  import { timeRangeFilter, fullTimeRange } from '../../stores/filters';
+  import { timeRangeFilter, fullTimeRange, defaultTimeRange } from '../../stores/filters';
 
   export let lockInMode = false;
   export let label = '';
   export let showLabel = true;
   export let min = 0;
   export let max = 10;
-  export let value = [0, 10];
+  export let value;
   export let showHandleLabels = true;
   export let startColor = 'white';
   export let middleColor = null;
@@ -18,7 +18,8 @@
   export let barOpacity = 1;
   export let showBorder = true;
 
-  $: convertScale = scaleTime().domain($fullTimeRange).range(value)
+  // Convert the numeric value numbers to dates
+  $: convertScale = scaleTime().domain($defaultTimeRange).range(value)
 
   const dispatch = createEventDispatcher();
   const handleWidth = 17;
@@ -48,6 +49,7 @@
                          Math.round(scale.invert(pos.right), 0)]);
     } else {
       dispatch('changed', [scale.invert(pos.left), scale.invert(pos.right)]);
+      console.log(convertScale.invert(scale.invert(pos.left)))
       $timeRangeFilter = [convertScale.invert(scale.invert(pos.left)), convertScale.invert(scale.invert(pos.right))]
     }
   }

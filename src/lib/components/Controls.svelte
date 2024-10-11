@@ -17,15 +17,23 @@
 		attributionScoreDef,
 		textSearchFilter,
 		timeRangeFilter,
-		fullTimeRange
+		fullTimeRange,
+		defaultTimeRange
 	} from '../../stores/filters';
+
+	//$: console.log($timeRangeFilter)
 
 	export let cases;
 
+	$: timeDummyRange = ($defaultTimeRange[0] - $fullTimeRange[0])/($fullTimeRange[1] - $fullTimeRange[0])
+		? [($defaultTimeRange[0] - $fullTimeRange[0])/($fullTimeRange[1] - $fullTimeRange[0])*10, 10]
+		: [0, 10]
+
 	function handleButtonClick() {
 		selectAllFilters();
-		timeRangeFilter.set($fullTimeRange);
-		timeDummyRange = [0, 10]
+		timeRangeFilter.set($defaultTimeRange);
+		//timeDummyRange = [0, 10]
+		timeDummyRange = [($defaultTimeRange[0] - $fullTimeRange[0])/($fullTimeRange[1] - $fullTimeRange[0])*10, 10]
 		/*contextData.unselectAll();
     $highlightPolarization = false;
     $highlightCib = false;
@@ -50,8 +58,6 @@
 				.filter((a) => a === d.id).length
 		}));
 	}
-
-	let timeDummyRange = [0, 10]
 </script>
 
 {#if cases}
