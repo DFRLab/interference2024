@@ -11,16 +11,17 @@
   export let tooltipX;
   export let tooltipY;
   export let showTooltip;
+  export let tooltipType;
 
   function handleMouseOver(event) {
+    tooltipType = 'case'
     showTooltip = true;
     tooltipX = event.clientX;
     tooltipY = event.clientY;
-    //tooltipContent = ttContent;
     hoveredCaseData = caseData;
   }
   function handleMouseOut() {
-    showTooltip = false;
+    //showTooltip = false;
   }
 </script>
 

@@ -7,6 +7,7 @@
 	import Bubble from '$lib/components/Bubble.svelte';
 	import Square from '$lib/components/Square.svelte';
 	import Tooltip from '$lib/components/Tooltip.svelte';
+	import EventTooltip from '$lib/components/EventTooltip.svelte';
 	import { actorNationFilter, timeRangeFilter } from '../../stores/filters';
 	import Legend from './Legend.svelte';
 
@@ -83,7 +84,9 @@
 
 	// Tooltip
 	let showTooltip = false;
+	let showEventTooltip = false;
 	let hoveredCaseData;
+	let hoveredEventData;
 	let tooltipX;
 	let tooltipY;
 </script>
@@ -114,7 +117,7 @@
 				{#each cases as attrCase}
 					{#if attrCase.show}
 						<a href={'#case-' + attrCase.attribution_id} transition:fade>
-							{#if attrCase.offline_mobilization == 'Offline Mobilization'}
+							{#if attrCase.offline_mobilization == '1'}
 								<circle
 									cx={xScale(new Date(attrCase.attribution_date))}
 									cy={actorNations.includes(attrCase.actor_nation[0]) ? yScale(attrCase.actor_nation[0]) : yScale('Other')}
@@ -212,27 +215,29 @@
 				{/each}
 				{#if xScale}
 					{#each events as event}
-						<!--Square
+						<Square
 							x={xScale(event.date)}
 							y={32}
 							width={12}
 							fill={keyEventColor}
 							stroke={'#ffffff'}
 							strokeWidth={2}
-							ttContent={`<p style='font-weight; bold;'>${event.Title}</p>
-										<p>${event.Description}</p>`}
-							bind:tooltipContent
+							eventData={event}
+							bind:hoveredEventData
 							bind:tooltipX
 							bind:tooltipY
-							bind:showTooltip
-						></Square-->
+							bind:showEventTooltip
+						></Square>
 					{/each}
 				{/if}
 			</g>
 		{/if}
 	</svg>
 	{#if showTooltip}
-		<Tooltip {tooltipX} {tooltipY} {hoveredCaseData} {width}/>
+		<Tooltip {tooltipX} {tooltipY} {hoveredCaseData} {width} bind:showTooltip/>
+	{/if}
+	{#if showEventTooltip}
+		<EventTooltip {tooltipX} {tooltipY} {hoveredEventData} {width}/>
 	{/if}
 </div>
 
