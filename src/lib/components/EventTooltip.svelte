@@ -11,7 +11,7 @@
   
   <div
     transition:fade="{{ duration: 250 }}"
-    class="tooltip"
+    class="event-tooltip"
     style="
         top:{tooltipY}px;
         left:{tooltipX < width - 300 ? tooltipX + 10 : tooltipX - 300 - 10}px;
@@ -23,7 +23,7 @@
   </div>
   
   <style>
-    .tooltip {
+    .event-tooltip {
       position: fixed;
       /*border: 1px solid #ccc;*/
       background: rgba(255, 255, 255, 0.95);

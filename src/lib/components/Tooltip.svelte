@@ -8,7 +8,7 @@
     export let width;
     export let showTooltip;
 
-    function handleMouseOut() {
+    function handleMouseLeave() {
       showTooltip = false;
     }
 
@@ -21,7 +21,7 @@
         top:{tooltipY}px;
         left:{tooltipX < width - 500 ? tooltipX + 10 : tooltipX - 500 - 10}px;
       "
-      on:mouseout={handleMouseOut}
+      on:mouseleave={handleMouseLeave}
   >
       <CaseCard cardData={hoveredCaseData} expanded={true}></CaseCard>
   </div>

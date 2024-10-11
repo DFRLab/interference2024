@@ -49,7 +49,6 @@
                          Math.round(scale.invert(pos.right), 0)]);
     } else {
       dispatch('changed', [scale.invert(pos.left), scale.invert(pos.right)]);
-      console.log(convertScale.invert(scale.invert(pos.left)))
       $timeRangeFilter = [convertScale.invert(scale.invert(pos.left)), convertScale.invert(scale.invert(pos.right))]
     }
   }

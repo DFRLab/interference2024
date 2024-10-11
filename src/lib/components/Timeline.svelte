@@ -1,6 +1,7 @@
 <script>
 	import { scaleUtc, scalePoint, scaleOrdinal, scaleLinear, scaleTime } from 'd3-scale';
 	import { utcFormat } from 'd3-time-format';
+	import { format } from 'd3-format';
 	import { area, stack, curveNatural } from 'd3-shape';
 	import { max, union, index } from 'd3-array';
 	import { fade } from 'svelte/transition';
@@ -116,7 +117,8 @@
 				{/each}
 				{#each cases as attrCase}
 					{#if attrCase.show}
-						<a href={'#case-' + attrCase.attribution_id} transition:fade>
+						<!--a href={'#case-' + attrCase.attribution_id} transition:fade-->
+						<g transition:fade>
 							{#if attrCase.offline_mobilization == '1'}
 								<circle
 									cx={xScale(new Date(attrCase.attribution_date))}
@@ -142,7 +144,8 @@
 								bind:tooltipY
 								bind:showTooltip
 							></Bubble>
-						</a>
+						</g>
+						<!-- /a-->
 					{/if}
 				{/each}
 			</g>
@@ -162,11 +165,12 @@
 						stroke-width={1}
 					></line>
 					<text
+						class={'y-tick'}
 						x={-18}
 						y={yScaleStack(tick) + 4}
 						text-anchor={'end'}
 						fill={'#777777'}
-					>{tick}</text>
+					>{format("~s")(tick)}</text>
 				{/each}
 				{#if stackedMetrics.length > 0 && areaGenerator}
 					{#each stackedMetrics as serie}
@@ -174,6 +178,12 @@
 						</path>
 					{/each}
 				{/if}
+				<text
+						class={'metrics-label'}
+						x={12}
+						y={20}
+						color={'#000000'}
+				>Social media posts</text>
 			</g>
 		{/if}
 	</svg>
@@ -253,7 +263,7 @@
 		font-size: 0.9rem;
 		fill: #777777;
 	}
-	.event-title {
-		font-weight: bold;
+	.y-tick, .metrics-label {
+		font-size: 0.9rem;
 	}
 </style>

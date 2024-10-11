@@ -19,7 +19,7 @@
 	let scoreQuestionsExpanded = false;
 </script>
 
-<div class="card" transition:fade id={'case-' + cardData.attribution_id}>
+<div class="card" transition:fade>
 	<div class="header">
 		<div class="card-header-title">
 			<h2 class="is-size-5">{cardData.short_title}</h2>

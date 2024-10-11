@@ -19,7 +19,7 @@
 		hoveredEventData = eventData;
 	}
 	function handleMouseOut() {
-		showEventTooltip = false;
+		//showEventTooltip = false;
 	}
 </script>
 

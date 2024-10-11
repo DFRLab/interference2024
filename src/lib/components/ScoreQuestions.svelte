@@ -1,9 +1,6 @@
 <script>
     import { questions } from '$lib/inputs/scores';
-  
     export let cardData;
-    console.log(cardData)
-
   </script>
 
   <div class="score-questions">
