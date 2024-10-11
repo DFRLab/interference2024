@@ -2,7 +2,7 @@
 	import copy from '../../data/copy.json';
 </script>
 
-<section class="content title section">
+<section class="content title section" style:background-image={"url('images/fiat_2024_banner_background.jpg')"}>
 	<div class="container has-text-centered">
 		<div class="logos">
 			<a href="https://www.atlanticcouncil.org"
@@ -23,7 +23,6 @@
 	section.content.title {
 		padding-top: 1rem;
 		position: relative;
-		background-image: url('images/fiat_2024_banner_background.jpg');
 		background-size: contain;
         background-repeat: no-repeat;
 		background-position: center;
