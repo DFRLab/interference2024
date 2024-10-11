@@ -72,6 +72,7 @@
 
 			d.show = false;
 		});
+        console.log(cases.map(d => d.image_credit_url))
 
 		maxAttribution = max(cases.map((d) => d.attribution_score));
 

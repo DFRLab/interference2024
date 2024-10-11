@@ -48,12 +48,15 @@
 		<figure class="image">
 			<img src={`/images/${cardData.attribution_id}.jpg`} />
 		</figure>
+		{#if expanded}
+		<div class="image-credit">Image: <a href={cardData.image_credit_url == "attribution_url" ? cardData.attribution_url_x : cardData.image_credit_url} target="_blank">{cardData.image_credit}</a></div>
+		{/if}
 	</div>
 	<div class="card-content">
 		<div class="content">
 			{#if expanded}
 				<p>{utcFormat('%B %d, %Y')(new Date(cardData.attribution_date))}</p>
-				<p><a href={cardData.attribution_url} target="_blank">{cardData.source}</a></p>
+				<p><a href={cardData.attribution_url_x} target="_blank">{cardData.source}</a></p>
 			{/if}
 			<p>{cardData.short_description}</p>
 			{#if expanded}
@@ -85,6 +88,21 @@
 <style>
 	div.card {
 		max-width: 780px;
+	}
+	.image-credit {
+		padding: 0px 24px;
+		font-size: 0.8rem;
+		position: relative;
+		height: 24px;
+		top: -24px;
+		color: white;
+		background-color: black;
+		opacity: 0.5;
+		line-height: 1.7;
+	}
+	.image-credit a {
+		color: white;
+		text-decoration: underline;
 	}
 	.score-bars {
 		display: flex;
