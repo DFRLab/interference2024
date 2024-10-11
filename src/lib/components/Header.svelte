@@ -26,6 +26,7 @@
 		background-image: url('images/fiat_2024_banner_background.jpg');
 		background-size: contain;
         background-repeat: no-repeat;
+		background-position: center;
         max-width: 800px;
         margin: auto;
 	}

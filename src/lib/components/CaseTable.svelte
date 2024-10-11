@@ -38,5 +38,9 @@
     thead {
         font-weight: bold;
     }
+    .table-container {
+        max-height: 800px;
+        overflow-y: scroll;
+    }
 </style>
 
