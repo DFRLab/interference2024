@@ -13,7 +13,7 @@
 	<div class="modal-background" on:click={closeModal}></div>
 	<div class="modal-content">
         {#if activeCaseData}
-		 <CaseCard cardData={activeCaseData} expanded={true} ></CaseCard>
+		<CaseCard cardData={activeCaseData} expanded={true} ></CaseCard>
         {/if}
 	</div>
     <div class="modal-close" on:click={closeModal}></div>

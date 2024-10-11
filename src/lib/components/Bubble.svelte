@@ -6,8 +6,8 @@
   export let opacity;
   export let stroke;
   export let strokeWidth;
-  export let ttContent;
-  export let tooltipContent;
+  export let caseData;
+  export let hoveredCaseData;
   export let tooltipX;
   export let tooltipY;
   export let showTooltip;
@@ -16,7 +16,8 @@
     showTooltip = true;
     tooltipX = event.clientX;
     tooltipY = event.clientY;
-    tooltipContent = ttContent;
+    //tooltipContent = ttContent;
+    hoveredCaseData = caseData;
   }
   function handleMouseOut() {
     showTooltip = false;

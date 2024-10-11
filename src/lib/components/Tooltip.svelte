@@ -1,8 +1,10 @@
 <script>
     import { fade } from 'svelte/transition';
+    import CaseCard from '$lib/components/CaseCard.svelte';
+
     export let tooltipX;
     export let tooltipY;
-    export let tooltipContent;
+    export let hoveredCaseData;
     export let width;
 
   </script>
@@ -15,7 +17,7 @@
         left:{tooltipX < width - 300 ? tooltipX + 10 : tooltipX - 300 - 10}px;
       "
   >
-    {@html tooltipContent}
+    <CaseCard cardData={hoveredCaseData} expanded={true}></CaseCard>
   </div>
   
   <style>
@@ -28,7 +30,7 @@
       padding: 5px;
       z-index: 1000;
       box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-      width: 300px;
+      max-width: 500px;
     }
   </style>
   

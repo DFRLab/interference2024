@@ -83,7 +83,7 @@
 
 	// Tooltip
 	let showTooltip = false;
-	let tooltipContent;
+	let hoveredCaseData;
 	let tooltipX;
 	let tooltipY;
 </script>
@@ -132,9 +132,9 @@
 								fill={actorNations.includes(attrCase.actor_nation[0]) ? colorScale(attrCase.actor_nation[0]) : colorScale('Other')}
 								stroke={'#ffffff'}
 								strokeWidth={1.5}
-								ttContent={`<p class="countryname">${attrCase.short_title}</p>`}
 								opacity={opacityScale(attrCase.attribution_score)}
-								bind:tooltipContent
+								caseData={attrCase}
+								bind:hoveredCaseData
 								bind:tooltipX
 								bind:tooltipY
 								bind:showTooltip
@@ -212,7 +212,7 @@
 				{/each}
 				{#if xScale}
 					{#each events as event}
-						<Square
+						<!--Square
 							x={xScale(event.date)}
 							y={32}
 							width={12}
@@ -225,14 +225,14 @@
 							bind:tooltipX
 							bind:tooltipY
 							bind:showTooltip
-						></Square>
+						></Square-->
 					{/each}
 				{/if}
 			</g>
 		{/if}
 	</svg>
 	{#if showTooltip}
-		<Tooltip {tooltipX} {tooltipY} {tooltipContent} {width}/>
+		<Tooltip {tooltipX} {tooltipY} {hoveredCaseData} {width}/>
 	{/if}
 </div>
 
