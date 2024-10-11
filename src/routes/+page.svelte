@@ -29,7 +29,8 @@
 		fullTimeRange
 	} from '../stores/filters';
 
-    //$: console.log($timeRangeFilter)
+    $: console.log($timeRangeFilter)
+    //$: console.log($fullTimeRange)
 
 	$: innerWidth = 0;
 	$: isMobile = innerWidth < 520;
@@ -46,7 +47,6 @@
 		);
 		cases = response;
 		cases = cases.filter((d) => d.attribution_id != '');
-        console.log(cases)
 		cases.forEach((d) => {
 			d.platform = splitString(d.platforms);
             d.medium = splitString(d.medium)

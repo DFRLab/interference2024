@@ -35,6 +35,10 @@
 		.domain([0, max(cases.map(d => d.attribution_total_score))])
 		.range([0.2, 1])
 	$: ticks = xScale.ticks(5);
+	$: timeRangeDays = (xScale.domain()[1] - xScale.domain()[0])/86400000
+	$: dateFormat = timeRangeDays > 100
+		? utcFormat('%b')
+		: utcFormat('%b %-d')
 
 	const actorNations = ['Other', 'China', 'Iran', 'North Korea', 'Russia'];
 	const colors = ['#555555', '#bf0a0a', '#0f8a0f', '#8a4d0f', '#0f4c8a'];
@@ -203,7 +207,7 @@
 						class="time-axis-tick-label"
 						x={xScale(tick)}
 						y={height/2 - marginsKeyEvents.bottom + 24}
-						text-anchor={'middle'}>{utcFormat('%b')(tick)}</text
+						text-anchor={'middle'}>{dateFormat(tick)}</text
 					>
 				{/each}
 				{#if xScale}
