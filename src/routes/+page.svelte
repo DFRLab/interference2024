@@ -260,7 +260,7 @@
 <section class="section">
 	<div>
 		{#if isMobile}
-			<TimelineMobile {cases}></TimelineMobile>
+			<TimelineMobile {cases} bind:modalOpen bind:activeCaseData></TimelineMobile>
 		{:else}
 			<Timeline {cases} {events} {metrics}></Timeline>
 		{/if}

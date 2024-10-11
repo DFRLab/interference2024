@@ -110,9 +110,9 @@
 </div>
 
 <style>
-	div.card {
+	/*div.card {
 		max-width: 780px;
-	}
+	}*/
 	.image-credit {
 		padding: 0px 24px;
 		font-size: 0.8rem;
