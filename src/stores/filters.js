@@ -36,7 +36,6 @@ function createInclusiveFilter() {
 
   const applyBoolArray = (arr) => {
     const tmpArr = [...arr].reverse();
-    console.log(tmpArr)
     update((f) => f.reverse().map((d, i) => ({...d, selected: tmpArr[i] !== undefined ? tmpArr[i] : false})).reverse());
   };
 

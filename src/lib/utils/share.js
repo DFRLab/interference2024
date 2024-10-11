@@ -18,8 +18,6 @@ export const searchParamsFromFilters = (textSearch,
 };
 
 export const filtersToHex = (arr) => {
-  console.log(arr.map((d) => d.map((d) => +d.selected).join('')))
-  console.log(arr.map((d) => binaryToHex(d.map((d) => +d.selected).join(''))).join('&'))
   const hex = arr.map((d) => binaryToHex(d.map((d) => +d.selected).join(''))).join('&');
   return hex;
 };
@@ -35,9 +33,11 @@ export const hexToBinary = (hex) => parseInt(hex, 16).toString(2);
 
 export const binaryToBool = (binary) => binary.split('').map((d) => d === '0' ? false : true);
 
-export const parseUrl = (hash) => {
-  const s = hash.substring(1);
-  const [ actorNations, platforms, methods, sources, sourceCategories, campaigns, textSearch, attributionScores] = s.split('&');
+// Convert the binary numbers from the url to arrays of booleans
+// These arrays are used on the filters with their applyBoolArray method
+export const parseUrl = (params) => {
+  //const s = hash.substring(1);
+  const [ actorNations, platforms, methods, sources, sourceCategories, campaigns, textSearch, attributionScores] = params.split('&');
 
   return {
     actorNations: binaryToBool(hexToBinary(actorNations)),

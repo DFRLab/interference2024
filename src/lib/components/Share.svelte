@@ -76,28 +76,26 @@
 	<!--span class="pseudolink" class:gray={mode === 'tooltip'} on:click={copyToClipBoard}>
 		<Icon data={clipboard}/>
 	</span-->
-	<button on:click={handleClick}>Share this view</button>
+	<p><button on:click={handleClick}>Share this view</button></p>
     <p class:gray={mode === 'tooltip'}>{text}</p>
 </div>
 
 <style>
 	.share {
-		display: flex;
+		/*display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: center;*/
 		margin: 0 0.5rem 0 0;
 		font-family: var(--font-02);
-		font-size: 0.7rem;
+		font-size: 0.8rem;
 		pointer-events: all;
+		text-align: center;
+		padding-top: 0.7rem;
 	}
 
 	p {
 		color: var(--usa-blue);
 		white-space: nowrap;
-	}
-
-	a {
-		margin: 0 0.4rem;
 	}
 
 	.gray {
