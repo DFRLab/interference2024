@@ -1,13 +1,15 @@
 <script>
 	export let title
-	export let text
+	export let paragraphs
 	export let id
 </script>
 
 <input id={id} class="toggle" type="checkbox" />
 <label for={id} class="lbl-toggle top">{title}</label>
 <div class="collapsible-content">
-	<p>{@html text}</p>
+	{#each paragraphs as par}
+		<p class="mb-4">{@html par}</p>
+	{/each}
 </div>
 
 <style>

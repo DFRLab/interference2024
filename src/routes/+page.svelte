@@ -228,18 +228,20 @@
 
 <section class="section">
 	<div class="container has-text-centered">
-		<!--h1 class="title is-size-1">{copy.meta.title}</h1>
-        <h2 class="subtitle is-size-4 has-text-weight-bold">{copy.meta.subtitle}</h2-->
+		<div class="intro">
 		{#each copy.intro as block}
 			{#if block.type == 'text'}
-				<p class="intro">{block.text}</p>
+				{#each block.paragraphs as par}
+					<p class="mb-4">{@html par}</p>
+				{/each}
 			{/if}
 		{/each}
+	</div>
 	</div>
 	<div class="container">
 		{#each copy.intro as block}
 			{#if block.type == 'concealed-text'}
-				<Collapsible title={block.title} text={block.text} id={block.id} />
+				<Collapsible title={block.title} paragraphs={block.paragraphs} id={block.id} />
 			{/if}
 		{/each}
 	</div>
@@ -298,10 +300,12 @@
 	<div class="container">
 		{#each copy.moreInfo as block}
 			{#if block.type == 'text'}
-				<p>{block.text}</p>
+				{#each block.paragraphs as par}
+					<p class="mb-4">{@html par}</p>
+				{/each}
 			{/if}
 			{#if block.type == 'concealed-text'}
-				<Collapsible title={block.title} text={block.text} id={block.id} />
+				<Collapsible title={block.title} paragraphs={block.paragraphs} id={block.id} />
 			{/if}
 		{/each}
 	</div>
@@ -344,12 +348,5 @@
 		right: 0;
 		padding: 1rem;
 		z-index: 750;
-	}
-	.cases-control {
-		display: inline-block;
-		margin-right: 3rem;
-	}
-	.sort-label {
-		font-size: 0.9rem;
 	}
 </style>
