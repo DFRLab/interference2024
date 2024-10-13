@@ -76,4 +76,7 @@
 		border-bottom-right-radius: 0;
 		border-bottom-left-radius: 0;
 	}
+	:global(ul) {
+		list-style: inside;
+	}
 </style>
