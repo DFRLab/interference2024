@@ -42,8 +42,8 @@
 		? utcFormat('%b')
 		: utcFormat('%b %-d')
 
-	const actorNations = ['Other', 'China', 'Iran', 'North Korea', 'Russia'];
-	const colors = ['#555555', '#bf0a0a', '#0f8a0f', '#8a4d0f', '#0f4c8a'];
+	const actorNations = ['Other', 'China', 'Iran', /*'North Korea', */'Russia'];
+	const colors = ['#555555', '#bf0a0a', '#0f8a0f', /*'#8a4d0f', */'#0f4c8a'];
 
 	let yScale = scalePoint(actorNations, [height - margins.bottom - margins.top, 0]).padding(0.5);
 	let colorScale = scaleOrdinal(actorNations, colors);
@@ -104,7 +104,7 @@
 						y1={yScale(nation)}
 						y2={yScale(nation)}
 						style:stroke={colorScale(nation)}
-						stroke-width={32}
+						stroke-width={yScale.step()*0.9}
 						opacity={0.1}
 					></line>
 					<text

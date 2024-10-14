@@ -25,8 +25,8 @@
 		.range([0.2, 1])
 	$: ticks = yScale.ticks(5);
 
-	const actorNations = ['Other', 'China', 'Iran', 'North Korea', 'Russia'];
-	const colors = ['#555555', '#bf0a0a', '#0f8a0f', '#8a4d0f', '#0f4c8a'];
+	const actorNations = ['Other', 'China', 'Iran', /*'North Korea', */'Russia'];
+	const colors = ['#555555', '#bf0a0a', '#0f8a0f', /*'#8a4d0f', */'#0f4c8a'];
 
 	$: xScale = scalePoint(actorNations, [0, width - margins.left - margins.right]).padding(0.5);
 	let colorScale = scaleOrdinal(actorNations, colors);
