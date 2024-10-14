@@ -21,7 +21,6 @@
 		display: block;
 		margin-left: -0.3rem;
 		padding: 0.2rem 0;
-		font-size: 0.9rem;
 		font-weight: normal;
 		font-style: italic;
 		color: var(--text-black);
@@ -30,7 +29,6 @@
 	}
 
 	.lbl-toggle.top {
-		font-size: 0.85rem;
 		font-weight: normal;
 		font-style: normal;
 	}
