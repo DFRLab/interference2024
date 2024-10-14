@@ -3,7 +3,7 @@
 </script>
 
 <section class="content title section" style:background-image={"url('images/fiat_2024_banner_background_new.jpg')"}>
-	<div class="container title has-text-centered">
+	<div class="container has-text-centered">
 		<div class="logos">
 			<a href="https://www.atlanticcouncil.org"
 				><img src="logos/ac.svg" alt="Atlantic Council Logo" /></a
@@ -14,8 +14,8 @@
 				><img src="logos/dfrlab.svg" alt="Digital Forensic Research Lab Logo" /></a
 			>
 		</div>
-		<h1 class="title is-size-1">{copy.meta.title}</h1>
-		<h2 class="subtitle is-size-4 has-text-weight-bold">{copy.meta.subtitle}</h2>
+		<h1 class="title is-size-1 is-size-2-mobile">{copy.meta.title}</h1>
+		<h2 class="subtitle is-size-4 is-size-5-mobile has-text-weight-bold">{copy.meta.subtitle}</h2>
 		<p class="subsubtitle is-italic is-size-6">{copy.meta.subsubtitle}</p>
 	</div>
 </section>
