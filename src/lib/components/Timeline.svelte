@@ -33,7 +33,7 @@
 	let width;
 	let height = 200;
 
-	let dataToDisplay = 'gdelt';
+	let dataToDisplay = 'meltwater';
 
 	$: xScale = scaleTime($timeRangeFilter, [0, width - margins.right - margins.left]);
 	$: opacityScale = scaleLinear()
