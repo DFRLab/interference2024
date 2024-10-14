@@ -1,4 +1,5 @@
 <script>
+	import AttributionInformation from '$lib/components/AttributionInformation.svelte';
 	export let title
 	export let paragraphs
 	export let id
@@ -10,6 +11,9 @@
 	{#each paragraphs as par}
 		<p class="mb-4">{@html par}</p>
 	{/each}
+	{#if id == "taxonomy"}
+		<AttributionInformation />
+	{/if}
 </div>
 
 <style>

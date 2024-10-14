@@ -148,3 +148,25 @@
         <li><strong>Campaign Tag</strong> (free text). Does this sub-attribution connect to any larger pattern of behavior? See the existing list of "Campaign" Tags before making a new tag.</li>
         <li><strong>Date of Activity</strong> (free text). Date or range of purported activity.</li>
     </ul>
+
+    <style>
+        h5 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        ul.inner {
+            list-style-type: circle;
+            padding-left: 40px;
+        }
+        ul.inner-square {
+            list-style-type: square;
+            padding-left: 60px;
+        }
+        strong {
+            color: #444;
+        }
+    </style>

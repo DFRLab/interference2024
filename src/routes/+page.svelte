@@ -33,9 +33,6 @@
 		defaultTimeRange
 	} from '../stores/filters';
 
-	//$: console.log($timeRangeFilter)
-	//$: console.log($fullTimeRange)
-
 	$: innerWidth = 0;
 	$: isMobile = innerWidth < 520;
 	$: displayDataAs = isMobile ? 'Cards' : 'Table';
