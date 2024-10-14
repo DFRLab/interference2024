@@ -214,7 +214,7 @@
 	<meta property="og:locale" content="en_US" />
 </svelte:head>
 
-{#if isMobile}
+{#if isMobile && !modalOpen}
 	<div class="filter-button">
 		<button on:click={() => toggleSidebar()}
 			><AnimatedFilterIcon {sidebarOpen}></AnimatedFilterIcon></button

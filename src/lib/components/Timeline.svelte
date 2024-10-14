@@ -155,7 +155,21 @@
 	<svg {width} height={height}>
 		{#if xScale}
 			<g transform={`translate(${margins.left},${margins.top})`}>
+				{#if stackedMetrics.length > 0 && areaGenerator}
+					{#each stackedMetrics as serie}
+						<path d={areaGenerator(serie)} stroke={'white'} stroke-width={1} fill={colorScale(serie.key)}>
+						</path>
+					{/each}
+				{/if}
+				<rect
+					x={-margins.left}
+					y={-margins.top}
+					width={margins.left}
+					height={height - margins.top}
+					fill={'#F9F8F8'}
+					></rect>
 				{#each yScaleStackTicks as tick}
+				
 					<line
 						x1={-10}
 						x2={-16}
@@ -172,12 +186,6 @@
 						fill={'#777777'}
 					>{format("~s")(tick)}</text>
 				{/each}
-				{#if stackedMetrics.length > 0 && areaGenerator}
-					{#each stackedMetrics as serie}
-						<path d={areaGenerator(serie)} stroke={'white'} stroke-width={1} fill={colorScale(serie.key)}>
-						</path>
-					{/each}
-				{/if}
 				<text
 						class={'metrics-label'}
 						x={12}
