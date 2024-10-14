@@ -61,7 +61,8 @@
 
 	<div class="card-image">
 		<figure class="image">
-			<img src={`/images/${cardData.attribution_id}.jpg`} />
+			<!--img src={`/images/${cardData.attribution_id}.jpg`} /-->
+			<img src={cardData.image_url} />
 		</figure>
 		{#if expanded}
 			<div class="image-credit">
