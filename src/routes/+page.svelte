@@ -40,6 +40,7 @@
 	let cases = [];
 	let events = [];
 	let metrics = [];
+	let gdelt = [];
 	let maxAttribution = 0;
 
 	onMount(async function () {
@@ -110,6 +111,21 @@
 			return obj;
 		});
 		metrics.sort((a, b) => {
+			return a.date - b.date;
+		});
+
+		const gdeltResponse = await csv(
+			'https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/gdelt_volume_timeline.csv'
+		);
+
+		gdelt = gdeltResponse.map(d => {
+			let obj = {};
+			obj.date = new Date(d.Date);
+			obj.value = +d.Value;
+			obj.country = d.Country
+			return obj
+		}).filter(d => !['North Korea', 'Israel'].includes(d.country))
+		gdelt.sort((a, b) => {
 			return a.date - b.date;
 		});
 
@@ -261,7 +277,7 @@
 		{#if isMobile}
 			<TimelineMobile {cases} bind:modalOpen bind:activeCaseData></TimelineMobile>
 		{:else}
-			<Timeline {cases} {events} {metrics}></Timeline>
+			<Timeline {cases} {events} {metrics} {gdelt}></Timeline>
 		{/if}
 	</div>
 </section>
