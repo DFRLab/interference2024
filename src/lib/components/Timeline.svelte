@@ -153,13 +153,13 @@
 				{/each}
 				{#each cases as attrCase}
 					{#if attrCase.show}
-						<!--a href={'#case-' + attrCase.attribution_id} transition:fade-->
+						{#each attrCase.actor_nation as actorNat}
 						<g transition:fade>
 							{#if attrCase.offline_mobilization == '1'}
 								<circle
 									cx={xScale(new Date(attrCase.attribution_date))}
-									cy={actorNations.includes(attrCase.actor_nation[0])
-										? yScale(attrCase.actor_nation[0])
+									cy={actorNations.includes(actorNat)
+										? yScale(actorNat)
 										: yScale('Other')}
 									r={radiusScale(attrCase.breakout_scale) + 2}
 									fill={'none'}
@@ -170,12 +170,12 @@
 							{/if}
 							<Bubble
 								cx={xScale(new Date(attrCase.attribution_date))}
-								cy={actorNations.includes(attrCase.actor_nation[0])
-									? yScale(attrCase.actor_nation[0])
+								cy={actorNations.includes(actorNat)
+									? yScale(actorNat)
 									: yScale('Other')}
 								r={radiusScale(attrCase.breakout_scale)}
-								fill={actorNations.includes(attrCase.actor_nation[0])
-									? colorScale(attrCase.actor_nation[0])
+								fill={actorNations.includes(actorNat)
+									? colorScale(actorNat)
 									: colorScale('Other')}
 								stroke={'#ffffff'}
 								strokeWidth={1.5}
@@ -187,7 +187,7 @@
 								bind:showTooltip
 							></Bubble>
 						</g>
-						<!-- /a-->
+						{/each}
 					{/if}
 				{/each}
 			</g>
