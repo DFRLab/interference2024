@@ -33,16 +33,7 @@
 	function handleButtonClick() {
 		selectAllFilters();
 		timeRangeFilter.set($defaultTimeRange);
-		//timeDummyRange = [0, 10]
 		timeDummyRange = [($defaultTimeRange[0] - $fullTimeRange[0])/($fullTimeRange[1] - $fullTimeRange[0])*10, 10]
-		/*contextData.unselectAll();
-    $highlightPolarization = false;
-    $highlightCib = false;
-    if ($originalTimeDomain) {
-      $timeScale.domain($originalTimeDomain);
-      $timeScale = $timeScale;
-      $originalTimeDomain = null;
-    }*/
 	}
 
 	function addCount(filter, property, cases) {

@@ -207,7 +207,7 @@
 
   ul.choice-list {
     width: 100%;
-    max-height: 600px;
+    max-height: 400px;
     overflow-y: scroll;
     list-style-type: none;
     font-size: 0.8rem;

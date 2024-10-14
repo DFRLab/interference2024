@@ -152,8 +152,7 @@
 	}
 
 	.score-bars span.score-info-icon:hover {
-		color: var(--text-darkgray);
-		background-color: var(--usa-lightred);
+		color: white;
 	}
 
 	.score-bar-wrapper {
