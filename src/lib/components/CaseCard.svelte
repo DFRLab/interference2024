@@ -61,7 +61,6 @@
 
 	<div class="card-image">
 		<figure class="image">
-			<!--img src={`/images/${cardData.attribution_id}.jpg`} /-->
 			<img src={cardData.image_url} />
 		</figure>
 		{#if expanded}
@@ -101,6 +100,7 @@
 			{/if}
 		</div>
 	</div>
+
 	{#if !expanded}
 		<footer class="card-footer">
 			<button on:click={openCase(cardData.attribution_id)} class="card-footer-item"
@@ -111,9 +111,6 @@
 </div>
 
 <style>
-	/*div.card {
-		max-width: 780px;
-	}*/
 	.image-credit {
 		padding: 0px 24px;
 		font-size: 0.8rem;

@@ -286,10 +286,10 @@
 	<section class="section">
 		<div class="container">
 			<CasesControls bind:displayDataAs bind:selectedSorting></CasesControls>
-			<div class="grid is-col-min-16">
+			<div class="grid is-col-min-12">
 				{#each sortedCases as attrCase}
 					{#if attrCase.show}
-						<div class="cell">
+						<div>
 							<CaseCard cardData={attrCase} expanded={false} bind:modalOpen bind:activeCaseData
 							></CaseCard>
 						</div>

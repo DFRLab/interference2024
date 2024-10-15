@@ -145,6 +145,7 @@
 		outline: none;
 		overflow: hidden;
 		transition: all 200ms ease;
+		width: 200px;
 	}
 
 	button.reset-filters:hover {
