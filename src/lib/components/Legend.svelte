@@ -24,7 +24,7 @@
         x={72}
         y={12}
         text-anchor={'middle'}
-    >Breakout scale</text>
+    >Breakout Scale</text>
     {#each radiusScale.domain() as rad,i}
         <circle
             cx={12 - radiusScale(rad) + i*30}
@@ -37,7 +37,7 @@
         x={(width - margins.left - margins.right)/2}
         y={12}
         text-anchor={'middle'}
-    >Offline mobilization</text>
+    >Offline Mobilization</text>
     <circle
         cx={(width - margins.left - margins.right)/2}
         cy={32}
@@ -56,7 +56,7 @@
         x={width - margins.left - margins.right - 72}
         y={12}
         text-anchor={'middle'}
-    >Attribution score</text>
+    >Attribution Score</text>
     {#each opacities as op,i}
         <circle
             cx={width - margins.left - margins.right - 150 + i*30}
