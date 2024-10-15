@@ -312,11 +312,14 @@
 <section class="section">
 	<div class="container">
 		{#each copy.moreInfo as block}
+		<div class={block.type == 'text' ? "about" : ""}>
 			{#if block.type == 'text'}
+			<h3 class="is-size-3">{block.title}</h3>
 				{#each block.paragraphs as par}
 					<p class="mb-4">{@html par}</p>
 				{/each}
 			{/if}
+		</div>
 			{#if block.type == 'concealed-text'}
 				<Collapsible title={block.title} paragraphs={block.paragraphs} id={block.id} />
 			{/if}
@@ -330,9 +333,12 @@
 	section {
 		font-family: var(--font-02);
 	}
-	.intro {
+	.intro, .about {
 		max-width: 800px;
 		margin: auto;
+	}
+	.about {
+		margin-top: 2rem;
 	}
 	.controls {
 		background-color: var(--transparentbg);
