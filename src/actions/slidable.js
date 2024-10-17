@@ -11,8 +11,8 @@ export function slidable(node) {
         })
       );
   
-      window.addEventListener('mousemove', handleMousemove);
-      window.addEventListener('mouseup', handleMouseup);
+      window.addEventListener('pointermove', handleMousemove);
+      window.addEventListener('pointerup', handleMouseup);
     }
   
     function handleMousemove(event) {
@@ -36,15 +36,15 @@ export function slidable(node) {
         })
       );
   
-      window.removeEventListener('mousemove', handleMousemove);
-      window.removeEventListener('mouseup', handleMouseup);
+      window.removeEventListener('pointermove', handleMousemove);
+      window.removeEventListener('pointerup', handleMouseup);
     }
   
-    node.addEventListener('mousedown', handleMousedown);
+    node.addEventListener('pointerdown', handleMousedown);
   
     return {
       destroy() {
-        node.removeEventListener('mousedown', handleMousedown);
+        node.removeEventListener('pointerdown', handleMousedown);
       },
     };
   }
