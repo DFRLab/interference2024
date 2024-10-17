@@ -15,7 +15,7 @@
         minOpacity + opacityRange*4/5,
         maxOpacity]
 
-    let height = 60
+    let height = 70
 </script>
 
 <svg {width} height={height}>
@@ -66,5 +66,13 @@
             opacity={opacityScale(op)}
         ></circle>
     {/each}
+    <line
+        x1={0}
+        x2={width}
+        y1={58}
+        y2={58}
+        stroke={'#bbbbbb'}
+        stroke-width={1}
+    ></line>
 </g>
 </svg>
