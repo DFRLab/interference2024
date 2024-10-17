@@ -55,7 +55,7 @@
 			d.actor_nation = splitString(d.actor_nation);
 			d.source = splitString(d.source);
 			d.methods = splitString(d.methods);
-			d.campaign = splitString(d.campaign);
+			d.campaigns = splitString(d.all_campaigns);
 			d.attribution_total_score = +d.attribution_score;
 			d.attribution_date = new Date(d.attribution_date);
 			d.search = [
@@ -73,8 +73,6 @@
 
 			d.show = false;
 		});
-		console.log(cases.map(d => d.start_date))
-		console.log(cases.map(d => d.end_date))
 
 		maxAttribution = max(cases.map((d) => d.attribution_score));
 
@@ -83,7 +81,7 @@
 		sourceFilter.init(cases, 'source');
 		sourceCategoryFilter.init(cases, 'source_category');
 		methodFilter.init(cases, 'methods');
-		campaignFilter.init(cases, 'campaign');
+		campaignFilter.init(cases, 'campaigns');
 		$attributionScoreFilter = attributionScoreDef;
 		//$timeRangeFilter = extent(cases.map((d) => new Date(d.attribution_date)));
 		$defaultTimeRange = [
@@ -177,7 +175,7 @@
 				haveOverlap($sourceFilter, d.source) &&
 				haveOverlap($sourceCategoryFilter, d.source_category) &&
 				haveOverlap($methodFilter, d.methods) &&
-				haveOverlap($campaignFilter, d.campaign) &&
+				haveOverlap($campaignFilter, d.campaigns) &&
 				withinRange($attributionScoreFilter, d.attribution_total_score) &&
 				withinRange($timeRangeFilter, d.attribution_date) &&
 				includesTextSearch($textSearchFilter, d.search)

@@ -102,7 +102,7 @@
 				on:itemsRemoved={(e) => methodFilter.unselect(e.detail)}
 			></Dropdown>
 			<Dropdown
-				items={addCount($campaignFilter, 'campaign', cases)}
+				items={addCount($campaignFilter, 'campaigns', cases)}
 				label="Campaign"
 				on:itemsAdded={(e) => campaignFilter.select(e.detail)}
 				on:itemsRemoved={(e) => campaignFilter.unselect(e.detail)}
