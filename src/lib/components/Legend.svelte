@@ -3,6 +3,10 @@
     export let margins
     export let radiusScale
     export let opacityScale
+    export let tooltipX
+    export let tooltipY
+    export let hoveredLegendData
+    export let showLegendTooltip
 
     $: minOpacity = opacityScale.domain()[0]
     $: maxOpacity = opacityScale.domain()[1]
@@ -16,16 +20,39 @@
         maxOpacity]
 
     let height = 70
+
+    const tooltipContent = {
+        "breakout_scale": "Breakout Scale represents a range from Category One to Category Six. The smallest point on the visualization represents 'Not Applicable', indicating attributions which lack suitable evidence to justify a Breakout Scale classification.",
+        "attribution_score": "The opacity of attributions corresponds to the 18-point Attribution Score which attempts to qualify the credibility of an attribution."
+    }
+
+    function handleMouseOver(event, id) {
+        console.log(id)
+		showLegendTooltip = true;
+		tooltipX = event.clientX;
+		tooltipY = event.clientY;
+		hoveredLegendData = tooltipContent[id];
+	}
+	function handleMouseOut() {
+		showLegendTooltip = false;
+	}
 </script>
 
 <svg {width} height={height}>
-    <g transform={`translate(${margins.left},${0})`}>
-        <a href="#break-out-scale">
+    <g
+        transform={`translate(${margins.left},${0})`}
+    >
+    <g
+        on:mouseover={(e) => handleMouseOver(e, "breakout_scale")}
+        on:focus={(e) => handleMouseOver(e, "breakout_scale")}
+        on:mouseout={handleMouseOut}
+        on:blur={handleMouseOut}    
+    >
     <text
         x={72}
         y={12}
         text-anchor={'middle'}
-    >Breakout Scale</text></a>
+    >Breakout Scale</text>
     {#each radiusScale.domain() as rad,i}
         <circle
             cx={12 - radiusScale(rad) + i*30}
@@ -34,6 +61,8 @@
             fill={'#555555'}
         ></circle>
     {/each}
+</g>
+
     <text
         x={(width - margins.left - margins.right)/2}
         y={12}
@@ -53,6 +82,13 @@
         r={9}
         fill={'#555555'}
     ></circle>
+
+    <g
+    on:mouseover={(e) => handleMouseOver(e, "attribution_score")}
+    on:focus={(e) => handleMouseOver(e, "attribution_score")}
+    on:mouseout={handleMouseOut}
+    on:blur={handleMouseOut}    
+>
     <text
         x={width - margins.left - margins.right - 72}
         y={12}
@@ -67,6 +103,7 @@
             opacity={opacityScale(op)}
         ></circle>
     {/each}
+    </g>
     <line
         x1={0}
         x2={width}

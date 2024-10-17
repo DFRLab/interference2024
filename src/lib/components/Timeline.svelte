@@ -9,6 +9,7 @@
 	import Square from '$lib/components/Square.svelte';
 	import Tooltip from '$lib/components/Tooltip.svelte';
 	import EventTooltip from '$lib/components/EventTooltip.svelte';
+	import LegendTooltip from '$lib/components/LegendTooltip.svelte';
 	import { actorNationFilter, timeRangeFilter } from '../../stores/filters';
 	import Legend from './Legend.svelte';
 
@@ -122,14 +123,25 @@
 	// Tooltip
 	let showTooltip = false;
 	let showEventTooltip = false;
+	let showLegendTooltip = false;
 	let hoveredCaseData;
 	let hoveredEventData;
+	let hoveredLegendData;
 	let tooltipX;
 	let tooltipY;
 </script>
 
 <div class="timeline-container" bind:clientWidth={width}>
-	<Legend {width} {margins} {radiusScale} {opacityScale}></Legend>
+	<Legend
+		{width}
+		{margins}
+		{radiusScale}
+		{opacityScale}
+		bind:tooltipX
+		bind:tooltipY
+		bind:hoveredLegendData
+		bind:showLegendTooltip
+		></Legend>
 	<svg {width} {height}>
 		{#if xScale}
 			<g transform={`translate(${margins.left},${margins.top})`}>
@@ -322,6 +334,9 @@
 	{/if}
 	{#if showEventTooltip}
 		<EventTooltip {tooltipX} {tooltipY} {hoveredEventData} {width} />
+	{/if}
+	{#if showLegendTooltip}
+		<LegendTooltip {tooltipX} {tooltipY} {hoveredLegendData} {width} />
 	{/if}
 </div>
 

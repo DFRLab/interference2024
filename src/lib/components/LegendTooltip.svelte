@@ -4,10 +4,8 @@
 
     export let tooltipX;
     export let tooltipY;
-    export let hoveredEventData;
+    export let hoveredLegendData;
     export let width;
-
-    $: console.log(hoveredEventData)
 
   </script>
   
@@ -19,9 +17,9 @@
         left:{tooltipX < width - 300 ? tooltipX + 10 : tooltipX - 300 - 10}px;
       "
   >
-      <p class="date">{utcFormat('%B %d, %Y')(hoveredEventData.date)}</p>
-      <h2>{hoveredEventData.Title}</h2>
-      <p class="description">{hoveredEventData.Description}</p>
+      <!--p class="date">{utcFormat('%B %d, %Y')(hoveredEventData.date)}</p>
+      <h2>{hoveredEventData.Title}</h2-->
+      <p class="description">{hoveredLegendData}</p>
   </div>
   
   <style>
