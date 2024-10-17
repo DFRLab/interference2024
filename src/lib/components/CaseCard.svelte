@@ -1,7 +1,7 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import { utcFormat } from 'd3-time-format';
-	import { platformFilter, actorNationFilter, sourceFilter } from '../../stores/filters';
+	import { platformFilter, actorNationFilter, sourceFilter, campaignFilter } from '../../stores/filters';
 	import ScoreBar from '$lib/components/ScoreBar.svelte';
 	import ScoreQuestions from '$lib/components/ScoreQuestions.svelte';
 	import { slide } from 'svelte/transition';
@@ -106,6 +106,11 @@
 					{#each cardData.platform as platform}
 						<button class="button is-link is-small" on:click={platformFilter.selectOne(platform)}
 							>{platform}</button
+						>
+					{/each}
+					{#each cardData.campaigns as campaign}
+						<button class="button is-warning is-small" on:click={campaignFilter.selectOne(campaign)}
+							>{campaign}</button
 						>
 					{/each}
 				</p>
