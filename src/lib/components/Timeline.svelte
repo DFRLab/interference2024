@@ -267,12 +267,12 @@
 		</svg>
 	</div>
 
-	<svg {width} height={height / 2}>
+	<svg class="key-events-svg" {width} height={height / 2}>
 		{#if xScale}
 			<g transform={`translate(${marginsKeyEvents.left},${marginsKeyEvents.top})`}>
 				<line
 					x1={0}
-					x2={width}
+					x2={width - marginsKeyEvents.left}
 					y1={32}
 					y2={32}
 					style:stroke={keyEventColor}
@@ -339,5 +339,8 @@
 	}
 	.y-tick {
 		font-size: 0.9rem;
+	}
+	.key-events-svg {
+		overflow: visible;
 	}
 </style>
