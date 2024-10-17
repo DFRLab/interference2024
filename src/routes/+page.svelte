@@ -73,6 +73,8 @@
 
 			d.show = false;
 		});
+		console.log(cases.map(d => d.start_date))
+		console.log(cases.map(d => d.end_date))
 
 		maxAttribution = max(cases.map((d) => d.attribution_score));
 

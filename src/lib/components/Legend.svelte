@@ -20,11 +20,12 @@
 
 <svg {width} height={height}>
     <g transform={`translate(${margins.left},${0})`}>
+        <a href="#break-out-scale">
     <text
         x={72}
         y={12}
         text-anchor={'middle'}
-    >Breakout Scale</text>
+    >Breakout Scale</text></a>
     {#each radiusScale.domain() as rad,i}
         <circle
             cx={12 - radiusScale(rad) + i*30}

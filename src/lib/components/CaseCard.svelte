@@ -77,7 +77,19 @@
 	<div class="card-content">
 		<div class="content">
 			{#if expanded}
-				<p>{utcFormat('%B %-d, %Y')(new Date(cardData.attribution_date))}</p>
+				<p class="is-siz-7 is-italic">Date of attribution: {utcFormat('%B %-d, %Y')(new Date(cardData.attribution_date))}</p>
+				<p class="is-siz-7 is-italic">
+					{#if cardData.start_date && !cardData.end_date}
+						Start: {utcFormat('%B %-d, %Y')(new Date(cardData.start_date))}
+					{/if}
+					{#if cardData.start_date && cardData.end_date}
+						Duration: from {utcFormat('%B %-d, %Y')(new Date(cardData.start_date))} to {utcFormat('%B %-d, %Y')(new Date(cardData.end_date))}
+					{/if}
+					{#if !cardData.start_date && cardData.end_date}
+						End: {utcFormat('%B %-d, %Y')(new Date(cardData.end_date))}
+					{/if}
+				</p>
+				
 				<p><a href={cardData.attribution_url_x} target="_blank">{cardData.source}</a></p>
 			{/if}
 			<p>{cardData.short_description}</p>
