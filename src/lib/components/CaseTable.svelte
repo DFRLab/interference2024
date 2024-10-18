@@ -31,8 +31,8 @@
 							{/each}</td
 						>
 						<td>
-							{#each attrCase.campaign as camp, i}
-								{attrCase.campaign.length != i + 1 ? camp + ', ' : camp}
+							{#each attrCase.campaigns as camp, i}
+								{attrCase.campaigns.length != i + 1 ? camp + ', ' : camp}
 							{/each}
 						</td>
 					</tr>
