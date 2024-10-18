@@ -1,22 +1,27 @@
 <script>
 	import AttributionInformation from '$lib/components/AttributionInformation.svelte';
-	export let title
-	export let paragraphs
-	export let id
+	export let title;
+	export let paragraphs;
+	export let id;
 </script>
 
-<input id={id} class="toggle" type="checkbox" />
-<label for={id} class="lbl-toggle top">{title}</label>
-<div class="collapsible-content">
-	{#each paragraphs as par}
-		<p class="mb-4">{@html par}</p>
-	{/each}
-	{#if id == "taxonomy"}
-		<AttributionInformation />
-	{/if}
+<div class="collapsible-container">
+	<input {id} class="toggle" type="checkbox" />
+	<label for={id} class="lbl-toggle top">{title}</label>
+	<div class="collapsible-content">
+		{#each paragraphs as par}
+			<p class="mb-4">{@html par}</p>
+		{/each}
+		{#if id == 'taxonomy'}
+			<AttributionInformation />
+		{/if}
+	</div>
 </div>
 
 <style>
+	.collapsible-container {
+		margin: 0 2rem;
+	}
 	input.toggle[type='checkbox'] {
 		display: none;
 	}
