@@ -7,12 +7,14 @@
 
     <h5>When did the interference and attribution occur?</h5>
     <ul>
-        <li><strong>Date(s) of Activity.</strong> Date or range of purported activity.</li>
+        <li>
+            <strong>Date(s) of Activity.</strong> Date or range of purported activity.
             <ul class="inner">
                 <li><strong>Start</strong> (date). Input if start date is known; if not, omit.</li>
                 <li><strong>End</strong> (date). Input if end date is known, if not, omit.</li>
                 <li><strong>Date of Attribution</strong> (date). Date corresponds to date of link of attribution.</li>
             </ul>
+        </li>
     </ul>
 
     <h5>Who is making the attribution, against whom?</h5>
@@ -155,16 +157,16 @@
             margin-top: 20px;
             margin-bottom: 10px;
         }
-        ul {
+        /*ul {
             padding-left: 20px;
-        }
+        }*/
         ul.inner {
             list-style-type: circle;
-            padding-left: 40px;
+            /*padding-left: 40px;*/
         }
         ul.inner-square {
             list-style-type: square;
-            padding-left: 60px;
+            /*padding-left: 60px;*/
         }
         strong {
             color: #444;
