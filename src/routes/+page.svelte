@@ -1,7 +1,7 @@
 <script>
 	import copy from '../data/copy.json';
 	import { onMount } from 'svelte';
-	import { csv } from 'd3-fetch';
+	import { csv, json } from 'd3-fetch';
 	import { max, extent } from 'd3-array';
 	import Header from '$lib/components/Header.svelte';
 	import CaseCard from '$lib/components/CaseCard.svelte';
@@ -42,6 +42,7 @@
 	let metrics = [];
 	let gdelt = [];
 	let maxAttribution = 0;
+	let metaData
 
 	onMount(async function () {
 		const response = await csv(
@@ -128,6 +129,16 @@
 		gdelt.sort((a, b) => {
 			return a.date - b.date;
 		});
+
+		metaData = await json('https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat-metadata.json')
+		let overviewIndex = copy.intro.map(d => d.id).indexOf('overview')
+		let parsToProcess = copy.intro[overviewIndex].paragraphs
+		let processedPars = parsToProcess.map((d) => 
+			d.replace('{{number_of_cases}}', metaData.number_of_cases)
+				.replace('{{number_of_nations}}', metaData.number_of_nations)
+				.replace('{{last_modified}}', metaData.last_modified)
+				)
+		copy.intro[overviewIndex].paragraphs = processedPars
 
 		if ($page.url.searchParams.has('filters')) {
 			const urlFilters = parseUrl($page.url.searchParams.get('filters'));
