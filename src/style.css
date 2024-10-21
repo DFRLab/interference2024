@@ -16,6 +16,7 @@ body {
 
     ul {
         list-style: inside;
+        margin-bottom: 1rem;
     }
     li {
         padding-left: 1.5rem;

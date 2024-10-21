@@ -10,7 +10,11 @@
 	<label for={id} class="lbl-toggle top">{title}</label>
 	<div class="collapsible-content">
 		{#each paragraphs as par}
+			{#if par.substring(0,4) == '<ul>'}
+				{@html par}
+			{:else}
 			<p class="mb-4">{@html par}</p>
+			{/if}
 		{/each}
 		{#if id == 'taxonomy'}
 			<AttributionInformation />
