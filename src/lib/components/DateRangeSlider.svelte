@@ -107,6 +107,7 @@
     margin: 0.3rem 0.3rem 0 0.3rem;
     position: relative;
     pointer-events: all;
+    touch-action: none;
   }
 
   .label {
