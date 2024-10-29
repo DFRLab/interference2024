@@ -171,4 +171,7 @@
         strong {
             color: #444;
         }
+        h5 {
+            margin: 1.2rem 1rem 0 1rem;
+        }
     </style>

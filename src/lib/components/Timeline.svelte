@@ -1,5 +1,5 @@
 <script>
-	import { scaleUtc, scalePoint, scaleOrdinal, scaleLinear, scaleTime } from 'd3-scale';
+	import { scalePoint, scaleOrdinal, scaleLinear, scaleTime } from 'd3-scale';
 	import { utcFormat } from 'd3-time-format';
 	import { format } from 'd3-format';
 	import { area, stack, curveNatural } from 'd3-shape';

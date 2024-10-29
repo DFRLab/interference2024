@@ -249,7 +249,7 @@
 </section>
 
 <section class="section">
-	<div class="container has-text-centered">
+	<div class="container">
 		<div class="intro">
 			{#each copy.intro as block}
 				{#if block.type == 'text'}
@@ -336,11 +336,6 @@
 	section {
 		font-family: var(--font-02);
 	}
-	.intro,
-	.about {
-		max-width: 800px;
-		margin: auto;
-	}
 	.about {
 		margin-top: 2rem;
 	}
@@ -371,8 +366,5 @@
 		right: 0;
 		padding: 1rem;
 		z-index: 750;
-	}
-	.cases-controls {
-		margin-bottom: -2rem;
 	}
 </style>
