@@ -48,7 +48,7 @@
     </div>
     <div class="cases-control">
         <a
-            href="https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/dfrlab-fiat-2024-dataset.csv"
+            href="https://d2u5cqyg0ksa9n.cloudfront.net/dfrlab-fiat-2024-dataset.csv"
             class="button is-small">Download the data</a
         >
     </div>
