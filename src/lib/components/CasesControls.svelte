@@ -1,6 +1,7 @@
 <script>
     export let displayDataAs
     export let selectedSorting
+    export let sortingOrder
 
     const sortOptions = [
 		{ id: 'attribution_date', label: 'Attribution Date', type: 'date' },
@@ -44,6 +45,26 @@
                     </option>
                 {/each}
             </select>
+        </div>
+    </div>
+    <div class="cases-control">
+        <div class="buttons has-addons">
+            <button
+                class={sortingOrder == 'Ascending'
+                    ? 'button is-dark is-selected is-small'
+                    : 'button is-small'}
+                on:click={() => {
+                    sortingOrder = 'Ascending';
+                }}>Ascending</button
+            >
+            <button
+                class={sortingOrder == 'Descending'
+                    ? 'button is-dark is-selected is-small'
+                    : 'button is-small'}
+                on:click={() => {
+                    sortingOrder = 'Descending';
+                }}>Descending</button
+            >
         </div>
     </div>
     <div class="cases-control">

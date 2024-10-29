@@ -153,25 +153,39 @@
 		}
 	});
 
-	const sortFunction = (option) =>
+	const sortFunction = (option, sortOrder) =>
 		function (a, b) {
 			if (option.type == 'string' || option.type == 'date' || option.type == 'number') {
-				if (a[option.id] < b[option.id]) {
+				if (a[option.id] > b[option.id] && sortOrder == 'Descending') {
 					return -1;
 				}
-				if (b[option.id] < a[option.id]) {
+				if (b[option.id] > a[option.id] && sortOrder == 'Descending') {
 					return 1;
-				} else {
+				} 
+				if (a[option.id] > b[option.id] && sortOrder == 'Ascending') {
+					return 1;
+				}
+				if (b[option.id] > a[option.id] && sortOrder == 'Ascending') {
+					return -1;
+				}
+				else {
 					return 0;
 				}
 			}
 			if (option.type == 'array') {
-				if (a[option.id][0] < b[option.id][0]) {
+				if (a[option.id][0] > b[option.id][0] && sortOrder == 'Descending') {
 					return -1;
 				}
-				if (b[option.id][0] < a[option.id][0]) {
+				if (b[option.id][0] > a[option.id][0] && sortOrder == 'Descending') {
 					return 1;
-				} else {
+				}
+				if (a[option.id][0] > b[option.id][0] && sortOrder == 'Ascending') {
+					return 1;
+				}
+				if (b[option.id][0] > a[option.id][0] && sortOrder == 'Ascending') {
+					return -1;
+				}
+				else {
 					return 0;
 				}
 			}
@@ -192,18 +206,7 @@
 				includesTextSearch($textSearchFilter, d.search)
 		}));
 	}
-	$: sortedCases = [...cases].sort(sortFunction(selectedSorting));
-
-	let width = 1200;
-	let margin = {
-		top: 30,
-		right: 30,
-		bottom: 30,
-		left: 30
-	};
-
-	// set the scales
-	//$: setScales(cases, width, margin);
+	$: sortedCases = [...cases].sort(sortFunction(selectedSorting, sortingOrder));
 
 	let sidebarOpen = false;
 
@@ -211,16 +214,8 @@
 		sidebarOpen = !sidebarOpen;
 	};
 
-	const sortOptions = [
-		{ id: 'attribution_date', label: 'Attribution Date', type: 'date' },
-		{ id: 'attribution_score', label: 'Attribution Score', type: 'number' },
-		{ id: 'actor_nation', label: 'Actor Nation', type: 'array' },
-		{ id: 'platform', label: 'Platform', type: 'array' },
-		{ id: 'source', label: 'Source', type: 'array' },
-		{ id: 'source_category', label: 'Source Category', type: 'string' }
-	];
-
 	let selectedSorting = { id: 'attribution_date', label: 'Attribution Date', type: 'date' };
+	let sortingOrder = 'Descending'
 
 	let modalOpen = false;
 	let activeCaseData;
@@ -296,7 +291,7 @@
 {#if displayDataAs == 'Cards'}
 	<section class="section">
 		<div class="container">
-			<CasesControls bind:displayDataAs bind:selectedSorting></CasesControls>
+			<CasesControls bind:displayDataAs bind:selectedSorting bind:sortingOrder></CasesControls>
 			<div class="grid is-col-min-12">
 				{#each sortedCases as attrCase}
 					{#if attrCase.show}
@@ -314,7 +309,7 @@
 {#if displayDataAs == 'Table' && sortedCases.length > 0}
 	<section class="section">
 		<div class="container">
-			<CasesControls bind:displayDataAs bind:selectedSorting></CasesControls>
+			<CasesControls bind:displayDataAs bind:selectedSorting bind:sortingOrder></CasesControls>
 			<CaseTable cases={sortedCases}></CaseTable>
 		</div>
 	</section>
