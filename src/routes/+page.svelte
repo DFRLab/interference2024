@@ -13,6 +13,7 @@
 	import AnimatedFilterIcon from '$lib/components/AnimatedFilterIcon.svelte';
 	import Collapsible from '$lib/components/Collapsible.svelte';
 	import CasesControls from '$lib/components/CasesControls.svelte';
+	import ToTop from '$lib/components/ToTop.svelte';
 	import { splitString, haveOverlap, withinRange, includesTextSearch } from '$lib/utils/misc';
 	//import { setScales } from '$lib/utils/scales';
 	import { page } from '$app/stores';
@@ -235,6 +236,8 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content="en_US" />
 </svelte:head>
+
+<ToTop />
 
 {#if isMobile && !modalOpen}
 	<div class="filter-button">

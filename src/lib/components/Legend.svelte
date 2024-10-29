@@ -27,7 +27,6 @@
     }
 
     function handleMouseOver(event, id) {
-        console.log(id)
 		showLegendTooltip = true;
 		tooltipX = event.clientX;
 		tooltipY = event.clientY;

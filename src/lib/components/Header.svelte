@@ -2,7 +2,7 @@
 	import copy from '../../data/copy.json';
 </script>
 
-<section class="content title section" style:background-image={"url('images/fiat_2024_banner_background_new.jpg')"}>
+<section class="content title section" id="top" style:background-image={"url('images/fiat_2024_banner_background_new.jpg')"}>
 	<div class="container has-text-centered">
 		<div class="logos">
 			<a href="https://www.atlanticcouncil.org"

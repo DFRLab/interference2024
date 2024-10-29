@@ -55,3 +55,11 @@ export const includesTextSearch = (filter, s) => {
     return s.indexOf(f) > -1;
   });
 };
+
+// scroll-to function (also set on window to make it available outside svelte)
+export const scrollTo = (targetId) => {
+  setTimeout(() => {
+    document.getElementById(targetId).scrollIntoView({behavior: 'smooth'});
+  }, 200);
+  return(false);
+};
