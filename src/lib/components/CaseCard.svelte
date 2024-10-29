@@ -90,7 +90,8 @@
 					{/if}
 				</p>
 				
-				<p><a href={cardData.attribution_url_x} target="_blank">{cardData.source}</a></p>
+				<p><a href={cardData.attribution_url} target="_blank">{cardData.source}</a><br/>
+				<a href={cardData.attribution_archive_url} target="_blank">Archive</a></p>
 			{/if}
 			<p>{cardData.short_description}</p>
 			{#if expanded}
