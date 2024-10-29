@@ -9,10 +9,10 @@
 			<tr>
 				<td>Title</td>
 				<td>Description</td>
-				<td>Attribution date</td>
+				<td>Attribution Date</td>
 				<td>Source</td>
-				<td>Source category</td>
-				<td>Actor nation</td>
+				<td>Source Category</td>
+				<td>Actor Nation</td>
 				<td>Campaign</td>
 			</tr>
 		</thead>
