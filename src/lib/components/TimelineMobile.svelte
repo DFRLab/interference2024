@@ -1,7 +1,8 @@
 <script>
 	import { scaleUtc, scalePoint, scaleOrdinal, scaleLinear } from 'd3-scale';
-	import { max, extent } from 'd3-array';
+	import { max } from 'd3-array';
 	import { utcFormat } from 'd3-time-format';
+	import { timeRangeFilter } from '../../stores/filters';
 
 	export let cases;
 	export let modalOpen;
@@ -17,9 +18,7 @@
 	let width;
 	let height = 500;
 
-	$: dateExtent = extent(cases.map((d) => new Date(d.attribution_date)));
-
-	$: yScale = scaleUtc(dateExtent, [0, height - margins.top - margins.bottom]);
+	$: yScale = scaleUtc($timeRangeFilter, [0, height - margins.top - margins.bottom]);
 	$: opacityScale = scaleLinear()
 		.domain([0, max(cases.map(d => d.attribution_total_score))])
 		.range([0.2, 1])
