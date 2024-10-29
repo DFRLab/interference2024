@@ -42,7 +42,7 @@
 	let metrics = [];
 	let gdelt = [];
 	let maxAttribution = 0;
-	let metaData
+	let metaData;
 
 	onMount(async function () {
 		const response = await csv(
@@ -119,26 +119,31 @@
 			'https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/gdelt_volume_timeline.csv'
 		);
 
-		gdelt = gdeltResponse.map(d => {
-			let obj = {};
-			obj.date = new Date(d.Date);
-			obj.value = +d.Value;
-			obj.country = d.Country
-			return obj
-		}).filter(d => !['North Korea', 'Israel'].includes(d.country))
+		gdelt = gdeltResponse
+			.map((d) => {
+				let obj = {};
+				obj.date = new Date(d.Date);
+				obj.value = +d.Value;
+				obj.country = d.Country;
+				return obj;
+			})
+			.filter((d) => !['North Korea', 'Israel'].includes(d.country));
 		gdelt.sort((a, b) => {
 			return a.date - b.date;
 		});
 
-		metaData = await json('https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat-metadata.json')
-		let overviewIndex = copy.intro.map(d => d.id).indexOf('overview')
-		let parsToProcess = copy.intro[overviewIndex].paragraphs
-		let processedPars = parsToProcess.map((d) => 
-			d.replace('{{number_of_cases}}', metaData.number_of_cases)
+		metaData = await json(
+			'https://fiat-2024-processed-data.s3.us-west-2.amazonaws.com/fiat-metadata.json'
+		);
+		let overviewIndex = copy.intro.map((d) => d.id).indexOf('overview');
+		let parsToProcess = copy.intro[overviewIndex].paragraphs;
+		let processedPars = parsToProcess.map((d) =>
+			d
+				.replace('{{number_of_cases}}', metaData.number_of_cases)
 				.replace('{{number_of_nations}}', metaData.number_of_nations)
 				.replace('{{last_modified}}', metaData.last_modified)
-				)
-		copy.intro[overviewIndex].paragraphs = processedPars
+		);
+		copy.intro[overviewIndex].paragraphs = processedPars;
 
 		if ($page.url.searchParams.has('filters')) {
 			const urlFilters = parseUrl($page.url.searchParams.get('filters'));
@@ -161,14 +166,13 @@
 				}
 				if (b[option.id] > a[option.id] && sortOrder == 'Descending') {
 					return 1;
-				} 
+				}
 				if (a[option.id] > b[option.id] && sortOrder == 'Ascending') {
 					return 1;
 				}
 				if (b[option.id] > a[option.id] && sortOrder == 'Ascending') {
 					return -1;
-				}
-				else {
+				} else {
 					return 0;
 				}
 			}
@@ -184,8 +188,7 @@
 				}
 				if (b[option.id][0] > a[option.id][0] && sortOrder == 'Ascending') {
 					return -1;
-				}
-				else {
+				} else {
 					return 0;
 				}
 			}
@@ -215,7 +218,7 @@
 	};
 
 	let selectedSorting = { id: 'attribution_date', label: 'Attribution Date', type: 'date' };
-	let sortingOrder = 'Descending'
+	let sortingOrder = 'Descending';
 
 	let modalOpen = false;
 	let activeCaseData;
@@ -248,14 +251,14 @@
 <section class="section">
 	<div class="container has-text-centered">
 		<div class="intro">
-		{#each copy.intro as block}
-			{#if block.type == 'text'}
-				{#each block.paragraphs as par}
-					<p class="mb-4">{@html par}</p>
-				{/each}
-			{/if}
-		{/each}
-	</div>
+			{#each copy.intro as block}
+				{#if block.type == 'text'}
+					{#each block.paragraphs as par}
+						<p class="mb-4">{@html par}</p>
+					{/each}
+				{/if}
+			{/each}
+		</div>
 	</div>
 	<div class="container">
 		{#each copy.intro as block}
@@ -288,10 +291,10 @@
 	</div>
 </section>
 
-{#if displayDataAs == 'Cards'}
-	<section class="section">
-		<div class="container">
-			<CasesControls bind:displayDataAs bind:selectedSorting bind:sortingOrder></CasesControls>
+<section class="section">
+	<div class="container">
+		<CasesControls bind:displayDataAs bind:selectedSorting bind:sortingOrder></CasesControls>
+		{#if displayDataAs == 'Cards'}
 			<div class="grid is-col-min-12">
 				{#each sortedCases as attrCase}
 					{#if attrCase.show}
@@ -302,30 +305,24 @@
 					{/if}
 				{/each}
 			</div>
-		</div>
-	</section>
-{/if}
-
-{#if displayDataAs == 'Table' && sortedCases.length > 0}
-	<section class="section">
-		<div class="container">
-			<CasesControls bind:displayDataAs bind:selectedSorting bind:sortingOrder></CasesControls>
+		{/if}
+		{#if displayDataAs == 'Table' && sortedCases.length > 0}
 			<CaseTable cases={sortedCases}></CaseTable>
-		</div>
-	</section>
-{/if}
+		{/if}
+	</div>
+</section>
 
 <section class="section">
 	<div class="container">
 		{#each copy.moreInfo as block}
-		<div class={block.type == 'text' ? "about" : ""}>
-			{#if block.type == 'text'}
-			<h3 class="is-size-3">{block.title}</h3>
-				{#each block.paragraphs as par}
-					<p class="mb-4">{@html par}</p>
-				{/each}
-			{/if}
-		</div>
+			<div class={block.type == 'text' ? 'about' : ''}>
+				{#if block.type == 'text'}
+					<h3 class="is-size-3">{block.title}</h3>
+					{#each block.paragraphs as par}
+						<p class="mb-4">{@html par}</p>
+					{/each}
+				{/if}
+			</div>
 			{#if block.type == 'concealed-text'}
 				<Collapsible title={block.title} paragraphs={block.paragraphs} id={block.id} />
 			{/if}
@@ -339,7 +336,8 @@
 	section {
 		font-family: var(--font-02);
 	}
-	.intro, .about {
+	.intro,
+	.about {
 		max-width: 800px;
 		margin: auto;
 	}
@@ -373,5 +371,8 @@
 		right: 0;
 		padding: 1rem;
 		z-index: 750;
+	}
+	.cases-controls {
+		margin-bottom: -2rem;
 	}
 </style>
