@@ -214,7 +214,7 @@
                     : 'button is-small'}
                 on:click={() => {
                     dataToDisplay = 'meltwater';
-                }}>Social media posts</button
+                }}>X Posts</button
             >
             <button
                 class={dataToDisplay == 'gdelt'
